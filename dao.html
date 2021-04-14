@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="turingmachine.network">
+        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
+
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="./js/web3.min.js"></script>
+        <script src="./js/turing-data.js"></script>
+    </head>
+
+    <body>
+        <div id="app" class="mainApp">
+            <div  id="app" class="root RootIndex">
+                <div  class="screencontainer">
+                    <div  class="top-menu-bar">
+                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
+                        <div  class="poolsdropdown">
+                            <button  class="simplebutton">☰</button>
+                            <div  class="dropdown">
+                                <p >____________</p>
+                                <button  id="myAddress" class="simplebutton margintop" style="">
+                                    <a  href="#" rel="noopener noreferrer"> 
+                                        <span class="user-addr">0x0</span> 
+                                    </a>
+                                </button>
+                                 
+                                
+                            </div>
+                        </div>
+                        <a href="/" >Home</a>
+                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
+                        <a href="/farms.html" >Farms</a>
+                        <a href="/exchange.html">Stablecoin AMM</a>
+                        <a href="/dao.html" class="router-link-exact-active router-link-active">DAO</a>
+                        <a href="/useturing.html">Use TURING</a>
+                        <a href="/risks.html">Risks</a>
+                        <a target="_blank" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span></a>
+                    </div>
+                    <div  id="screen">
+                        <div  class="blue window RootIndex">
+                            <h1 >
+                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
+                                TuringMachine
+                            </h1>
+                        </div>
+                        <!---->
+                        <div class="window white">
+                            <fieldset>
+                                <h2><b>TuringMachine Governance</b></h2>
+                                <p>We want to build a fully decentralized platform at TuringMachine for that applications and developers can rely on, forever.</p>
+                                <p>At the first time of release of TuringMachine platform, 
+                                   we will still have the protocol administrator’s ability at some contracts, 
+                                   but to make the platform more transparent with users we added <b>Timelock</b> into all platform contracts.</p>
+                                <p><b>Timelock</b> contract that moves the platform towards a “time-delayed, opt-out” upgrade pattern (rather than the “instant, forced” upgrade pattern).</p>
+                                <p>The <b>Timelock</b> has a hard-coded minimum delay of 2 days, which is the least amount of notice possible for an admin action.</p>
+                                <p>In the future, we will move towards complete decentralization with a governance system that will replace the TuringMachine protocol’s administrator with community governance.</p>
+                                <p>If you have any questions, ideas, or issues, join us at our Github.</p>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <footer >
+                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                    <a  href="https://github.com/turingmachinenetwork">git@</a>
+                </footer>
+            </div>
+        </div>
+    </body>
+
+</html>

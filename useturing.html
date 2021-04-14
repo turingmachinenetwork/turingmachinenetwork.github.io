@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta property="og:title" content="turingmachine.network">
+        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
+
+        <link rel="stylesheet" href="css/app.css">
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+        <script src="./js/web3.min.js"></script>
+        <script src="./js/turing-data.js"></script>
+    </head>
+
+    <body>
+        <div id="app" class="mainApp">
+            <div  id="app" class="root RootIndex">
+                <div  class="screencontainer">
+                    <div  class="top-menu-bar">
+                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
+                        <div  class="poolsdropdown">
+                            <button  class="simplebutton">☰</button>
+                            <div  class="dropdown">
+                                <p >____________</p>
+                                <button  id="myAddress" class="simplebutton margintop" style="">
+                                    <a  href="#" rel="noopener noreferrer"> 
+                                        <span class="user-addr">0x0</span> 
+                                    </a>
+                                </button>
+                                 
+                                
+                            </div>
+                        </div>
+                        <a href="/" >Home</a>
+                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
+                        <a href="/farms.html" >Farms</a>
+                        <a href="/exchange.html">Stablecoin AMM</a>
+                        <a href="/dao.html">DAO</a>
+                        <a href="/useturing.html" class="router-link-exact-active router-link-active">Use TURING</a>
+                        <a href="/risks.html" class="">Risks</a>
+                        <a target="_blank" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span></a>
+                    </div>
+                    <div  id="screen">
+                        <div  class="blue window RootIndex">
+                            <h1 >
+                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
+                                TuringMachine
+                            </h1>
+                        </div>
+                        <!---->
+                        <div class="window white">
+                            <fieldset>
+                                <p>TURING is the native token of TuringMachine and can only be mined with farm/supply there is noprivate of public sales of TURING.</p>
+                                <p><b>The tokenomics (TURING) can be broken down as follows</b></p>
+                                <ul>
+                                    <li>314159*2 = 628318 TURING hard cap</li>
+                                    <li>10% of all TURING mints will go to DevLockContract.</li>
+                                    <li>DevLockContract will lock the dev's TURING for 3 months from the first release of TuringMachine System.</li>
+                                    <li>After 3 months, DevLockContract will unlock 1/10 of the total dev's TURING each 30 days to use for development.</li>
+                                    <li>0.05% of the stablecoin AMM trade fees are awarded to holders of the TURING token.</li>
+                                    <li>There are currently 0.05 TURING tokens minted per block, approximately 864 each day.</li>
+                                    <li>For the No-loss pools and farms, if you hold 20% your pool's balance as TURING token, you will get a bonus 1.2x of your mining speed.</li>
+                                </ul>
+                                <p><b>Current deflationary mechanics</b></p>
+                                <ul>
+                                    <li>5% profit on No-loss Pool used to buy TURING then burn</li>
+                                    <li>0.5% profit on Farms used to buy TURING then burn</li>
+                                </ul>
+                                <p>If you wish to participate in the discussion of our tokenomics then please visit our Github and create the issue. </p>
+                            </fieldset>
+                        </div>
+                        <div class="window blue info">
+                            <fieldset>
+                                <p>CIRCULATING SUPPLY: <span class="turing-token-circulating-supply">-</span></p>
+                                <p>MAX SUPPLY: <span class="turing-token-max-supply">-</span></p>
+                                <p>PRICE: $<span class="turing-token-price">-</span></p>
+                            </fieldset>
+                        </div>
+                        <div class="window white info">
+                            <fieldset>
+                                <p>TuringToken: <a href="https://bscscan.com/address/0x76ed05fa250e8e993275e6e78b470b4d70ed120b#code">https://bscscan.com/address/0x76ed05fa250e8e993275e6e78b470b4d70ed120b#code</a></p>
+                                <p>TuringDevLock <a href="https://bscscan.com/address/0x77104D5560BDa1884400146B4E7358aB62027cf9#code">https://bscscan.com/address/0x77104D5560BDa1884400146B4E7358aB62027cf9#code</a></p>
+                                <p>PerformanceMachine: <a href="https://bscscan.com/address/0xBFd0E89e8D9f204562C3316985a0C96e850Eb096#code">https://bscscan.com/address/0xBFd0E89e8D9f204562C3316985a0C96e850Eb096#code</a></p>
+                                <p>TuringBonus: <a href="https://bscscan.com/address/0x9A432E37e19E8b3E47BB3b5E05835AC62e57c1A0#code">https://bscscan.com/address/0x9A432E37e19E8b3E47BB3b5E05835AC62e57c1A0#code</a></p>
+                                <p>MiningMachine: <a href="https://bscscan.com/address/0x24F3571C57d57722024e061B1E87E05348A40738#code">https://bscscan.com/address/0x24F3571C57d57722024e061B1E87E05348A40738#code</a></p>
+                                <p>TuringNoLossLotteryCake: <a href="https://bscscan.com/address/0x2E9b08078831fa829b72502FA278fDDf138A85e7#code">https://bscscan.com/address/0x2E9b08078831fa829b72502FA278fDDf138A85e7#code</a></p>
+                                <p>TuringFarmCake: <a href="https://bscscan.com/address/0x041Da2a1dCE688E4A43C88689ec335e9Fdf59062#code">https://bscscan.com/address/0x041Da2a1dCE688E4A43C88689ec335e9Fdf59062#code</a></p>
+                                <p>TuringFarmCakeBNBLP: <a href="https://bscscan.com/address/0x58BC57d7D6FBaAFD6d1E840556cBcdB1F0E6B370#code">https://bscscan.com/address/0x58BC57d7D6FBaAFD6d1E840556cBcdB1F0E6B370#code</a></p>
+                                <p>TuringFarmTuringBNBLP: <a href="https://bscscan.com/address/0xcf95b7cdf92f26F98747cC7d73D0D2FAbceB537b#code">https://bscscan.com/address/0xcf95b7cdf92f26F98747cC7d73D0D2FAbceB537b#code</a></p>
+                                <p>TuringData: <a href="https://bscscan.com/address/0xd13544acbe99dd77832fbe7c5c60d5e05f00141c#code">https://bscscan.com/address/0xd13544acbe99dd77832fbe7c5c60d5e05f00141c#code</a></p>
+                            </fieldset>
+                        </div>
+                    </div>
+                </div>
+
+                <footer >
+                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                    <a  href="https://github.com/turingmachinenetwork">git@</a>
+                </footer>
+            </div>
+        </div>
+    </body>
+
+</html>
