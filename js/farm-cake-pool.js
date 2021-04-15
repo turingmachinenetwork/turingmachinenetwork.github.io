@@ -17,7 +17,7 @@ function getWeb3ToReadData() {
     return MyWeb3;
 }
 
-const FARM_CAKE_POOL_CONTRACT_ADDR = '0x041Da2a1dCE688E4A43C88689ec335e9Fdf59062';
+const FARM_CAKE_POOL_CONTRACT_ADDR = '0xeABC96b9bE830af31846053e361d25e7D928E638';
 const CAKE_TOKEN_ADDR = '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82';
 let farmCakePoolContract;
 let userDataInFarmCakePool = {};

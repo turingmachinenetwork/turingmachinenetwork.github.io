@@ -17,7 +17,7 @@ function getWeb3ToReadData() {
     return MyWeb3;
 }
 
-const CAKE_NO_LOSS_POOL_CONTRACT_ADDR = '0x2E9b08078831fa829b72502FA278fDDf138A85e7';
+const CAKE_NO_LOSS_POOL_CONTRACT_ADDR = '0x534B73E7fdDCf5220A7894385Ec4357ef608069f';
 const CAKE_TOKEN_ADDR = '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82';
 let cakeNoLossPoolContract;
 let userDataInCakeNoLossPool = {};

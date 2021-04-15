@@ -16,7 +16,7 @@ function getWeb3ToReadData() {
     return MyWeb3;
 }
 const cakeLPPrice = 256;
-const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x58BC57d7D6FBaAFD6d1E840556cBcdB1F0E6B370';
+const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const CAKE_BNB_LP_TOKEN_ADDR = '0xA527a61703D82139F8a06Bc30097cC9CAA2df5A6';
 let farmCakeLPPoolContract;
 let userDataInFarmTuringPool = {};
