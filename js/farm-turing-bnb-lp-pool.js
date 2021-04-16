@@ -1087,7 +1087,7 @@ function loadData() {
 	}	
 	function _drawUI() {
 		$('.farm-turing-bnb-lp-pool-your-stake').html(formatBalance(userDataInFarmTuringPool.userTuringShare, 2));
-		$('.farm-turing-bnb-lp-pool-your-earned').html(formatBalance(userDataInFarmTuringPool.userTuringPending, 2));
+		$('.farm-turing-bnb-lp-pool-your-earned').html(formatBalance(userDataInFarmTuringPool.userTuringPending, 6));
 		$('.farm-turing-bnb-lp-pool-total-supply').html(`$${formatBalance(userDataInFarmTuringPool.tvl * turingBNBLPPrice, 2)}`);
 		$('.farm-turing-bnb-lp-pool-user-turing-lp-bal').html(numberWithCommas(userDataInFarmTuringPool.userWantBal, 2));
 		$('.farm-turing-bnb-lp-pool-user-turing-lp-state').html(numberWithCommas(userDataInFarmTuringPool.userTuringShare, 2));

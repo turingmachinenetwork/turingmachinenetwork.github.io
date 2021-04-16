@@ -1271,7 +1271,7 @@ function loadData() {
 		$('.user-tickets-amt').html(formatBalance(userDataInCakeNoLossPool.userTickets, 2));
 		$('.user-cake-staked').html(formatBalance(userDataInCakeNoLossPool.userTickets, 2));
 		$('.user-cake-bal').html(numberWithCommas(userDataInCakeNoLossPool.userWantBal, 2));
-		$('.your-turing-earned').html(numberWithCommas(userDataInCakeNoLossPool.userTuringPending, 2));
+		$('.your-turing-earned').html(numberWithCommas(userDataInCakeNoLossPool.userTuringPending, 6));
 		$('.user-cake-can-withdraw').html(numberWithCommas(userDataInCakeNoLossPool.userWantCanWithdraw, 2));
 		$('.user-odds-of-winning').html(`${numberWithCommas(userDataInCakeNoLossPool.userTickets*100 / userDataInCakeNoLossPool.totalTickets, 2)}% every week`);
 		// drawp prize history

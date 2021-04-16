@@ -982,7 +982,7 @@ function loadData() {
 	}	
 	function _drawUI() {
 		$('.farm-cake-pool-your-stake').html(formatBalance(userDataInFarmCakePool.userWantShare, 2));
-		$('.farm-cake-pool-your-earned').html(formatBalance(userDataInFarmCakePool.userTuringPending, 2));
+		$('.farm-cake-pool-your-earned').html(formatBalance(userDataInFarmCakePool.userTuringPending, 6));
 		$('.farm-cake-pool-total-supply').html(`$${formatBalance(userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice, 2)}`);
 		$('.farm-cake-pool-user-cake-bal').html(numberWithCommas(userDataInFarmCakePool.userWantBal, 2));
 		$('.farm-cake-pool-user-cake-state').html(numberWithCommas(userDataInFarmCakePool.userWantShare, 2));

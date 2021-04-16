@@ -1285,7 +1285,7 @@ function loadData() {
 	function _drawUI() {
 
 		$('.farm-cake-bnb-lp-pool-your-stake').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
-		$('.farm-cake-bnb-lp-pool-your-earned').html(`${formatBalance(userDataInFarmTuringPool.userTuringPending, 2)} TURING ${formatBalance(userDataInFarmTuringPool.userCakePending, 2)} CAKE`);
+		$('.farm-cake-bnb-lp-pool-your-earned').html(`${formatBalance(userDataInFarmTuringPool.userTuringPending, 6)} TURING ${formatBalance(userDataInFarmTuringPool.userCakePending, 6)} CAKE`);
 		$('.farm-cake-bnb-lp-pool-total-supply').html(`$${formatBalance(userDataInFarmTuringPool.tvl * cakeLPPrice, 2)}`);
 		$('.farm-cake-bnb-lp-pool-user-cake-lp-bal').html(numberWithCommas(userDataInFarmTuringPool.userWantBal, 2));
 		$('.farm-cake-bnb-lp-pool-user-cake-lp-state').html(numberWithCommas(userDataInFarmTuringPool.userWantShare, 2));
