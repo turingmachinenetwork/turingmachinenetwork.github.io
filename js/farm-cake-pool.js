@@ -962,14 +962,14 @@ function loadData() {
 	function _updateUserData(_result) {
 
 		userDataInFarmCakePool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmCakePool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmCakePool.userWantBal = parseFloatNumber(parseInt(_result[1]) / 1e18, 18);
 		userDataInFarmCakePool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
 		userDataInFarmCakePool.wantPrice = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
 		userDataInFarmCakePool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmCakePool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
 		userDataInFarmCakePool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmCakePool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmCakePool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmCakePool.userWantShare = parseFloatNumber(parseInt(_result[8]) / 1e18, 18);
 		userDataInFarmCakePool.turingRewardAPY = 0;
 		if (parseInt(_result[9]) > 0) {
 			userDataInFarmCakePool.turingRewardAPY = parseFloatNumber(parseInt(_result[9]) / 1e2, 2);
@@ -981,11 +981,11 @@ function loadData() {
 		_drawUI();
 	}	
 	function _drawUI() {
-		$('.farm-cake-pool-your-stake').html(formatBalance(userDataInFarmCakePool.userWantShare, 2));
+		$('.farm-cake-pool-your-stake').html(formatBalance(userDataInFarmCakePool.userWantShare, 6));
 		$('.farm-cake-pool-your-earned').html(formatBalance(userDataInFarmCakePool.userTuringPending, 6));
 		$('.farm-cake-pool-total-supply').html(`$${formatBalance(userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice, 2)}`);
-		$('.farm-cake-pool-user-cake-bal').html(numberWithCommas(userDataInFarmCakePool.userWantBal, 2));
-		$('.farm-cake-pool-user-cake-state').html(numberWithCommas(userDataInFarmCakePool.userWantShare, 2));
+		$('.farm-cake-pool-user-cake-bal').html(numberWithCommas(userDataInFarmCakePool.userWantBal, 6));
+		$('.farm-cake-pool-user-cake-state').html(numberWithCommas(userDataInFarmCakePool.userWantShare, 6));
 		$('.farm-cake-pool-apy').html(`${formatBalance((userDataInFarmCakePool.wantRewardAPY), 2)}%`);
 		$('.farm-cake-pool-turing-apy').html(`${formatBalance((userDataInFarmCakePool.turingRewardAPY), 2)}%`);
 
