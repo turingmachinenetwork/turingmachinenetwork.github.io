@@ -266,13 +266,13 @@ input[type=radio]+label {
 	border: none
 }
 
-li,
-ul {
-	margin: 0;
-	padding: 0
+ul.bullets {
+	list-style: circle;
 }
 
-li {
+ul.no-bullets {
+	margin: 0;
+	padding: 0;
 	list-style: none
 }
 
