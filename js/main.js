@@ -35,7 +35,7 @@ function getWeb3ToReadData() {
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
-const turingBNBLPPrice = 5;
+const turingBNBLPPrice = 90;
 const cakeLPPrice = 256;
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const FARM_CAKE_POOL_CONTRACT_ADDR = '0xeABC96b9bE830af31846053e361d25e7D928E638';
