@@ -27,6 +27,12 @@ $(document).ready(function() {
     } catch(e) {
     	reloadFarmCakeBNBLPPoolData();
     }
+
+    try {
+    	loadFarmUSDTBUSDLPPoolData();
+    } catch(e) {
+    	reloadFarmUSDTBUSDLPPoolData();
+    }
 });
 
 function getWeb3ToReadData() {
@@ -37,6 +43,9 @@ function getWeb3ToReadData() {
 }
 const turingBNBLPPrice = 90;
 const cakeLPPrice = 256;
+const usdtBusdLPPrice = 2;
+const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E'; 
+
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const FARM_CAKE_POOL_CONTRACT_ADDR = '0xeABC96b9bE830af31846053e361d25e7D928E638';
 // const FARM_TURING_POOL_CONTRACT_ADDR = '0x47618462aba45EF82adcEe1a6929138f93dccEd8';
@@ -46,6 +55,7 @@ let cakeNoLossPoolContract;
 let farmTuringPoolContract;
 let farmTuringBNBLPPoolContract;
 let farmCakeLPPoolContract;
+let farmUSDTBUSDLPPoolContract;
 let farmCakePoolContract;
 let prizeHistory = [];
 const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
@@ -3175,6 +3185,848 @@ const FARM_CAKE_LP_POOL_CONTRACT_ABI = [
 		"type": "function"
 	}
 ];
+const FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "contract IPancakeSwapRouter",
+				"name": "_pancakeSwap",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IPancakeMasterChef",
+				"name": "_pancakeMasterChef",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IBEP20",
+				"name": "_want",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IBEP20",
+				"name": "_cake",
+				"type": "address"
+			},
+			{
+				"internalType": "contract IBEP20",
+				"name": "_turing",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_wbnb",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_busd",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			}
+		],
+		"name": "onCancelTransactions",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "onDeposit",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_value",
+				"type": "address"
+			}
+		],
+		"name": "onQueuedTransactionsChangeAddress",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "onQueuedTransactionsChangeUint",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "onWithdraw",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "CAKE",
+		"outputs": [
+			{
+				"internalType": "contract IBEP20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "GRACE_PERIOD",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MAXIMUM_DELAY",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MINIMUM_DELAY",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TURING",
+		"outputs": [
+			{
+				"internalType": "contract IBEP20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "accWantPerShare",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "approveConnectToPancake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "busd",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			}
+		],
+		"name": "cancelTransactions",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "changeTokenAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "controllerMachine",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "delay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_wantAmt",
+				"type": "uint256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			}
+		],
+		"name": "getAddressChangeOnTimeLock",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCakePrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "getData",
+		"outputs": [
+			{
+				"internalType": "uint256[11]",
+				"name": "data_",
+				"type": "uint256[11]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalRewardPerDay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTuringPrice",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			}
+		],
+		"name": "getUintChangeOnTimeLock",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "harvest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "miningMachine",
+		"outputs": [
+			{
+				"internalType": "contract IMiningMachine",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pancakeSwap",
+		"outputs": [
+			{
+				"internalType": "contract IPancakeSwapRouter",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pankaceMasterChef",
+		"outputs": [
+			{
+				"internalType": "contract IPancakeMasterChef",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "pendingCakeOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "_pendingCake",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "performanceMachine",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "periodOfDay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pidOfFarm",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pidOfMining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_newAddr",
+				"type": "address"
+			}
+		],
+		"name": "queuedTransactionsChangeAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "queuedTransactionsChangeUint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rateOfControllerFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rateOfPerformanceFee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "rewardWantDebtOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setControllerMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "delay_",
+				"type": "uint256"
+			}
+		],
+		"name": "setDelay",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setMiningMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPancakeMasterChefContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPancakeSwapContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPerformanceMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPidOfFarm",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPidOfMining",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setRateOfControllerFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setRateOfPerformanceFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "shareOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "timeLockOf",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "queuedTransactions",
+				"type": "bool"
+			},
+			{
+				"internalType": "uint256",
+				"name": "timeOfExecute",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "timeOfHarvest",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalShare",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "version",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "want",
+		"outputs": [
+			{
+				"internalType": "contract IBEP20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "wbnb",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_wantAmt",
+				"type": "uint256"
+			}
+		],
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	}
+];
 
 function  initWeb3() {
     if (window.ethereum) {
@@ -3197,9 +4049,12 @@ function initFarmPoolContract() {
 	if (!farmTuringPoolContract) {
 		const _web3 = getWeb3ToReadData();
 		// farmTuringPoolContract = new _web3.eth.Contract(FARM_TURING_POOL_CONTRACT_ABI, FARM_TURING_POOL_CONTRACT_ADDR);
+
 		farmTuringBNBLPPoolContract = new _web3.eth.Contract(FARM_TURING_LP_POOL_CONTRACT_ABI, FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR);
 		farmCakeLPPoolContract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_ADDR);
 		farmCakePoolContract = new _web3.eth.Contract(FARM_CAKE_POOL_CONTRACT_ABI, FARM_CAKE_POOL_CONTRACT_ADDR);
+		
+		farmUSDTBUSDLPPoolContract = new _web3.eth.Contract(FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR);
 	}
 	setTimeout(function(){ 
 		initFarmPoolContract();
@@ -3297,6 +4152,11 @@ function reloadFarmCakePoolData() {
 function reloadFarmCakeBNBLPPoolData() {
 	setTimeout(function(){ 
 		loadFarmCakeBNBLPPoolData();
+	}, 3000);
+}
+function reloadFarmUSDTBUSDLPPoolData() {
+	setTimeout(function(){ 
+		loadFarmUSDTBUSDLPPoolData();
 	}, 3000);
 }
 function loadCakeNoLossData() {
@@ -3550,5 +4410,56 @@ function loadFarmCakeBNBLPPoolData() {
 	}
 	function _error(_e) {
 		return reloadFarmCakeBNBLPPoolData();
+	}	
+}
+
+function loadFarmUSDTBUSDLPPoolData() {
+	if (!farmUSDTBUSDLPPoolContract) {
+		return reloadFarmUSDTBUSDLPPoolData();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmUSDTBUSDLPPoolData();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmUSDTBUSDLPPoolContract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		console.log("_result", _result)
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBusdLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBusdLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-usdt-busd-lp-pool-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * usdtBusdLPPrice), 2)}`);
+		$('.farm-usdt-busd-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-usdt-busd-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		return reloadFarmUSDTBUSDLPPoolData();
+	}
+	function _error(_e) {
+		return reloadFarmUSDTBUSDLPPoolData();
 	}	
 }
