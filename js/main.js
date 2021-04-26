@@ -33,6 +33,23 @@ $(document).ready(function() {
     } catch(e) {
     	reloadFarmUSDTBUSDLPPoolData();
     }
+    // V2
+    try {
+    	loadFarmTuringBNBLPPoolV2Data();
+    } catch(e) {
+    	reloadFarmTuringBNBLPPoolV2Data();
+    }
+
+     try {
+    	loadFarmCakeBNBLPPoolV2Data();
+    } catch(e) {
+    	reloadFarmCakeBNBLPPoolV2Data();
+    }
+    try {
+    	loadFarmUSDTBUSDLPPoolV2Data();
+    } catch(e) {
+    	reloadFarmUSDTBUSDLPPoolV2Data();
+    }
 });
 
 function getWeb3ToReadData() {
@@ -45,17 +62,23 @@ const turingBNBLPPrice = 90;
 const cakeLPPrice = 256;
 const usdtBusdLPPrice = 2;
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E'; 
+const FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR = '0xc8a61e2d78697C41D81752831c436AaC846464d7'; 
 
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
+const FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR = '0xc4758e432de36BC3F44f383FCF9A61D0Ce2a9e64';
 const FARM_CAKE_POOL_CONTRACT_ADDR = '0xeABC96b9bE830af31846053e361d25e7D928E638';
 // const FARM_TURING_POOL_CONTRACT_ADDR = '0x47618462aba45EF82adcEe1a6929138f93dccEd8';
 const FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR = '0xbFeE817d038aEb8b773e69844b6c6c7c14419455';
+const FARM_TURING_BNB_LP_POOL_CONTRACT_V2_ADDR = '0xcb3B1A0905ADe6C7D1dB17fD92409dA057df7ec3';
 const CAKE_NO_LOSS_POOL_CONTRACT_ADDR = '0x98292750578aa741e1623E09dE3C5A1C8Fe82367';
 let cakeNoLossPoolContract;
 let farmTuringPoolContract;
 let farmTuringBNBLPPoolContract;
+let farmTuringBNBLPPoolV2Contract;
 let farmCakeLPPoolContract;
+let farmCakeLPPoolV2Contract;
 let farmUSDTBUSDLPPoolContract;
+let farmUSDTBUSDLPPoolV2Contract;
 let farmCakePoolContract;
 let prizeHistory = [];
 const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
@@ -4051,10 +4074,13 @@ function initFarmPoolContract() {
 		// farmTuringPoolContract = new _web3.eth.Contract(FARM_TURING_POOL_CONTRACT_ABI, FARM_TURING_POOL_CONTRACT_ADDR);
 
 		farmTuringBNBLPPoolContract = new _web3.eth.Contract(FARM_TURING_LP_POOL_CONTRACT_ABI, FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR);
+		farmTuringBNBLPPoolV2Contract = new _web3.eth.Contract(FARM_TURING_LP_POOL_CONTRACT_ABI, FARM_TURING_BNB_LP_POOL_CONTRACT_V2_ADDR);
 		farmCakeLPPoolContract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_ADDR);
+		farmCakeLPPoolV2Contract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR);
 		farmCakePoolContract = new _web3.eth.Contract(FARM_CAKE_POOL_CONTRACT_ABI, FARM_CAKE_POOL_CONTRACT_ADDR);
 		
 		farmUSDTBUSDLPPoolContract = new _web3.eth.Contract(FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR);
+		farmUSDTBUSDLPPoolV2Contract = new _web3.eth.Contract(FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR);
 	}
 	setTimeout(function(){ 
 		initFarmPoolContract();
@@ -4143,6 +4169,12 @@ function reloadFarmTuringBNBLPPoolData() {
 	}, 3000);
 }
 
+function reloadFarmTuringBNBLPPoolV2Data() {
+	setTimeout(function(){ 
+		loadFarmTuringBNBLPPoolV2Data();
+	}, 3000);
+}
+
 function reloadFarmCakePoolData() {
 	setTimeout(function(){ 
 		loadFarmCakePoolData();
@@ -4154,11 +4186,23 @@ function reloadFarmCakeBNBLPPoolData() {
 		loadFarmCakeBNBLPPoolData();
 	}, 3000);
 }
+
+function reloadFarmCakeBNBLPPoolV2Data() {
+	setTimeout(function(){ 
+		loadFarmCakeBNBLPPoolV2Data();
+	}, 3000);
+}
 function reloadFarmUSDTBUSDLPPoolData() {
 	setTimeout(function(){ 
 		loadFarmUSDTBUSDLPPoolData();
 	}, 3000);
 }
+function reloadFarmUSDTBUSDLPPoolV2Data() {
+	setTimeout(function(){ 
+		loadFarmUSDTBUSDLPPoolV2Data();
+	}, 3000);
+}
+
 function loadCakeNoLossData() {
 	if (!cakeNoLossPoolContract) {
 		return reloadCakeNoLossData();
@@ -4363,6 +4407,55 @@ function loadFarmTuringBNBLPPoolData() {
 	}	
 }
 
+function loadFarmTuringBNBLPPoolV2Data() {
+	if (!farmTuringBNBLPPoolV2Contract) {
+		return reloadFarmTuringBNBLPPoolV2Data();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmTuringBNBLPPoolV2Data();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmTuringBNBLPPoolV2Contract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result.miningSpeed_); 
+		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 18), 18); // turing LP
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result.userWantBal_) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result.userBNBBal_) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result.userTuringPending_) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result.totalMintPerDay_) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringShare = parseFloatNumber(parseInt(_result.userTuringShare_) / 1e18, 18); // turing LP
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result.tvl_) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result.turingPrice_) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500  / ( userDataInFarmTuringPool.tvl * turingBNBLPPrice);
+		}		
+
+		if (userDataInFarmTuringPool.userTuringShare <= 0) {
+			userDataInFarmTuringPool.userTuringPending = 0;
+		}
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-turing-bnb-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * turingBNBLPPrice), 2)}`);
+		$('.farm-turing-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		return reloadFarmTuringBNBLPPoolV2Data();
+	}
+	function _error(_e) {
+		return reloadFarmTuringBNBLPPoolV2Data();
+	}	
+}
+
 function loadFarmCakeBNBLPPoolData() {
 	if (!farmCakeLPPoolContract) {
 		return reloadFarmCakeBNBLPPoolData();
@@ -4413,6 +4506,56 @@ function loadFarmCakeBNBLPPoolData() {
 	}	
 }
 
+function loadFarmCakeBNBLPPoolV2Data() {
+	if (!farmCakeLPPoolV2Contract) {
+		return reloadFarmCakeBNBLPPoolV2Data();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmCakeBNBLPPoolV2Data();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmCakeLPPoolV2Contract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * cakeLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * cakeLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-cake-bnb-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * cakeLPPrice), 2)}`);
+		$('.farm-cake-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-cake-bnb-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		return reloadFarmCakeBNBLPPoolV2Data();
+	}
+	function _error(_e) {
+		return reloadFarmCakeBNBLPPoolV2Data();
+	}	
+}
+
 function loadFarmUSDTBUSDLPPoolData() {
 	if (!farmUSDTBUSDLPPoolContract) {
 		return reloadFarmUSDTBUSDLPPoolData();
@@ -4430,7 +4573,6 @@ function loadFarmUSDTBUSDLPPoolData() {
 		.then(_updateUserData)
 		.catch(_error);
 	function _updateUserData(_result) {
-		console.log("_result", _result)
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
 		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
@@ -4461,5 +4603,55 @@ function loadFarmUSDTBUSDLPPoolData() {
 	}
 	function _error(_e) {
 		return reloadFarmUSDTBUSDLPPoolData();
+	}	
+}
+
+function loadFarmUSDTBUSDLPPoolV2Data() {
+	if (!farmUSDTBUSDLPPoolV2Contract) {
+		return reloadFarmUSDTBUSDLPPoolV2Data();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmUSDTBUSDLPPoolV2Data();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmUSDTBUSDLPPoolV2Contract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBusdLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBusdLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-usdt-busd-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * usdtBusdLPPrice), 2)}`);
+		$('.farm-usdt-busd-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-usdt-busd-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		return reloadFarmUSDTBUSDLPPoolV2Data();
+	}
+	function _error(_e) {
+		return reloadFarmUSDTBUSDLPPoolV2Data();
 	}	
 }
