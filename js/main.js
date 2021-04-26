@@ -4349,6 +4349,7 @@ function loadFarmCakePoolData() {
 		$('.farm-cake-pool-total-volume').html(`$${formatBalance((userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice), 2)}`);
 		$('.farm-cake-pool-turing-apy').html(formatBalance(userDataInFarmCakePool.turingRewardAPY, 2));
 		$('.farm-cake-pool-cake-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY, 2));
+		$('.farm-cake-pool-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY + userDataInFarmCakePool.turingRewardAPY, 2));
 		
 		return reloadFarmCakePoolData();
 	}
@@ -4446,7 +4447,7 @@ function loadFarmTuringBNBLPPoolV2Data() {
 		}
 		_drawUI(userDataInFarmTuringPool);
 	}	
-	function _drawUI(userDataInFarmTuringPool) {
+	function _drawUI(userDataInFarmTuringPool) { 
 		$('.farm-turing-bnb-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * turingBNBLPPrice), 2)}`);
 		$('.farm-turing-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
 		return reloadFarmTuringBNBLPPoolV2Data();
@@ -4548,7 +4549,8 @@ function loadFarmCakeBNBLPPoolV2Data() {
 	function _drawUI(userDataInFarmTuringPool) {
 		$('.farm-cake-bnb-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * cakeLPPrice), 2)}`);
 		$('.farm-cake-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
-		$('.farm-cake-bnb-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-cake-bnb-lp-pool-v2-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-cake-bnb-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
 		return reloadFarmCakeBNBLPPoolV2Data();
 	}
 	function _error(_e) {
@@ -4648,7 +4650,8 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
 	function _drawUI(userDataInFarmTuringPool) {
 		$('.farm-usdt-busd-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * usdtBusdLPPrice), 2)}`);
 		$('.farm-usdt-busd-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
-		$('.farm-usdt-busd-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-usdt-busd-lp-pool-v2-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-usdt-busd-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
 		return reloadFarmUSDTBUSDLPPoolV2Data();
 	}
 	function _error(_e) {

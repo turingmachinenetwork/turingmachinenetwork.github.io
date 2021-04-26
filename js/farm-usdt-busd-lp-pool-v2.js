@@ -1310,7 +1310,8 @@ function loadData() {
 		$('.farm-usdt-busd-lp-pool-total-supply').html(`$${formatBalance(userDataInFarmUSDTBUSDLPPool.tvl * usdtBusdLPPrice, 2)}`);
 		$('.farm-usdt-busd-lp-pool-user-usdt-busd-lp-bal').html(numberWithCommas(userDataInFarmUSDTBUSDLPPool.userWantBal, 2));
 		$('.farm-usdt-busd-lp-pool-user-usdt-busd-lp-state').html(numberWithCommas(userDataInFarmUSDTBUSDLPPool.userWantShare, 2));
-		$('.farm-usdt-busd-lp-pool-apy').html(`${formatBalance(userDataInFarmUSDTBUSDLPPool.wantRewardAPY, 2)}%`);
+		$('.farm-usdt-busd-lp-pool-apy').html(`${formatBalance(userDataInFarmUSDTBUSDLPPool.wantRewardAPY + userDataInFarmUSDTBUSDLPPool.turingRewardAPY, 2)}%`);
+		$('.farm-usdt-busd-lp-pool-apy-cake').html(`${formatBalance(userDataInFarmUSDTBUSDLPPool.wantRewardAPY, 2)}%`);
 		$('.farm-usdt-busd-lp-pool-turing-apy').html(`${formatBalance(userDataInFarmUSDTBUSDLPPool.turingRewardAPY, 2)}%`);
 
 		return reloadData();

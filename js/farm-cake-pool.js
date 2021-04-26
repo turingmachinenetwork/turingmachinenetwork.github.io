@@ -986,7 +986,8 @@ function loadData() {
 		$('.farm-cake-pool-total-supply').html(`$${formatBalance(userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice, 2)}`);
 		$('.farm-cake-pool-user-cake-bal').html(numberWithCommas(userDataInFarmCakePool.userWantBal, 6));
 		$('.farm-cake-pool-user-cake-state').html(numberWithCommas(userDataInFarmCakePool.userWantShare, 6));
-		$('.farm-cake-pool-apy').html(`${formatBalance((userDataInFarmCakePool.wantRewardAPY), 2)}%`);
+		$('.farm-cake-pool-apy').html(`${formatBalance((userDataInFarmCakePool.wantRewardAPY + userDataInFarmCakePool.turingRewardAPY), 2)}%`);
+		$('.farm-cake-pool-apy-cake').html(`${formatBalance((userDataInFarmCakePool.wantRewardAPY), 2)}%`);
 		$('.farm-cake-pool-turing-apy').html(`${formatBalance((userDataInFarmCakePool.turingRewardAPY), 2)}%`);
 
 		return reloadData();
