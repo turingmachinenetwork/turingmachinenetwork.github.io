@@ -50,6 +50,11 @@ $(document).ready(function() {
     } catch(e) {
     	reloadFarmUSDTBUSDLPPoolV2Data();
     }
+    try {
+    	loadFarmUSDTBNBLPPoolData();
+    } catch(e) {
+    	reloadFarmUSDTBNBLPPoolData();
+    }
 });
 
 function getWeb3ToReadData() {
@@ -61,8 +66,10 @@ function getWeb3ToReadData() {
 const turingBNBLPPrice = 90;
 const cakeLPPrice = 256;
 const usdtBusdLPPrice = 2;
+const usdtBNBLPPrice = 45;
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E'; 
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR = '0xc8a61e2d78697C41D81752831c436AaC846464d7'; 
+const FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR = '0xb2Bd7C2D2577d8Cb95ed31e7E388b2D846626E0e'; 
 
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR = '0xc4758e432de36BC3F44f383FCF9A61D0Ce2a9e64';
@@ -77,6 +84,7 @@ let farmTuringBNBLPPoolContract;
 let farmTuringBNBLPPoolV2Contract;
 let farmCakeLPPoolContract;
 let farmCakeLPPoolV2Contract;
+let farmUSDTBNBLPPoolContract;
 let farmUSDTBUSDLPPoolContract;
 let farmUSDTBUSDLPPoolV2Contract;
 let farmCakePoolContract;
@@ -3208,7 +3216,7 @@ const FARM_CAKE_LP_POOL_CONTRACT_ABI = [
 		"type": "function"
 	}
 ];
-const FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI = [
+const FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
@@ -4079,8 +4087,9 @@ function initFarmPoolContract() {
 		farmCakeLPPoolV2Contract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR);
 		farmCakePoolContract = new _web3.eth.Contract(FARM_CAKE_POOL_CONTRACT_ABI, FARM_CAKE_POOL_CONTRACT_ADDR);
 		
-		farmUSDTBUSDLPPoolContract = new _web3.eth.Contract(FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR);
-		farmUSDTBUSDLPPoolV2Contract = new _web3.eth.Contract(FARM_USDT_BUSD_LP_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR);
+		farmUSDTBUSDLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR);
+		farmUSDTBUSDLPPoolV2Contract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR);
+		farmUSDTBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 	}
 	setTimeout(function(){ 
 		initFarmPoolContract();
@@ -4203,6 +4212,12 @@ function reloadFarmUSDTBUSDLPPoolV2Data() {
 	}, 3000);
 }
 
+function reloadFarmUSDTBNBLPPoolData() {
+	setTimeout(function(){ 
+		loadFarmUSDTBNBLPPoolData();
+	}, 3000);
+}
+
 function loadCakeNoLossData() {
 	if (!cakeNoLossPoolContract) {
 		return reloadCakeNoLossData();
@@ -4290,10 +4305,10 @@ function loadFarmTuringPoolData() {
 	function _updateUserData(_result) {
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result.miningSpeed_); 
-		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result.userBNBBal_) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result.userTuringPending_) / 1e18, 18);
-		userDataInFarmTuringPool.userTuringShare = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringShare_) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userTuringShare = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringShare_) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result.tvl_) / 1e18, 18);
 		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result.turingPrice_) / 1e18, 18);
 		userDataInFarmTuringPool.turingRewardAPY = parseFloatNumber(parseInt(_result.turingRewardAPY_) / 1e2, 2);
@@ -4327,14 +4342,14 @@ function loadFarmCakePoolData() {
 	function _updateUserData(_result) {
 		let userDataInFarmCakePool = {};
 		userDataInFarmCakePool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmCakePool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmCakePool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmCakePool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
 		userDataInFarmCakePool.wantPrice = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
 		userDataInFarmCakePool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmCakePool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
 		userDataInFarmCakePool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmCakePool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmCakePool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmCakePool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		if (parseInt(_result[9]) > 0) {
 			userDataInFarmCakePool.turingRewardAPY = parseFloatNumber(parseInt(_result[9]) / 1e2, 2);
 		}
@@ -4379,8 +4394,8 @@ function loadFarmTuringBNBLPPoolData() {
 		let userDataInFarmTuringPool = {};
 
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result.miningSpeed_); 
-		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 18), 18); // turing LP
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result.userWantBal_) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 1e18), 18); // turing LP
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result.userWantBal_) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result.userBNBBal_) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result.userTuringPending_) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result.totalMintPerDay_) / 1e18, 18);
@@ -4428,8 +4443,8 @@ function loadFarmTuringBNBLPPoolV2Data() {
 		let userDataInFarmTuringPool = {};
 
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result.miningSpeed_); 
-		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 18), 18); // turing LP
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result.userWantBal_) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userTuringBal = parseFloatNumber(roundDownFloat(parseInt(_result.userTuringBal_) / 1e18, 1e18), 18); // turing LP
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result.userWantBal_) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result.userBNBBal_) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result.userTuringPending_) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result.totalMintPerDay_) / 1e18, 18);
@@ -4476,10 +4491,10 @@ function loadFarmCakeBNBLPPoolData() {
 	function _updateUserData(_result) {
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
@@ -4526,10 +4541,10 @@ function loadFarmCakeBNBLPPoolV2Data() {
 	function _updateUserData(_result) {
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
@@ -4577,10 +4592,10 @@ function loadFarmUSDTBUSDLPPoolData() {
 	function _updateUserData(_result) {
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
@@ -4627,10 +4642,10 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
 	function _updateUserData(_result) {
 		let userDataInFarmTuringPool = {};
 		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
 		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
@@ -4656,5 +4671,56 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
 	}
 	function _error(_e) {
 		return reloadFarmUSDTBUSDLPPoolV2Data();
+	}	
+}
+
+function loadFarmUSDTBNBLPPoolData() {
+	if (!farmUSDTBNBLPPoolContract) {
+		return reloadFarmUSDTBNBLPPoolData();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmUSDTBNBLPPoolData();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmUSDTBNBLPPoolContract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBNBLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * usdtBNBLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-usdt-bnb-lp-pool-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * usdtBNBLPPrice), 2)}`);
+		$('.farm-usdt-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-usdt-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-usdt-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+		return reloadFarmUSDTBNBLPPoolData();
+	}
+	function _error(_e) {
+		return reloadFarmUSDTBNBLPPoolData();
 	}	
 }

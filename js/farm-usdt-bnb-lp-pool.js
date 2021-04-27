@@ -1,12 +1,11 @@
 $(document).ready(function() {
     initWeb3();
-    initCakeNoLossPoolContract();
+    initFarmPoolContract();
     try {
     	loadData();
     } catch(e) {
     	reloadData();
     }
-    
     initUserAction();
 });
 
@@ -16,79 +15,13 @@ function getWeb3ToReadData() {
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
-
-const CAKE_NO_LOSS_POOL_CONTRACT_ADDR = '0x98292750578aa741e1623E09dE3C5A1C8Fe82367';
-const CAKE_TOKEN_ADDR = '0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82';
-let cakeNoLossPoolContract;
-let userDataInCakeNoLossPool = {};
+const usdtBNBLPPrice = 45;
+const FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR = '0xb2Bd7C2D2577d8Cb95ed31e7E388b2D846626E0e';
+const LP_TOKEN_ADDR = '0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE';
+let farmUsdtBNBLPPoolContract;
+let userDataInFarmUSDTBNBLPPool = {};
 let prizeHistory = [];
-const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
-	{
-		"inputs": [],
-		"name": "approveConnectToPancake",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_time",
-				"type": "uint256"
-			}
-		],
-		"name": "changeEndLoteryTime",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_time",
-				"type": "uint256"
-			}
-		],
-		"name": "changeHalftime",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_wantAmt",
-				"type": "uint256"
-			}
-		],
-		"name": "deposit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "draw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			}
-		],
-		"name": "harvest",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
+const FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
@@ -97,13 +30,13 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 				"type": "address"
 			},
 			{
-				"internalType": "contract IMiningMachine",
-				"name": "_miningMachine",
+				"internalType": "contract IPancakeMasterChef",
+				"name": "_pancakeMasterChef",
 				"type": "address"
 			},
 			{
-				"internalType": "contract IPancakeMasterChef",
-				"name": "_pancakeMasterChef",
+				"internalType": "contract IBEP20",
+				"name": "_want",
 				"type": "address"
 			},
 			{
@@ -125,15 +58,23 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 				"internalType": "address",
 				"name": "_busd",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_pidOfMining",
-				"type": "uint256"
 			}
 		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			}
+		],
+		"name": "onCancelTransactions",
+		"type": "event"
 	},
 	{
 		"anonymous": false,
@@ -159,30 +100,49 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "_index",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "address",
-				"name": "_user",
+				"name": "_value",
 				"type": "address"
+			}
+		],
+		"name": "onQueuedTransactionsChangeAddress",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_performanceFee",
+				"name": "_value",
 				"type": "uint256"
 			}
 		],
-		"name": "onDraw",
+		"name": "onQueuedTransactionsChangeUint",
 		"type": "event"
 	},
 	{
@@ -205,112 +165,89 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"type": "event"
 	},
 	{
-		"anonymous": false,
-		"inputs": [
+		"inputs": [],
+		"name": "CAKE",
+		"outputs": [
 			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "onWithdrawWon",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_time",
-				"type": "uint256"
-			}
-		],
-		"name": "setPendingTimeOfWithdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_value",
-				"type": "uint256"
-			}
-		],
-		"name": "setRatefeeOfWithdrawEarly",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_rate",
-				"type": "uint256"
-			}
-		],
-		"name": "setRateOfPerformanceFee",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_owner",
+				"internalType": "contract IBEP20",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_addr",
-				"type": "address"
-			}
-		],
-		"name": "transferPerformanceMachine",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_wantAmt",
-				"type": "uint256"
-			}
-		],
-		"name": "withdraw",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "withdrawWon",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "GRACE_PERIOD",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"stateMutability": "payable",
-		"type": "receive"
+		"inputs": [],
+		"name": "MAXIMUM_DELAY",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "MINIMUM_DELAY",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "TURING",
+		"outputs": [
+			{
+				"internalType": "contract IBEP20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "accWantPerShare",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "approveConnectToPancake",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	},
 	{
 		"inputs": [],
@@ -326,8 +263,91 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			}
+		],
+		"name": "cancelTransactions",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "endLoteryTime",
+		"name": "changeTokenAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "controllerMachine",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "delay",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_wantAmt",
+				"type": "uint256"
+			}
+		],
+		"name": "deposit",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			}
+		],
+		"name": "getAddressChangeOnTimeLock",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getCakePrice",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -349,52 +369,9 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"name": "getData",
 		"outputs": [
 			{
-				"internalType": "uint256[16]",
+				"internalType": "uint256[11]",
 				"name": "data_",
-				"type": "uint256[16]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_user",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "getFeeOfWithdrawEarly",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_token",
-				"type": "uint256"
-			}
-		],
-		"name": "getOwnerOfToken",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
+				"type": "uint256[11]"
 			}
 		],
 		"stateMutability": "view",
@@ -402,7 +379,7 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "getTotalReward",
+		"name": "getTotalRewardPerDay",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -427,21 +404,19 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "getWantPrice",
-		"outputs": [
+		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
 			}
 		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "halftime",
+		"name": "getUintChangeOnTimeLock",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -455,77 +430,14 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "historyList",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "time",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tiketsWin",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalTickets",
-				"type": "uint256"
-			},
-			{
 				"internalType": "address",
-				"name": "winner",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "wonAmt",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "performanceFee",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
+				"name": "_user",
 				"type": "address"
 			}
 		],
-		"name": "lastDepositTimeOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "lastHistory",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
+		"name": "harvest",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -581,12 +493,18 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "pendingTimeOfWithdraw",
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_user",
+				"type": "address"
+			}
+		],
+		"name": "pendingCakeOf",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "_pendingCake",
 				"type": "uint256"
 			}
 		],
@@ -608,7 +526,7 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "pidOfMining",
+		"name": "periodOfDay",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -621,7 +539,79 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "rateFeeOfWithdrawEarly",
+		"name": "pidOfFarm",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pidOfMining",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"internalType": "address",
+				"name": "_newAddr",
+				"type": "address"
+			}
+		],
+		"name": "queuedTransactionsChangeAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_functionName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_fieldName",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "queuedTransactionsChangeUint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "rateOfControllerFee",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -653,6 +643,101 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 				"type": "address"
 			}
 		],
+		"name": "rewardWantDebtOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setControllerMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "delay_",
+				"type": "uint256"
+			}
+		],
+		"name": "setDelay",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setMiningMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPancakeMasterChefContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPancakeSwapContract",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPerformanceMachine",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPidOfFarm",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setPidOfMining",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setRateOfControllerFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "setRateOfPerformanceFee",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
 		"name": "shareOf",
 		"outputs": [
 			{
@@ -665,12 +750,23 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "totalHistory",
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"name": "timeLockOf",
 		"outputs": [
 			{
+				"internalType": "bool",
+				"name": "queuedTransactions",
+				"type": "bool"
+			},
+			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "timeOfExecute",
 				"type": "uint256"
 			}
 		],
@@ -679,20 +775,7 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "totalPlayer",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalRandom",
+		"name": "timeOfHarvest",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -718,28 +801,9 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	},
 	{
 		"inputs": [],
-		"name": "totalWon",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "TURING",
-		"outputs": [
-			{
-				"internalType": "contract IBEP20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -784,21 +848,19 @@ const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "wonOf",
-		"outputs": [
-			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "_wantAmt",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "withdraw",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
 	}
 ];
 const ALLOW_LIMIT_AMT = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
@@ -1100,13 +1162,13 @@ function  initWeb3() {
     }
     return false;
 }
-function initCakeNoLossPoolContract() {
-	if (!cakeNoLossPoolContract) {
+function initFarmPoolContract() {
+	if (!farmUsdtBNBLPPoolContract) {
 		const _web3 = getWeb3ToReadData();
-		cakeNoLossPoolContract = new _web3.eth.Contract(CAKE_NO_LOSS_POOL_CONTRACT_ABI, CAKE_NO_LOSS_POOL_CONTRACT_ADDR);
+		farmUsdtBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 	}
 	setTimeout(function(){ 
-		initCakeNoLossPoolContract();
+		initFarmPoolContract();
 	}, 3000);
 }
 function numberWithCommas(x, decimals = 3) {
@@ -1179,7 +1241,7 @@ function formatTime(timestamp) {
 	return moment(stillUtc).local().format('MMM Do');
 }
 function getTimeCountDown(time) {
-    if (time < 0) {
+	if (time < 0) {
         return {
             "day": dealNum(0),
             "hour": dealNum(0),
@@ -1204,7 +1266,7 @@ function reloadData() {
 	}, 3000);
 }
 function loadData() {
-	if (!cakeNoLossPoolContract) {
+	if (!farmUsdtBNBLPPoolContract) {
 		return reloadData();
 	}
 	let userAddr = getCurrentAddress();
@@ -1212,113 +1274,51 @@ function loadData() {
 		return reloadData();
 	}
 	$('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
-	/**
-        data_[0] uint256 miningSpeed_, 
-        data_[1] uint256 userWant_, 
-        data_[2] uint256 userTickets_, 
-        data_[3] uint256 userWant_, // cake 
-        data_[4] uint256 userTuringPending_, 
-        data_[5] uint256 userTuringBal_, 
-        data_[6] uint256 userBNBBal_, 
-        data_[7] uint256 prize_, 
-        data_[8] uint256 turingRewardAPY_, 
-        data_[9] uint256 totalTickets_, 
-        data_[10] uint256 wantPrice_, 
-        data_[11] uint256 turingPrice_, 
-        data_[12] uint256 endLoteryTime_, 
-        data_[13] uint256 tvl_
-    */
-	cakeNoLossPoolContract
+
+	farmUsdtBNBLPPoolContract
 		.methods
 		.getData(userAddr)
 		.call()
 		.then(_updateUserData)
 		.catch(_error);
 	function _updateUserData(_result) {
-		userDataInCakeNoLossPool.miningSpeed = parseInt(_result[0]); 
-		// userDataInCakeNoLossPool.userWant = parseFloatNumber(parseInt(_result[1]) / 1e18, 18);
-		userDataInCakeNoLossPool.userTickets = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
-		userDataInCakeNoLossPool.userWantCanWithdraw = parseFloatNumber(roundDownFloat(parseInt(_result[3]) / 1e18, 1e18), 18);
-		userDataInCakeNoLossPool.userTuringPending = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
-		userDataInCakeNoLossPool.userTuringBal = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
-		userDataInCakeNoLossPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
-		userDataInCakeNoLossPool.prize = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInCakeNoLossPool.turingRewardAPY = parseFloatNumber(parseInt(_result[8]) / 1e2, 2);
-		userDataInCakeNoLossPool.totalTickets = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
-		userDataInCakeNoLossPool.totalDeposits = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
-		userDataInCakeNoLossPool.wantPrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
-		userDataInCakeNoLossPool.turingPrice = parseFloatNumber(parseInt(_result[11]) / 1e18, 18);
-		userDataInCakeNoLossPool.endLoteryTime = parseInt(_result[12]);
-		userDataInCakeNoLossPool.tvl = parseFloatNumber(parseInt(_result[13]) / 1e18, 18);
-		userDataInCakeNoLossPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[14]) / 1e18, 1e18), 18);
-		userDataInCakeNoLossPool.totalPlayer = parseInt(_result[15]);
 
-		_loadPrizeHistory()
-			.then(_drawUI)
-			.catch(_error);
+		userDataInFarmUSDTBNBLPPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmUSDTBNBLPPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
+		userDataInFarmUSDTBNBLPPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
+		userDataInFarmUSDTBNBLPPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmUSDTBNBLPPool.turingRewardAPY = 0;
+		userDataInFarmUSDTBNBLPPool.wantRewardAPY = 0;
+		if (userDataInFarmUSDTBNBLPPool.tvl > 0) {
+			userDataInFarmUSDTBNBLPPool.turingRewardAPY = userDataInFarmUSDTBNBLPPool.totalMintPerDay * userDataInFarmUSDTBNBLPPool.turingPrice * 36500 / (userDataInFarmUSDTBNBLPPool.tvl * usdtBNBLPPrice);
+			userDataInFarmUSDTBNBLPPool.wantRewardAPY = userDataInFarmUSDTBNBLPPool.totalWantRewardPerDay * userDataInFarmUSDTBNBLPPool.cakePrice * 36500 / (userDataInFarmUSDTBNBLPPool.tvl * usdtBNBLPPrice);	 
+
+		}
+		_drawUI();
 	}	
 	function _drawUI() {
-		let now = parseInt(Date.now() / 1000);
-		let lastPrize = prizeHistory[0] ? prizeHistory[0] : null;
-		let timeOfWillBeAwarded = getTimeCountDown(userDataInCakeNoLossPool.endLoteryTime - now);
 
-		$('.will-be-awarded').html(`${timeOfWillBeAwarded.day} DAY ${timeOfWillBeAwarded.hour} HR ${timeOfWillBeAwarded.min} MIN ${timeOfWillBeAwarded.sec} SEC`);
-		$('.current-prize').html(formatBalance((userDataInCakeNoLossPool.prize *userDataInCakeNoLossPool.wantPrice ), 2));
-		$('.total-tickets').html(formatBalance(userDataInCakeNoLossPool.totalTickets, 2));
-		$('.total-player').html(formatBalance(userDataInCakeNoLossPool.totalPlayer, 0));
-		$('.total-cake-deposits').html(formatBalance(userDataInCakeNoLossPool.totalDeposits, 2));
-		$('.total-cake-deposits-value').html(formatBalance(userDataInCakeNoLossPool.totalDeposits * userDataInCakeNoLossPool.wantPrice, 2));
-		$('.user-tickets-amt').html(formatBalance(userDataInCakeNoLossPool.userTickets, 2));
-		$('.user-cake-staked').html(formatBalance(userDataInCakeNoLossPool.userTickets, 2));
-		$('.user-cake-bal').html(numberWithCommas(userDataInCakeNoLossPool.userWantBal, 2));
-		$('.your-turing-earned').html(numberWithCommas(userDataInCakeNoLossPool.userTuringPending, 6));
-		$('.user-cake-can-withdraw').html(numberWithCommas(userDataInCakeNoLossPool.userWantCanWithdraw, 2));
-		$('.user-odds-of-winning').html(`${numberWithCommas(userDataInCakeNoLossPool.userTickets*100 / userDataInCakeNoLossPool.totalTickets, 2)}% every week`);
-		// drawp prize history
-		prizeHistory.forEach((item, idx) => {
-			let time = item.time > 0 ? formatTime(item.time * 1000) : '-';
-			let winner = item.winner;
-			let startAddress    = winner.slice(0,5);
-            let endAddress      = winner.slice(-5);
-			$(`.time-pool-no-${idx + 1}`).html(time);
-			$(`.prize-busd-pool-no-${idx + 1}`).html(`$${formatBalance((item.prize * userDataInCakeNoLossPool.wantPrice), 2)}`);
-			$(`.prize-cake-pool-no-${idx + 1}`).html(formatBalance(item.prize, 2));
-			$(`.prize-tickets-pool-no-${idx + 1}`).html(formatBalance(item.totalTickets, 2));
-			$(`.winner-pool-no-${idx + 1}`).html(`${startAddress}...${endAddress}`);
-		});
+		$('.farm-usdt-bnb-lp-pool-your-stake').html(formatBalance(userDataInFarmUSDTBNBLPPool.userWantShare, 2));
+		$('.farm-usdt-bnb-lp-pool-your-earned').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.userTuringPending, 6)} TURING ${formatBalance(userDataInFarmUSDTBNBLPPool.userCakePending, 6)} CAKE`);
+		$('.farm-usdt-bnb-lp-pool-total-supply').html(`$${formatBalance(userDataInFarmUSDTBNBLPPool.tvl * usdtBNBLPPrice, 2)}`);
+		$('.farm-usdt-bnb-lp-pool-user-usdt-bnb-lp-bal').html(numberWithCommas(userDataInFarmUSDTBNBLPPool.userWantBal, 2));
+		$('.farm-usdt-bnb-lp-pool-user-usdt-bnb-lp-state').html(numberWithCommas(userDataInFarmUSDTBNBLPPool.userWantShare, 2));
+		$('.farm-usdt-bnb-lp-pool-apy').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.wantRewardAPY, 2)}%`);
+		$('.farm-usdt-bnb-lp-pool-turing-apy').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.turingRewardAPY, 2)}%`);
+
 		return reloadData();
 	}
 	function _error(_e) {
 		return reloadData();
 	}	
-
-	function _loadPrizeHistory() {
-		let promises = [];
-		for (let idx = 0; idx < 5; idx++) {
-			promises.push(cakeNoLossPoolContract.methods.historyList(idx).call());
-		}
-		return new Promise((resolve, reject) => {
-			Promise
-				.all(promises)
-				.then(_result => {
-					let _data = [];
-					for (let idx = 0; idx < 5; idx++) {
-						_data.push({
-							time: parseInt(_result[idx].time),
-							prize: parseFloatNumber(parseInt(_result[idx].wonAmt) / 1e18, 18) + parseFloatNumber(parseInt(_result[idx].performanceFee) / 1e18, 18),
-							totalTickets: parseFloatNumber(parseInt(_result[idx].totalTickets) / 1e18, 18),
-							winner: _result[idx].winner || _result[idx].user
-						});
-					}
-					_data = sortArray(_data, 'time', false);
-					prizeHistory = _data;
-					return resolve();
-				})
-				.catch((e) => reject(e));
-		});
-	}
 }
-
 function _showPopup(id) {
 	$(`#${id}`).show();
 }
@@ -1334,27 +1334,28 @@ function initUserAction() {
 	_deposit();
 	_withdraw();
 	_harvest();
+
 	function _clickMaxDeposit() {
-		$('.max-cake-deposit').click(function(e) {
+		$('.farm-usdt-bnb-lp-pool-max-usdt-bnb-lp-deposit').click(function(e) {
 			e.preventDefault();
 
-			let amount = userDataInCakeNoLossPool.userWantBal ? userDataInCakeNoLossPool.userWantBal : 0;
+			let amount = userDataInFarmUSDTBNBLPPool.userWantBal ? userDataInFarmUSDTBNBLPPool.userWantBal : 0;
 			
-			$('input[type=number][name=deposit_cake_amt]').val(amount);
+			$('input[type=number][name=farm_usdt_bnb_lp_pool_deposit_usdt_bnb_lp_amt]').val(amount);
 		});
 	}
 
 	function _clickMaxWithdraw() {
-		$('.max-cake-withdraw').click(function(e) {
+		$('.farm-usdt-bnb-lp-pool-max-usdt-bnb-lp-withdraw').click(function(e) {
 			e.preventDefault();
 
-			let amount = userDataInCakeNoLossPool.userWantCanWithdraw ? userDataInCakeNoLossPool.userWantCanWithdraw : 0;
-			$('input[type=number][name=withdraw_cake_amt]').val(amount);
+			let amount = userDataInFarmUSDTBNBLPPool.userWantShare ? userDataInFarmUSDTBNBLPPool.userWantShare : 0;
+			$('input[type=number][name=farm_usdt_bnb_lp_pool_withdraw_usdt_bnb_lp_amt]').val(amount);
 		});
 	}
 
 	function _approve() {
-		$('.btn-approve-cake-no-loss').click(function(e) {
+		$('.btn-approve-farm-usdt-bnb-lp').click(function(e) {
 			e.preventDefault();
 			let userAddr = getCurrentAddress();
 			if (!userAddr) {
@@ -1364,11 +1365,10 @@ function initUserAction() {
 				return false;
 			}
 			let _transactionHistory = {}; 
-			let _token = new web3.eth.Contract(TOKEN_ABI, CAKE_TOKEN_ADDR);
-
+			let _token = new web3.eth.Contract(TOKEN_ABI, LP_TOKEN_ADDR);
 			_token
 				.methods
-				.approve(CAKE_NO_LOSS_POOL_CONTRACT_ADDR, ALLOW_LIMIT_AMT)
+				.approve(FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR, ALLOW_LIMIT_AMT)
 				.send({ from: getCurrentAddress() })
 				.on('transactionHash', function(hash) {
 	                _showPopup('confirm-popup');
@@ -1385,9 +1385,9 @@ function initUserAction() {
 	}
 
 	function _deposit() {
-		$('.btn-deposit-cake-no-loss').click(function(e) {
+		$('.btn-deposit-farm-usdt-bnb-lp').click(function(e) {
 			e.preventDefault();
-			let amount = $('input[type=number][name=deposit_cake_amt]').val();
+			let amount = $('input[type=number][name=farm_usdt_bnb_lp_pool_deposit_usdt_bnb_lp_amt]').val();
 			amount = parseFloat(amount);
 			// amount = toBN(amount, 18);
 			let userAddr = getCurrentAddress();
@@ -1398,12 +1398,12 @@ function initUserAction() {
 				return false;
 			}
 			let _transactionHistory = {}; 
-			let cakeToken = new web3.eth.Contract(TOKEN_ABI, CAKE_TOKEN_ADDR);
-			let noLossPoolContract = new web3.eth.Contract(CAKE_NO_LOSS_POOL_CONTRACT_ABI, CAKE_NO_LOSS_POOL_CONTRACT_ADDR);
+			let _token = new web3.eth.Contract(TOKEN_ABI, LP_TOKEN_ADDR);
+			let _contract = new web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 
-			cakeToken
+			_token
 				.methods
-				.allowance(userAddr, CAKE_NO_LOSS_POOL_CONTRACT_ADDR)
+				.allowance(userAddr, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR)
 				.call()
 				.then(amountAllow => {
 					amountAllow = parseInt(amountAllow) / 10 ** 18;
@@ -1417,7 +1417,10 @@ function initUserAction() {
 				});
 			function _approvelToken() {
 				let pendingApprovel = false;
-				cakeToken.methods.approve(CAKE_NO_LOSS_POOL_CONTRACT_ADDR, ALLOW_LIMIT_AMT).send({ from: getCurrentAddress() })
+				_token
+					.methods
+					.approve(FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR, ALLOW_LIMIT_AMT)
+					.send({ from: getCurrentAddress() })
 					.on('transactionHash', function(hash) {
 	                	_showPopup('confirm-popup');
 	                })
@@ -1433,14 +1436,17 @@ function initUserAction() {
 					
 			}	
 			function _deposit() {
-				noLossPoolContract.methods.deposit(toBN(amount, 18)).send({ from: getCurrentAddress() })
+				_contract
+					.methods
+					.deposit(toBN(amount, 18))
+					.send({ from: getCurrentAddress() })
 					.on('transactionHash', function(hash) {
 	                	_showPopup('confirm-popup');
 	                })
-	                .on('confirmation', function(confirmationNumber, receipt) {
+	                .on('confirmation', function(confirmationNumber, receipt){
 	                    if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
 							_transactionHistory[receipt.transactionHash] = true;
-							$('input[type=number][name=deposit_cake_amt]').val('');
+							$('input[type=number][name=farm_usdt_bnb_lp_pool_deposit_usdt_bnb_lp_amt]').val('');
 							_hidePopup('confirm-popup', 0);
 							_showPopup('success-confirm-popup');
 							_hidePopup('success-confirm-popup', 10000);
@@ -1450,9 +1456,9 @@ function initUserAction() {
 		});
 	}
 	function _withdraw() {
-		$('.btn-withdraw-cake-no-loss').click(function(e) {
+		$('.btn-withdraw-farm-usdt-bnb-lp').click(function(e) {
 			e.preventDefault();
-			let amount = $('input[type=number][name=withdraw_cake_amt]').val();
+			let amount = $('input[type=number][name=farm_usdt_bnb_lp_pool_withdraw_usdt_bnb_lp_amt]').val();
 			amount = parseFloat(amount);
 			// amount = toBN(amount, 18);
 			let userAddr = getCurrentAddress();
@@ -1463,21 +1469,24 @@ function initUserAction() {
 				return false;
 			}
 			let _transactionHistory = {}; 
-			let noLossPoolContract = new web3.eth.Contract(CAKE_NO_LOSS_POOL_CONTRACT_ABI, CAKE_NO_LOSS_POOL_CONTRACT_ADDR);
+			let _contract = new web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 
-			noLossPoolContract.methods.withdraw(toBN(amount, 18)).send({ from: getCurrentAddress() })
-					.on('transactionHash', function(hash) {
-	                	_showPopup('confirm-popup');
-	                })
-	                .on('confirmation', function(confirmationNumber, receipt){
-	                    if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
+			_contract
+				.methods
+				.withdraw(toBN(amount, 18))
+				.send({ from: getCurrentAddress() })
+				.on('transactionHash', function(hash) {
+	                _showPopup('confirm-popup');
+	            })
+	            .on('confirmation', function(confirmationNumber, receipt){
+	                if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
 							_transactionHistory[receipt.transactionHash] = true;
-							$('input[type=number][name=withdraw_cake_amt]').val('');
-							_hidePopup('confirm-popup', 0);
-							_showPopup('success-confirm-popup');
-							_hidePopup('success-confirm-popup', 10000);
-						} 
-	                });
+						$('input[type=number][name=farm_usdt_bnb_lp_pool_withdraw_usdt_bnb_lp_amt]').val('');
+						_hidePopup('confirm-popup', 0);
+						_showPopup('success-confirm-popup');
+						_hidePopup('success-confirm-popup', 10000);
+					} 
+	            });
 		});
 	}
 	function _harvest() {
@@ -1492,20 +1501,24 @@ function initUserAction() {
 				return false;
 			}
 			let _transactionHistory = {}; 
-			let farmTuringPoolContract = new web3.eth.Contract(CAKE_NO_LOSS_POOL_CONTRACT_ABI, CAKE_NO_LOSS_POOL_CONTRACT_ADDR);
+			let _contract = new web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 
-			farmTuringPoolContract.methods.harvest(userAddr).send({ from: getCurrentAddress() })
-					.on('transactionHash', function(hash) {
-	                	_showPopup('confirm-popup');
-	                })
-	                .on('confirmation', function(confirmationNumber, receipt){
-	                     if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
+			_contract
+				.methods
+				.harvest(userAddr)
+				.send({ from: getCurrentAddress() })
+				.on('transactionHash', function(hash) {
+	                _showPopup('confirm-popup');
+	            })
+	            .on('confirmation', function(confirmationNumber, receipt){
+	                if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
 							_transactionHistory[receipt.transactionHash] = true;
-							_hidePopup('confirm-popup', 0);
-							_showPopup('success-confirm-popup');
-							_hidePopup('success-confirm-popup', 10000);
-						} 
-	                });
+						_hidePopup('confirm-popup', 0);
+						_showPopup('success-confirm-popup');
+						_hidePopup('success-confirm-popup', 10000);
+					} 
+	            });
 		});
 	}
+	
 }

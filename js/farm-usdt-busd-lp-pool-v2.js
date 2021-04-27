@@ -1284,10 +1284,10 @@ function loadData() {
 	function _updateUserData(_result) {
 
 		userDataInFarmUSDTBUSDLPPool.miningSpeed = parseInt(_result[0]); 
-		userDataInFarmUSDTBUSDLPPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 18), 18);
+		userDataInFarmUSDTBUSDLPPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
 		userDataInFarmUSDTBUSDLPPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
 		userDataInFarmUSDTBUSDLPPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
-		userDataInFarmUSDTBUSDLPPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 18), 18);
+		userDataInFarmUSDTBUSDLPPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
 		userDataInFarmUSDTBUSDLPPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
 		userDataInFarmUSDTBUSDLPPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
 		userDataInFarmUSDTBUSDLPPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
