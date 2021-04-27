@@ -1310,7 +1310,8 @@ function loadData() {
 		$('.farm-usdt-bnb-lp-pool-total-supply').html(`$${formatBalance(userDataInFarmUSDTBNBLPPool.tvl * usdtBNBLPPrice, 2)}`);
 		$('.farm-usdt-bnb-lp-pool-user-usdt-bnb-lp-bal').html(numberWithCommas(userDataInFarmUSDTBNBLPPool.userWantBal, 2));
 		$('.farm-usdt-bnb-lp-pool-user-usdt-bnb-lp-state').html(numberWithCommas(userDataInFarmUSDTBNBLPPool.userWantShare, 2));
-		$('.farm-usdt-bnb-lp-pool-apy').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.wantRewardAPY, 2)}%`);
+		$('.farm-usdt-bnb-lp-pool-apy').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.wantRewardAPY + userDataInFarmUSDTBNBLPPool.turingRewardAPY, 2)}%`);
+		$('.farm-usdt-bnb-lp-pool-apy-cake').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.wantRewardAPY, 2)}%`);
 		$('.farm-usdt-bnb-lp-pool-turing-apy').html(`${formatBalance(userDataInFarmUSDTBNBLPPool.turingRewardAPY, 2)}%`);
 
 		return reloadData();
