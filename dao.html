@@ -42,9 +42,11 @@
                             </div>
                         </div>
                         <a href="/" >Home</a>
+                        <a href="/exchange.html">Swap</a>
+                        <a href="/addlp.html">Add Liquidity</a>
+                        <a href="/removelp.html">Remove Liquidity</a>
                         <a href="/no-loss-pool.html" >No-loss Lottery</a>
                         <a href="/farms.html" >Farms</a>
-                        <a href="/exchange.html">Stablecoin AMM</a>
                         <a href="/dao.html" class="router-link-exact-active router-link-active">DAO</a>
                         <a href="/useturing.html">Use TURING</a>
                         <a href="/risks.html">Risks</a>
@@ -64,11 +66,13 @@
                                 <p>We want to build a fully decentralized platform at TuringMachine for that applications and developers can rely on, forever.</p>
                                 <p>At the first time of release of TuringMachine platform, 
                                    we will still have the protocol administrator’s ability at some contracts, 
-                                   but to make the platform more transparent with users we added <b>Timelock</b> into all platform contracts.</p>
+                                   but to make the platform more transparent with users we added <b>Timelock</b> and <b>Whitelist</b> into all platform contracts.</p>
                                 <p><b>Timelock</b> contract that moves the platform towards a “time-delayed, opt-out” upgrade pattern (rather than the “instant, forced” upgrade pattern).</p>
                                 <p>The <b>Timelock</b> has a hard-coded minimum delay of 2 days, which is the least amount of notice possible for an admin action.</p>
+                                <p><b>Whitelist</b> contract will create a firewall for the protocol, all other contracts which want to access (make internal call) to TuringMachine Contract will need be approved first.</p>
+                                <p>The <b>Whitelist</b> can be removed in the future with Community's vote. For now, it will help protect the fund in the protocol by prevent any contract's hacking (flash loan, etc). If you want to connect your contract with Turing protocol, please use this <a target='_blank' href='https://github.com/turingmachinenetwork'>guide</a> to make request on our Whitelist contract.</p>
                                 <p>In the future, we will move towards complete decentralization with a governance system that will replace the TuringMachine protocol’s administrator with community governance.</p>
-                                <p>If you have any questions, ideas, or issues, join us at our Github.</p>
+                                <p>If you have any questions, ideas, or issues, join us at our <a target='_blank' href="https://github.com/turingmachinenetwork">Github</a>.</p>
                             </fieldset>
                         </div>
                     </div>
