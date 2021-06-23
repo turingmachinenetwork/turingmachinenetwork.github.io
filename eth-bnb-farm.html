@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="turingmachine.network">
         <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>BTCB-BNB Farm - TuringMachine.Network</title>
+        <title>ETH-BNB Farm - TuringMachine.Network</title>
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="./js/web3.min.js"></script>
         <script src="./js/turing-data.js"></script>
-        <script src="./js/farm-btcb-bnb-lp-pool.js"></script>
+        <script src="./js/farm-eth-bnb-lp-pool.js"></script>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
         </style>
@@ -73,51 +73,51 @@
                         <!---->
                         <div class="window white">
                             <fieldset>
-                                <legend>BTCB-BNB Farm</legend>
-                                <p>Stake BTCB-BNB LP to earn CAKE and TURING. <a target="_blank" href="https://exchange.pancakeswap.finance/#/add/0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c/BNB">GET BTCB-BNB LP tokens.</a></p>
+                                <legend>ETH-BNB Farm</legend>
+                                <p>Stake ETH-BNB LP to earn CAKE and TURING. <a target="_blank" href="https://exchange.pancakeswap.finance/#/add/0x2170Ed0880ac9A755fd29B2688956BD959F933F8/BNB">GET ETH-BNB LP tokens.</a></p>
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_0">
                                             <span class="currency_label">
-                                                <img src="/images/btc_logo.png" class="token-icon dai-icon">
-                                                <span>BTCB-BNB LP</span>
-                                                <span class="maxBalanceCoin farm-btcb-bnb-lp-pool-max-btcb-bnb-lp-deposit"> Max: 
-                                                    <span class="farm-btcb-bnb-lp-pool-user-btcb-bnb-lp-bal">0.00 </span>
+                                                <img src="/images/eth_logo.png" class="token-icon dai-icon">
+                                                <span>ETH-BNB LP</span>
+                                                <span class="maxBalanceCoin farm-eth-bnb-lp-pool-max-eth-bnb-lp-deposit"> Max: 
+                                                    <span class="farm-eth-bnb-lp-pool-user-eth-bnb-lp-bal">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_0" name="farm_btcb_bnb_lp_pool_deposit_btcb_bnb_lp_amt">
+                                        <input type="number" id="currency_0" name="farm_eth_bnb_lp_pool_deposit_eth_bnb_lp_amt">
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-approve-farm-btcb-bnb-lp"> 
+                                    <button id="add-liquidity" class="btn-approve-farm-eth-bnb-lp"> 
                                         Approve 
                                     </button>
-                                    <button id="add-liquidity" class="btn-deposit-farm-btcb-bnb-lp"> 
+                                    <button id="add-liquidity" class="btn-deposit-farm-eth-bnb-lp"> 
                                         Deposit 
                                     </button>
                                 </p>
                             </fieldset>
                             <fieldset>
                                 <legend>Your account</legend>
-                                <p>YOUR STAKED: <span class="user-tickets farm-btcb-bnb-lp-pool-your-stake">0</span></p>
-                                <p>YOUR EARNED: <span class="user-tickets farm-btcb-bnb-lp-pool-your-earned">0</span> <button class="btn-harvest-farm-turing"> Harvest </button></p>                                
+                                <p>YOUR STAKED: <span class="user-tickets farm-eth-bnb-lp-pool-your-stake">0</span></p>
+                                <p>YOUR EARNED: <span class="user-tickets farm-eth-bnb-lp-pool-your-earned">0</span> <button class="btn-harvest-farm-turing"> Harvest </button></p>                                
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_1">
                                             <span class="currency_label">
-                                                <img src="/images/btc_logo.png" class="token-icon dai-icon">
-                                                <span>BTCB-BNB</span>
-                                                <span class="maxBalanceCoin farm-btcb-bnb-lp-pool-max-btcb-bnb-lp-withdraw"> Max: 
-                                                    <span class="farm-btcb-bnb-lp-pool-user-btcb-bnb-lp-state">0.00 </span>
+                                                <img src="/images/eth_logo.png" class="token-icon dai-icon">
+                                                <span>ETH-BNB</span>
+                                                <span class="maxBalanceCoin farm-eth-bnb-lp-pool-max-eth-bnb-lp-withdraw"> Max: 
+                                                    <span class="farm-eth-bnb-lp-pool-user-eth-bnb-lp-state">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_1" name="farm_btcb_bnb_lp_pool_withdraw_btcb_bnb_lp_amt">
+                                        <input type="number" id="currency_1" name="farm_eth_bnb_lp_pool_withdraw_eth_bnb_lp_amt">
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-withdraw-farm-btcb-bnb-lp"> 
+                                    <button id="add-liquidity" class="btn-withdraw-farm-eth-bnb-lp"> 
                                         Withdraw your balance 
                                     </button>
                                 </p>
@@ -126,8 +126,8 @@
                         <div class="window blue info">
                             <fieldset>
                                 <legend>Farm's stats</legend>
-                                <p>APR: <span class="current-prize farm-btcb-bnb-lp-pool-apy">0</span> (<span class="current-prize farm-btcb-bnb-lp-pool-apy-cake">0%</span> CAKE <span class="current-prize farm-btcb-bnb-lp-pool-turing-apy">0%</span> TURING)</p>
-                                <p>TOTAL: <span class="current-prize farm-btcb-bnb-lp-pool-total-supply">84,822,535.981</span></p>
+                                <p>APR: <span class="current-prize farm-eth-bnb-lp-pool-apy">0</span> (<span class="current-prize farm-eth-bnb-lp-pool-apy-cake">0%</span> CAKE <span class="current-prize farm-eth-bnb-lp-pool-turing-apy">0%</span> TURING)</p>
+                                <p>TOTAL: <span class="current-prize farm-eth-bnb-lp-pool-total-supply">84,822,535.981</span></p>
                                 <p>PROFIT MODEL: 0.5% to buy TURING then burn</p>
                                 <p>WITHDRAW MODEL: Remove your deposit at anytime no fee.</p>
                             </fieldset>

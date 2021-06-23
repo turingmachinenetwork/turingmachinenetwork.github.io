@@ -56,10 +56,22 @@ $(document).ready(function() {
     	reloadFarmUSDTBNBLPPoolData();
     }
 
-     try {
+    try {
     	loadFarmBUSDBNBLPPoolData();
     } catch(e) {
     	reloadFarmBUSDBNBLPPoolData();
+    }
+
+    try {
+    	loadFarmBTCBBNBLPPoolData();
+    } catch(e) {
+    	reloadFarmBTCBBNBLPPoolData();
+    }
+
+    try {
+    	loadFarmETHBNBLPPoolData();
+    } catch(e) {
+    	reloadFarmETHBNBLPPoolData();
     }
 });
 
@@ -74,10 +86,14 @@ const cakeLPPrice = 256;
 const usdtBusdLPPrice = 2;
 const usdtBNBLPPrice = 45;
 const busdBNBLPPrice = 48;
+const btcbBNBLPPrice = 12000;
+const ethBNBLPPrice = 3300;
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E'; 
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR = '0xc8a61e2d78697C41D81752831c436AaC846464d7'; 
 const FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR = '0xb2Bd7C2D2577d8Cb95ed31e7E388b2D846626E0e'; 
 const FARM_BUSD_BNB_LP_POOL_CONTRACT_ADDR = '0x9d75212AC8f9Edbd1901Af67b550779Cef14dB8d'; 
+const FARM_BTCB_BNB_LP_POOL_CONTRACT_ADDR = '0xCFa7F1485FBDC29F52662A8E2D3F247539Df51DC'; 
+const FARM_ETH_BNB_LP_POOL_CONTRACT_ADDR = '0x1C9CcF44d143aE86fAaDD2A42197c0d281511a32'; 
 
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR = '0xc4758e432de36BC3F44f383FCF9A61D0Ce2a9e64';
@@ -93,6 +109,8 @@ let farmTuringBNBLPPoolV2Contract;
 let farmCakeLPPoolContract;
 let farmCakeLPPoolV2Contract;
 let farmBUSDBNBLPPoolContract;
+let farmBTCBBNBLPPoolContract;
+let farmETHBNBLPPoolContract;
 let farmUSDTBNBLPPoolContract;
 let farmUSDTBUSDLPPoolContract;
 let farmUSDTBUSDLPPoolV2Contract;
@@ -4100,6 +4118,8 @@ function initFarmPoolContract() {
 		farmUSDTBUSDLPPoolV2Contract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR);
 		farmUSDTBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR);
 		farmBUSDBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_BUSD_BNB_LP_POOL_CONTRACT_ADDR);
+		farmBTCBBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_BTCB_BNB_LP_POOL_CONTRACT_ADDR);
+		farmETHBNBLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_ETH_BNB_LP_POOL_CONTRACT_ADDR);
 	}
 	setTimeout(function(){ 
 		initFarmPoolContract();
@@ -4231,6 +4251,18 @@ function reloadFarmUSDTBNBLPPoolData() {
 function reloadFarmBUSDBNBLPPoolData() {
 	setTimeout(function(){ 
 		loadFarmBUSDBNBLPPoolData();
+	}, 3000);
+}
+
+function reloadFarmBTCBBNBLPPoolData() {
+	setTimeout(function(){ 
+		loadFarmBTCBBNBLPPoolData();
+	}, 3000);
+}
+
+function reloadFarmETHBNBLPPoolData() {
+	setTimeout(function(){ 
+		loadFarmETHBNBLPPoolData();
 	}, 3000);
 }
 
@@ -4789,5 +4821,107 @@ function loadFarmBUSDBNBLPPoolData() {
 	}
 	function _error(_e) {
 		return reloadFarmBUSDBNBLPPoolData();
+	}	
+}
+
+function loadFarmBTCBBNBLPPoolData() {
+	if (!farmBTCBBNBLPPoolContract) {
+		return reloadFarmBTCBBNBLPPoolData();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmBTCBBNBLPPoolData();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmBTCBBNBLPPoolContract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * btcbBNBLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * btcbBNBLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-btcb-bnb-lp-pool-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * btcbBNBLPPrice), 2)}`);
+		$('.farm-btcb-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-btcb-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-btcb-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+		return reloadFarmBTCBBNBLPPoolData();
+	}
+	function _error(_e) {
+		return reloadFarmBTCBBNBLPPoolData();
+	}	
+}
+
+function loadFarmETHBNBLPPoolData() {
+	if (!farmETHBNBLPPoolContract) {
+		return reloadFarmETHBNBLPPoolData();
+	}
+	let userAddr = getCurrentAddress();
+	if (!userAddr) {
+		return reloadFarmETHBNBLPPoolData();
+	}
+	// $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+	farmETHBNBLPPoolContract
+		.methods
+		.getData(userAddr)
+		.call()
+		.then(_updateUserData)
+		.catch(_error);
+	function _updateUserData(_result) {
+		let userDataInFarmTuringPool = {};
+		userDataInFarmTuringPool.miningSpeed = parseInt(_result[0]); 
+		userDataInFarmTuringPool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+		userDataInFarmTuringPool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+		userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
+		userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
+		userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+		userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+		userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+		userDataInFarmTuringPool.cakePrice = parseFloatNumber(parseInt(_result[10]) / 1e18, 18);
+		userDataInFarmTuringPool.userCakePending = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+		userDataInFarmTuringPool.turingRewardAPY = 0;
+		userDataInFarmTuringPool.wantRewardAPY = 0;
+		if (userDataInFarmTuringPool.tvl > 0) {
+			userDataInFarmTuringPool.turingRewardAPY = userDataInFarmTuringPool.totalMintPerDay * userDataInFarmTuringPool.turingPrice * 36500 / (userDataInFarmTuringPool.tvl * ethBNBLPPrice);
+			userDataInFarmTuringPool.wantRewardAPY = userDataInFarmTuringPool.totalWantRewardPerDay * userDataInFarmTuringPool.cakePrice * 36500 / (userDataInFarmTuringPool.tvl * ethBNBLPPrice);	 
+
+		}
+
+		_drawUI(userDataInFarmTuringPool);
+	}	
+	function _drawUI(userDataInFarmTuringPool) {
+		$('.farm-eth-bnb-lp-pool-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * ethBNBLPPrice), 2)}`);
+		$('.farm-eth-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+		$('.farm-eth-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
+		$('.farm-eth-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+		return reloadFarmETHBNBLPPoolData();
+	}
+	function _error(_e) {
+		return reloadFarmETHBNBLPPoolData();
 	}	
 }
