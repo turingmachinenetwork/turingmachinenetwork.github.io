@@ -75,7 +75,7 @@ $(document).ready(function() {
     }
 });
 
-function getWeb3ToReadData() {
+function getWeb3ToReadDataForMain() {
     const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
     // const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
@@ -4096,7 +4096,7 @@ function  initWeb3() {
 }
 function initCakeNoLossPoolContract() {
 	if (!cakeNoLossPoolContract) {
-		const _web3 = getWeb3ToReadData();
+		const _web3 = getWeb3ToReadDataForMain();
 		cakeNoLossPoolContract = new _web3.eth.Contract(CAKE_NO_LOSS_POOL_CONTRACT_ABI, CAKE_NO_LOSS_POOL_CONTRACT_ADDR);
 	}
 	setTimeout(function(){ 
@@ -4105,7 +4105,7 @@ function initCakeNoLossPoolContract() {
 }
 function initFarmPoolContract() {
 	if (!farmTuringPoolContract) {
-		const _web3 = getWeb3ToReadData();
+		const _web3 = getWeb3ToReadDataForMain();
 		// farmTuringPoolContract = new _web3.eth.Contract(FARM_TURING_POOL_CONTRACT_ABI, FARM_TURING_POOL_CONTRACT_ADDR);
 
 		farmTuringBNBLPPoolContract = new _web3.eth.Contract(FARM_TURING_LP_POOL_CONTRACT_ABI, FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR);

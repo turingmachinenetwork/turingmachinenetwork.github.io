@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="turingmachine.network">
         <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>Exchange - TuringMachine.Network</title>
+        <title>Swap - TuringMachine.Network</title>
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -19,7 +19,20 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="./js/web3.min.js"></script>
         <script src="./js/turing-data.js"></script>
-        <script src="./js/main.js"></script>
+        <script src="./js/exchange.js"></script>
+        <style id="svelte-166mr51-style">
+            ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
+        </style>
+        <style id="svelte-7rn0pv-style">
+            div.svelte-7rn0pv{height:100%;font-size:inherit;font-family:inherit;width:1.5em}
+        </style>
+        <style id="svelte-5f7pqk-style">
+            div.svelte-5f7pqk{display:flex;flex-flow:column nowrap;justify-content:center;font-size:inherit;font-family:inherit;margin-left:0.75em;max-width:78%}p.svelte-5f7pqk{display:flex;align-items:center;margin:0.5em 0 0 0;opacity:0.7;font-size:0.889em;line-height:1.15;font-family:inherit}span.svelte-5f7pqk{font-family:inherit;display:flex;align-items:center}
+        </style>
+        <style id="svelte-12gqi36-style">
+            p.svelte-12gqi36{margin:0;font-family:inherit;font-size:inherit}
+        </style>
+        <style id="svelte-1ociadw-style">svg.svelte-1ociadw{margin:0 0.25em 0 0.5em}</style>
     </head>
 
     <body>
@@ -37,14 +50,17 @@
                                         <span class="user-addr">0x0</span> 
                                     </a>
                                 </button>
-                                 
-                                
+
+
                             </div>
                         </div>
                         <a href="/" >Home</a>
+                        <a class="router-link-exact-active router-link-active" href="/exchange.html">Swap</a>
+                        <a href="/swappools.html">Pools</a>
+                        <a href="/addlp.html">Add Liquidity</a>
+                        <a href="/removelp.html">Remove Liquidity</a>
                         <a href="/no-loss-pool.html" >No-loss Lottery</a>
                         <a href="/farms.html" >Farms</a>
-                        <a href="/exchange.html" class="router-link-exact-active router-link-active">Stablecoin AMM</a>
                         <a href="/dao.html">DAO</a>
                         <a href="/useturing.html">Use TURING</a>
                         <a href="/risks.html">Risks</a>
@@ -57,10 +73,157 @@
                                 TuringMachine
                             </h1>
                         </div>
-                        <!---->
                         <div class="window white">
                             <fieldset>
-                                <p>Working... Please follow up our Github for the more detail.</p>
+                                <legend>TuringMachine Swap</legend>
+                                <p><b>What is Swap?</b></p>
+                                <p>TuringMachine Swap is an AMM (like <a target='_blank' href='https://pancakeswap.finance/'>Pancakeswap</a>) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
+                                <p>
+                                   With TuringMachine Swap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Venus protocol or other DeFi pools to create more interest.
+                                </p>
+                                <p>
+                                   The TuringMachine Swap Contract will move the liquidity around to do both works (trading and farming).
+                                </p>
+                                <p><b>What is Refund Program?</b></p>
+                                <p>
+                                    When you use TuringMachine Swap to trade the assets, you'll automatically begin getting TURING from our Refund Pool.
+                                </p>
+                                <p><b>Risks of using TuringMachine Swap Liquidity Pool?</b></p>
+                                <p>Check it <a target='_blank' href='https://turingmachine.network/risks.html'>here</a>.</p>
+                            </fieldset>
+                        </div>
+                        <!---->
+                        <div class="window white">
+                            <fieldset class="poolsdialog">
+                                <legend > Swap using Turing 
+                                    <select name="swap_pool">
+                                        <option value="venus" selected>Venus Pool</option>
+                                    </select> 
+                                </legend>
+                                <div class="exchangefields" data-v-6d9f4f96>
+                                    <fieldset data-v-477f3144="" class="item">
+                                        <legend data-v-477f3144="">From:</legend>
+                                        <div data-v-6d9f4f96 class="maxbalance max-swap">
+                                            Max: <span data-v-477f3144="" class="max-amount-swap">0</span>
+                                        </div>
+                                        <ul class="no-bullets" data-v-477f3144="">
+                                            <li data-v-477f3144="">
+                                                <input data-v-477f3144="" type="text" id="from_currency" name="from_currency" value="0.00" style="background-color: blue;" />
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="from_cur_0" name="from_cur" value="0" checked />
+                                                <label data-v-477f3144="" for="from_cur_0">
+                                                    <img data-v-477f3144="" src="/images/usdt_logo.png" class="token-icon dai-icon" />
+                                                    <span data-v-477f3144="">USDT</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="from_cur_1" name="from_cur" value="1" />
+                                                <label data-v-477f3144="" for="from_cur_1">
+                                                    <img data-v-477f3144="" src="/images/busd_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">BUSD</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="from_cur_2" name="from_cur" value="2" />
+                                                <label data-v-477f3144="" for="from_cur_2">
+                                                    <img data-v-477f3144="" src="/images/usdc_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">USDC</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="from_cur_3" name="from_cur" value="3" />
+                                                <label data-v-477f3144="" for="from_cur_3">
+                                                    <img data-v-477f3144="" src="/images/dai_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">DAI</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="from_cur_4" name="from_cur" value="4" />
+                                                <label data-v-477f3144="" for="from_cur_4">
+                                                    <img data-v-477f3144="" src="/images/vai_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">VAI</span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </fieldset>
+                                    <fieldset data-v-477f3144="" class="item iconcontainer btn-reverse-pair"><img data-v-477f3144="" src="/images/exchange-alt-solid.png" id="exchangeicon" /></fieldset>
+                                    <fieldset data-v-477f3144="" class="item">
+                                        <legend data-v-477f3144="">To:</legend>
+                                        <div data-v-477f3144="" class="maxbalance2">Max: <span data-v-477f3144=""></span></div>
+                                        <ul class="no-bullets" data-v-477f3144="">
+                                            <li data-v-477f3144="">
+                                                <input data-v-477f3144="" type="text" id="to_currency" name="to_currency" value="0.00" disabled="disabled" style="background-color: rgb(80, 80, 112);" />
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="to_cur_0" name="to_cur" value="0" />
+                                                <label data-v-477f3144="" for="to_cur_0">
+                                                    <img data-v-477f3144="" src="/images/usdt_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">USDT</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="to_cur_1" name="to_cur" value="1" checked/>
+                                                <label data-v-477f3144="" for="to_cur_1">
+                                                    <img data-v-477f3144="" src="/images/busd_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">BUSD</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="to_cur_2" name="to_cur" value="2" />
+                                                <label data-v-477f3144="" for="to_cur_2">
+                                                    <img data-v-477f3144="" src="/images/usdc_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">USDC</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="to_cur_3" name="to_cur" value="3" />
+                                                <label data-v-477f3144="" for="to_cur_3">
+                                                    <img data-v-477f3144="" src="/images/dai_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">DAI</span>
+                                                </label>
+                                            </li>
+                                            <li data-v-477f3144="" class="coins">
+                                                <input data-v-477f3144="" type="radio" id="to_cur_4" name="to_cur" value="4" />
+                                                <label data-v-477f3144="" for="to_cur_4">
+                                                    <img data-v-477f3144="" src="/images/vai_logo.png" class="token-icon usdc-icon" />
+                                                    <span data-v-477f3144="">VAI</span>
+                                                </label>
+                                            </li>
+                                        </ul>
+                                    </fieldset>
+                                </div>
+                                <p>Price: 1 <span class="from_token_name">USDT</span> = <span class="swap_price">1</span> <span class="to_token_name">BUSD</span></p>
+                                <span>
+                                    <span data-v-daa7c420="">Slippage:</span>
+                                    <input data-v-daa7c420="" id="slippage05" type="radio" name="slippage" checked="checked" value="0.005" />
+                                    <label data-v-daa7c420="" for="slippage05">0.5%</label>
+                                    <input data-v-daa7c420="" id="slippage1" type="radio" name="slippage" value="0.01" />
+                                    <label data-v-daa7c420="" for="slippage1">1%</label>
+                                    <input data-v-daa7c420="" id="custom_slippage" type="radio" name="slippage" value="-" />
+                                    <label data-v-daa7c420="" for="custom_slippage">
+                                    <input data-v-daa7c420="" type="text" id="custom_slippage_input" name="custom_slippage_input" /> % </label>
+                                </span>
+                                <p class="buttons" style="text-align: center;">
+                                    <button id="btn-approvel-swap"> 
+                                        Approve <span class="from_token_name"></span>
+                                    </button>
+                                    <button id="btn-swap"> 
+                                        Swap
+                                    </button>
+                                </p>
+                            </fieldset>
+                        </div>
+                        <div class="window blue info">
+                            <fieldset>
+                                <legend>Liquidity Pool's stats</legend>
+                                <p>BUSD: <span class="token-info-1">-</span></p>
+                                <p>USDT: <span class="token-info-0">-</span></p>
+                                <p>USDC: <span class="token-info-2">-</span></p>
+                                <p>DAI: <span class="token-info-3">-</span></p>
+                                <p>VAI: <span class="token-info-4">-</span></p><br/>
+                                <p>TRADE FEE: 0.2%</p>
+                                <p>PROFIT MODEL: 0.05% to buy TURING then burn, 0.01% send to SAFU contract.</p>
                             </fieldset>
                         </div>
                     </div>
@@ -69,10 +232,44 @@
                 <footer >
                     <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
                     <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a>
+                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.0</a>
                 </footer>
             </div>
         </div>
+        <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Please confirm the transaction.</p>
+                </div>
+                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p" >
+                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
+                </div>
+                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+            </li>
+        </ul>
     </body>
 
 </html>

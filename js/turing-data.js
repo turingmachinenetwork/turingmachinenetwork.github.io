@@ -4,12 +4,11 @@ $(document).ready(function() {
     try {
     	loadTuringData();
     } catch(e) {
-    	reloadTuringData
-    	();
+    	reloadTuringData();
     }
 });
 
-function getWeb3ToReadData() {
+function getWeb3ToReadDataForTuringData() {
     const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
     // const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
@@ -91,7 +90,7 @@ function formatBalance (labelValue, decimals = 2) {
 }
 function initContract() {
 	if (!turingDataContract) {
-		const _web3 = getWeb3ToReadData();
+		const _web3 = getWeb3ToReadDataForTuringData();
 		turingDataContract = new _web3.eth.Contract(TURING_DATA_API, TURING_DATA_ADDR);
 	}
 	setTimeout(function(){ 
