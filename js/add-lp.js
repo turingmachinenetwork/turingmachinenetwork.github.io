@@ -36,30 +36,35 @@ const tokens = {
 	"0": {
 		"tokenName": "USDT",
 		"tokenAddr": "0x55d398326f99059ff775485246999027b3197955",
+		"logo": "/images/usdt_logo.png",
 		"tokenDecimal": 18,
 		"exchange": 'swap_usdt_busd_venus'
 	},
 	"1": {
 		"tokenName": "BUSD",
 		"tokenAddr": "0xe9e7cea3dedca5984780bafc599bd69add087d56",
+		"logo": "/images/busd_logo.png",
 		"tokenDecimal": 18,
 		"exchange": ''
 	},
 	"2": {
 		"tokenName": "USDC",
 		"tokenAddr": "0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d",
+		"logo": "/images/usdc_logo.png",
 		"tokenDecimal": 18,
 		"exchange": 'swap_usdc_busd_venus'
 	},
 	"3": {
 		"tokenName": "DAI",
 		"tokenAddr": "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3",
+		"logo": "/images/dai_logo.png",
 		"tokenDecimal": 18,
 		"exchange": 'swap_dai_busd_venus'
 	},
 	"4": {
 		"tokenName": "VAI",
 		"tokenAddr": "0x4bd17003473389a42daf6a0a729f6fdb328bbbd7",
+		"logo": "/images/vai_logo.png",
 		"tokenDecimal": 18,
 		"exchange": 'swap_vai_busd_venus'
 	},

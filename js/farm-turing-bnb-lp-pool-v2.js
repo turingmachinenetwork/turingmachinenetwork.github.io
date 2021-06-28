@@ -16,7 +16,7 @@ function getWeb3ToReadData() {
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
-const turingBNBLPPrice = 90;
+const turingBNBLPPrice = 30;
 const FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR = '0xcb3B1A0905ADe6C7D1dB17fD92409dA057df7ec3';
 const TURING_BNB_LP_TOKEN_ADDR = '0xC4B04C545261db0dC1cCC33dc99bBd98A9c630f5';
 let farmTuringPoolContract;

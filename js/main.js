@@ -81,7 +81,7 @@ function getWeb3ToReadDataForMain() {
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
-const turingBNBLPPrice = 90;
+const turingBNBLPPrice = 30;
 const cakeLPPrice = 256;
 const usdtBusdLPPrice = 2;
 const usdtBNBLPPrice = 45;
