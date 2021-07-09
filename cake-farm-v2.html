@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="turingmachine.network">
         <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>VAI-BUSD Turing Venus Pool - TuringMachine.Network</title>
+        <title>CAKE Farm - TuringMachine.Network</title>
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -19,7 +19,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="./js/web3.min.js"></script>
         <script src="./js/turing-data.js"></script>
-        <script src="./js/farm-vai-busd-venus-lp-pool.js"></script>
+        <script src="./js/farm-cake-pool-v2.js"></script>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
         </style>
@@ -56,7 +56,7 @@
                         </div>
                         <a href="/" >Home</a>
                         <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html" class="router-link-exact-active router-link-active">Pools</a>
+                        <a href="/swappools.html">Pools</a>
                         <a href="/addlp.html">Add Liquidity</a>
                         <a href="/removelp.html">Remove Liquidity</a>
                         <a href="/no-loss-pool.html" >No-loss Lottery</a>
@@ -76,52 +76,51 @@
                         <!---->
                         <div class="window white">
                             <fieldset>
-                                <legend>VAI-BUSD Turing Venus Pool</legend>
-                                <p>Deposit VAI-BUSD Turing LP earn TURING. <a href="./addlp.html" target="_blank">GET VAI-BUSD Turing Venus LP tokens.</a></p>
+                                <legend>CAKE Farm</legend>
+                                <p>Stake CAKE to earn CAKE and TURING.</p>
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_0">
                                             <span class="currency_label">
-                                                <img src="/images/vai_logo.png" class="token-icon dai-icon">
-                                                <span>VAI-BUSD Turing Venus LP</span>
-                                                <span class="maxBalanceCoin farm-turing-vai-busd-venus-lp-pool-max-turing-lp-deposit"> Max: 
-                                                    <span class="farm-turing-vai-busd-venus-lp-pool-user-turing-lp-bal">0.00 </span>
+                                                <img src="/images/pancake_logo.png" class="token-icon dai-icon">
+                                                <span>CAKE</span>
+                                                <span class="maxBalanceCoin farm-cake-pool-max-cake-deposit"> Max: 
+                                                    <span class="farm-cake-pool-user-cake-bal">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_0" name="farm_turing_vai_busd_venus_lp_pool_deposit_turing_lp_amt">
+                                        <input type="number" id="currency_0" name="farm_cake_pool_deposit_cake_amt">
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-approve-farm-turing-vai-busd-venus-lp"> 
+                                    <button id="add-liquidity" class="btn-approve-farm-cake"> 
                                         Approve 
                                     </button>
-                                    <button id="add-liquidity" class="btn-deposit-farm-turing-vai-busd-venus-lp"> 
+                                    <button id="add-liquidity" class="btn-deposit-farm-cake"> 
                                         Deposit 
                                     </button>
                                 </p>
                             </fieldset>
                             <fieldset>
                                 <legend>Your account</legend>
-                                <p>YOUR STAKE: <span class="user-tickets farm-turing-vai-busd-venus-lp-pool-your-stake">0</span></p>
-                                <p>YOUR EARNED: <span class="user-tickets farm-turing-vai-busd-venus-lp-pool-your-earned">0</span> TURING <button class="btn-harvest-farm-turing"> Harvest </button></p>                                
-                                <p>(Trading and Venus interest are included in your LP value).</p>
+                                <p>YOUR STAKED: <span class="user-tickets farm-cake-pool-your-stake">0</span> CAKE</p>
+                                <p>YOUR EARNED: <span class="user-tickets farm-cake-pool-your-earned">0</span> TURING <button class="btn-harvest-farm-cake"> Harvest </button></p>                                
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_1">
                                             <span class="currency_label">
-                                                <img src="/images/vai_logo.png" class="token-icon vai-icon">
-                                                <span>VAI-BUSD Turing Venus LP</span>
-                                                <span class="maxBalanceCoin farm-turing-vai-busd-venus-lp-pool-max-turing-lp-withdraw"> Max: 
-                                                    <span class="farm-turing-vai-busd-venus-lp-pool-user-turing-lp-state">0.00 </span>
+                                                <img src="/images/pancake_logo.png" class="token-icon dai-icon">
+                                                <span>CAKE</span>
+                                                <span class="maxBalanceCoin farm-cake-pool-max-cake-withdraw"> Max: 
+                                                    <span class="farm-cake-pool-user-cake-state">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_1" name="farm_turing_vai_busd_venus_lp_pool_withdraw_turing_lp_amt">
+                                        <input type="number" id="currency_1" name="farm_cake_pool_withdraw_cake_amt">
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-withdraw-farm-turing-vai-busd-venus-lp"> 
+                                    <button id="add-liquidity" class="btn-withdraw-farm-cake"> 
                                         Withdraw your balance 
                                     </button>
                                 </p>
@@ -129,8 +128,11 @@
                         </div>
                         <div class="window blue info">
                             <fieldset>
-                                <legend>Pool's stats<legend>
-                                <p>APR: <span class="farm-turing-vai-busd-venus-lp-pool-apy">100%</span> (<span class="farm-turing-vai-busd-venus-lp-pool-apy-turing">90%</span> TURING <span class="farm-turing-vai-busd-venus-lp-pool-apy-trade">8%</span> TRADING <span class="farm-turing-vai-busd-venus-lp-pool-apy-venus">2%</span> VENUS)</p>
+                                <legend>Farm's stats</legend>
+                                <p>APR: <span class="current-prize farm-cake-pool-apy">0%</span> (<span class="current-prize farm-cake-pool-apy-cake">0%</span> CAKE <span class="current-prize farm-cake-pool-turing-apy">0%</span> TURING)</p>
+                                <p>TOTAL: <span class="current-prize farm-cake-pool-total-supply">0</span></p>
+                                <p>PROFIT MODEL: 0.5% to buy TURING then burn</p>
+                                <p>WITHDRAW MODEL: Remove your deposit at anytime no fee.</p>
                             </fieldset>
                         </div>
                     </div>

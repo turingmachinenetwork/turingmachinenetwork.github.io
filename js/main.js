@@ -25,6 +25,11 @@ $(document).ready(function () {
         reloadFarmCakePoolData();
     }
     try {
+        loadFarmCakePoolV2Data();
+    } catch (e) {
+        reloadFarmCakePoolV2Data();
+    }
+    try {
         loadFarmCakeBNBLPPoolData();
     } catch (e) {
         reloadFarmCakeBNBLPPoolData();
@@ -82,7 +87,7 @@ $(document).ready(function () {
         var totalTVL = parseFloat(turingSwapPoolsTVL) + parseFloat(getSystemTotalTVL());
         $('#total-system-tvl').html(`${formatBalance(totalTVL, 2)}`);
         var turingSwapPoolsTradingVol = parseFloat(localStorage.getItem('turingSwapPoolsTradingVol')); //set on venus-pool-main.js
-        console.log(turingSwapPoolsTradingVol);
+        
         $('#total-trading-vol').html(`${formatBalance(turingSwapPoolsTradingVol, 2)}`);
     }, 3000);
     
@@ -99,6 +104,12 @@ function getSystemTotalTVL() {
 function getWeb3ToReadDataForMain() {
     const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
     // const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
+    const MyWeb3 = new Web3(BSC_RPC_END_POINT);
+    return MyWeb3;
+}
+function getWeb3ToReadDataOnTestnetForMain() {
+    // const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
+    const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
@@ -119,6 +130,7 @@ const FARM_ETH_BNB_LP_POOL_CONTRACT_ADDR = '0x1C9CcF44d143aE86fAaDD2A42197c0d281
 const FARM_CAKE_LP_POOL_CONTRACT_ADDR = '0x588Cd06bED000f5979259473712BA6918b73304a';
 const FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR = '0xc4758e432de36BC3F44f383FCF9A61D0Ce2a9e64';
 const FARM_CAKE_POOL_CONTRACT_ADDR = '0xeABC96b9bE830af31846053e361d25e7D928E638';
+const FARM_CAKE_POOL_V2_CONTRACT_ADDR = '0xFdE9BC72F9791B738FC47aeB07f426243b25E6a3'; //
 // const FARM_TURING_POOL_CONTRACT_ADDR = '0x47618462aba45EF82adcEe1a6929138f93dccEd8';
 const FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR = '0xbFeE817d038aEb8b773e69844b6c6c7c14419455';
 const FARM_TURING_BNB_LP_POOL_CONTRACT_V2_ADDR = '0xcb3B1A0905ADe6C7D1dB17fD92409dA057df7ec3';
@@ -136,6 +148,7 @@ let farmUSDTBNBLPPoolContract;
 let farmUSDTBUSDLPPoolContract;
 let farmUSDTBUSDLPPoolV2Contract;
 let farmCakePoolContract;
+let farmCakePoolV2Contract;
 let prizeHistory = [];
 const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
     {
@@ -4125,8 +4138,22 @@ function initCakeNoLossPoolContract() {
     }, 3000);
 }
 function initFarmPoolContract() {
-    if (!farmTuringPoolContract) {
+    if (
+        !farmTuringBNBLPPoolContract ||
+        !farmTuringBNBLPPoolV2Contract ||
+        !farmCakeLPPoolContract ||
+        !farmCakeLPPoolV2Contract ||
+        !farmCakePoolContract ||
+        !farmCakePoolV2Contract ||
+        !farmUSDTBUSDLPPoolContract ||
+        !farmUSDTBUSDLPPoolV2Contract ||
+        !farmUSDTBNBLPPoolContract ||
+        !farmBUSDBNBLPPoolContract ||
+        !farmBTCBBNBLPPoolContract ||
+        !farmETHBNBLPPoolContract 
+        ) {
         const _web3 = getWeb3ToReadDataForMain();
+        const _web3OnTestnet = getWeb3ToReadDataOnTestnetForMain();
         // farmTuringPoolContract = new _web3.eth.Contract(FARM_TURING_POOL_CONTRACT_ABI, FARM_TURING_POOL_CONTRACT_ADDR);
 
         farmTuringBNBLPPoolContract = new _web3.eth.Contract(FARM_TURING_LP_POOL_CONTRACT_ABI, FARM_TURING_BNB_LP_POOL_CONTRACT_ADDR);
@@ -4134,6 +4161,7 @@ function initFarmPoolContract() {
         farmCakeLPPoolContract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_ADDR);
         farmCakeLPPoolV2Contract = new _web3.eth.Contract(FARM_CAKE_LP_POOL_CONTRACT_ABI, FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR);
         farmCakePoolContract = new _web3.eth.Contract(FARM_CAKE_POOL_CONTRACT_ABI, FARM_CAKE_POOL_CONTRACT_ADDR);
+        farmCakePoolV2Contract = new _web3.eth.Contract(FARM_CAKE_POOL_CONTRACT_ABI, FARM_CAKE_POOL_V2_CONTRACT_ADDR);
 
         farmUSDTBUSDLPPoolContract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR);
         farmUSDTBUSDLPPoolV2Contract = new _web3.eth.Contract(FARM_TOKEN_LP_ON_CAKE_POOL_CONTRACT_ABI, FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR);
@@ -4242,6 +4270,12 @@ function reloadFarmTuringBNBLPPoolV2Data() {
 function reloadFarmCakePoolData() {
     setTimeout(function () {
         loadFarmCakePoolData();
+    }, 3000);
+}
+
+function reloadFarmCakePoolV2Data() {
+    setTimeout(function () {
+        loadFarmCakePoolV2Data();
     }, 3000);
 }
 
@@ -4426,16 +4460,19 @@ function loadFarmCakePoolData() {
         userDataInFarmCakePool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         if (parseInt(_result[9]) > 0) {
             userDataInFarmCakePool.turingRewardAPY = parseFloatNumber(parseInt(_result[9]) / 1e2, 2);
+        } else {
+            userDataInFarmCakePool.turingRewardAPY = 0;
         }
         if (parseInt(_result[10]) > 0) {
             userDataInFarmCakePool.wantRewardAPY = parseFloatNumber(parseInt(_result[10]) / 1e2, 2);
+        } else {
+            userDataInFarmCakePool.wantRewardAPY = 0;
         }
         userDataInFarmCakePool.tvl = parseFloatNumber(parseInt(_result[11]) / 1e18, 18);
         arrayTVLs["cakeFarmTVL"] = userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice;
         _drawUI(userDataInFarmCakePool);
     }
     function _drawUI(userDataInFarmCakePool) {
-
         $('.farm-cake-pool-total-volume').html(`$${formatBalance((userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice), 2)}`);
         $('.farm-cake-pool-turing-apy').html(formatBalance(userDataInFarmCakePool.turingRewardAPY, 2));
         $('.farm-cake-pool-cake-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY, 2));
@@ -4448,6 +4485,60 @@ function loadFarmCakePoolData() {
     }
 }
 
+function loadFarmCakePoolV2Data() {
+    if (!farmCakePoolV2Contract) {
+        return reloadFarmCakePoolV2Data();
+    }
+    let userAddr = getCurrentAddress();
+    if (!userAddr) {
+        return reloadFarmCakePoolV2Data();
+    }
+    // $('.user-addr').html(`${userAddr.slice(0,5)}...${userAddr.slice(-5)}`);
+
+    farmCakePoolV2Contract
+            .methods
+            .getData(userAddr)
+            .call()
+            .then(_updateUserData)
+            .catch(_error);
+    function _updateUserData(_result) {
+        let userDataInFarmCakePool = {};
+        userDataInFarmCakePool.miningSpeed = parseInt(_result[0]);
+        userDataInFarmCakePool.userWantBal = parseFloatNumber(roundDownFloat(parseInt(_result[1]) / 1e18, 1e18), 18);
+        userDataInFarmCakePool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
+        userDataInFarmCakePool.wantPrice = parseFloatNumber(parseInt(_result[3]) / 1e18, 18);
+        userDataInFarmCakePool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
+        userDataInFarmCakePool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
+        userDataInFarmCakePool.userBNBBal = parseFloatNumber(parseInt(_result[6]) / 1e18, 18);
+        userDataInFarmCakePool.userTuringPending = parseFloatNumber(parseInt(_result[7]) / 1e18, 18);
+        userDataInFarmCakePool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
+        if (parseInt(_result[9]) > 0) {
+            userDataInFarmCakePool.turingRewardAPY = parseFloatNumber(parseInt(_result[9]) / 1e2, 2);
+        } else {
+            userDataInFarmCakePool.turingRewardAPY = 0;
+        }
+        if (parseInt(_result[10]) > 0) {
+            userDataInFarmCakePool.wantRewardAPY = parseFloatNumber(parseInt(_result[10]) / 1e2, 2);
+        } else {
+            userDataInFarmCakePool.wantRewardAPY = 0;
+        }
+        userDataInFarmCakePool.tvl = parseFloatNumber(parseInt(_result[11]) / 1e18, 18);
+        arrayTVLs["cakeFarmV2TVL"] = userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice;
+        _drawUI(userDataInFarmCakePool);
+    }
+    function _drawUI(userDataInFarmCakePool) {
+
+        $('.farm-cake-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice), 2)}`);
+        $('.farm-cake-pool-v2-turing-apy').html(formatBalance(userDataInFarmCakePool.turingRewardAPY, 2));
+        $('.farm-cake-pool-v2-cake-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY, 2));
+        $('.farm-cake-pool-v2-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY + userDataInFarmCakePool.turingRewardAPY, 2));
+
+        return reloadFarmCakePoolV2Data();
+    }
+    function _error(_e) {
+        return reloadFarmCakePoolV2Data();
+    }
+}
 
 function loadFarmTuringBNBLPPoolData() {
     if (!farmTuringBNBLPPoolContract) {
