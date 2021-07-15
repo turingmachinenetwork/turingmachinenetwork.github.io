@@ -1,4 +1,7 @@
 var arrayTVLs = [];
+var arrayUserBalance = [];
+var arrayUserTuringReward = [];
+var arrayContractFarmUserJoined = [];
 $(document).ready(function () {
     initWeb3();
     initCakeNoLossPoolContract();
@@ -81,6 +84,7 @@ $(document).ready(function () {
         reloadFarmETHBNBLPPoolData();
     }
 
+    initUserAction();
     setInterval(function () {
         // Get it from the local storage
         var turingSwapPoolsTVL = localStorage.getItem('turingSwapPoolsTVL'); //set on venus-pool-main.js
@@ -89,9 +93,50 @@ $(document).ready(function () {
         var turingSwapPoolsTradingVol = parseFloat(localStorage.getItem('turingSwapPoolsTradingVol')); //set on venus-pool-main.js
         
         $('#total-trading-vol').html(`${formatBalance(turingSwapPoolsTradingVol, 2)}`);
+        
+        try {
+            if(page) {
+                if(page != null && page === "Dashboard") {
+                    var totalTuringSwapPoolsUserBalance = localStorage.getItem('totalTuringSwapPoolsUserBalance'); //set on venus-pool-main.js
+                    var totalUserBalance = parseFloat(totalTuringSwapPoolsUserBalance) + parseFloat(getTotalUserBalance());
+                    $('#total-user-balance').html(`${formatBalance(totalUserBalance, 2)}`);
+                    var totalTuringUserRewardPending = parseFloat(localStorage.getItem('totalTuringUserRewardPending')) + parseFloat(getUserTuringReward()); //set on venus-pool-main.js
+                    $('#total-user-reward').html(`${formatBalance(totalTuringUserRewardPending, 2)}`);
+                }
+            }
+        } catch (exception) {
+            
+        }
+
     }, 3000);
     
 });
+
+function getContractUserJoined() {
+    var arrayContracts = [];
+    for (var key in arrayContractFarmUserJoined) {
+        arrayContracts.push(arrayContractFarmUserJoined[key]);
+    }
+    var arrayContractTuringSwapPoolUserJoined = localStorage.getItem('arrayContractTuringSwapPoolUserJoined'); //set on venus-pool-main.js
+    arrayContractTuringSwapPoolUserJoined = arrayContractTuringSwapPoolUserJoined.split(",");
+    return arrayContracts.concat(arrayContractTuringSwapPoolUserJoined);
+}
+
+function getUserTuringReward () {
+    var totalUserTuringReward = 0;
+    for (var key in arrayUserTuringReward) {
+        totalUserTuringReward += arrayUserTuringReward[key];
+    }
+    return totalUserTuringReward;
+}
+
+function getTotalUserBalance () {
+    var totalUserBalance = 0;
+    for (var key in arrayUserBalance) {
+        totalUserBalance += arrayUserBalance[key];
+    }
+    return totalUserBalance;
+}
 
 function getSystemTotalTVL() {
     var totalSystemTVL = 0;
@@ -120,6 +165,9 @@ const usdtBNBLPPrice = 45;
 const busdBNBLPPrice = 48;
 const btcbBNBLPPrice = 12000;
 const ethBNBLPPrice = 3300;
+
+const TURING_HARVEST_MACHINE_ADDR = '0xF863cd0A9C9fD1E8134EB283EEB72Da804BA2f6F';
+
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E';
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR = '0xc8a61e2d78697C41D81752831c436AaC846464d7';
 const FARM_USDT_BNB_LP_POOL_CONTRACT_ADDR = '0xb2Bd7C2D2577d8Cb95ed31e7E388b2D846626E0e';
@@ -150,6 +198,115 @@ let farmUSDTBUSDLPPoolV2Contract;
 let farmCakePoolContract;
 let farmCakePoolV2Contract;
 let prizeHistory = [];
+const TURING_HARVEST_MACHINE_ABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "_owner",
+                "type": "address"
+            }
+        ],
+        "name": "changeOwner",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract ITuringPool[]",
+                "name": "_pools",
+                "type": "address[]"
+            }
+        ],
+        "name": "harvest",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract IMiningMachine",
+                "name": "_miningMachineContract",
+                "type": "address"
+            }
+        ],
+        "name": "setMiningMachineContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract ITuringWhitelist",
+                "name": "_whitelistContract",
+                "type": "address"
+            }
+        ],
+        "name": "setWhitelistContract",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "contract ITuringWhitelist",
+                "name": "_whitelistContract",
+                "type": "address"
+            },
+            {
+                "internalType": "contract IMiningMachine",
+                "name": "_miningMachineContract",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "miningMachineContract",
+        "outputs": [
+            {
+                "internalType": "contract IMiningMachine",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "whitelistContract",
+        "outputs": [
+            {
+                "internalType": "contract ITuringWhitelist",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+];
 const CAKE_NO_LOSS_POOL_CONTRACT_ABI = [
     {
         "inputs": [],
@@ -4374,6 +4531,10 @@ function loadCakeNoLossData() {
         userDataInCakeNoLossPool.endLoteryTime = parseInt(_result[12]);
         userDataInCakeNoLossPool.tvl = parseFloatNumber(parseInt(_result[13]) / 1e18, 18);
         arrayTVLs["cakeNoLossTVL"] = userDataInCakeNoLossPool.tvl * userDataInCakeNoLossPool.wantPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["cakeNoLossUserBalance"] = userDataInCakeNoLossPool.userTickets * userDataInCakeNoLossPool.wantPrice;
+            arrayUserTuringReward["cakeNoLossUserBalance"] = userDataInCakeNoLossPool.userTuringPending;
+        }
         userDataInCakeNoLossPool.userWantBal = parseFloatNumber(parseInt(_result[14]) / 1e18, 18);
         userDataInCakeNoLossPool.totalPlayer = parseInt(_result[15]);
         _drawUI(userDataInCakeNoLossPool);
@@ -4387,6 +4548,12 @@ function loadCakeNoLossData() {
         $('.cake-no-loss-turing-reward-apy').html(`${formatBalance((userDataInCakeNoLossPool.turingRewardAPY), 2)}%`);
         $('.cake-no-loss-total-tickets').html(formatBalance(userDataInCakeNoLossPool.totalTickets, 2));
         $('.cake-no-loss-total-volume').html(`$${formatBalance((userDataInCakeNoLossPool.tvl * userDataInCakeNoLossPool.wantPrice), 2)}`);
+        if(page != null && page === "Dashboard") {
+            if(userDataInCakeNoLossPool.userTickets > 0) {
+                $('.cake-no-loss-user-balance').html(`${formatBalance((userDataInCakeNoLossPool.userTickets), 2)}`);
+                arrayContractFarmUserJoined["cakeNoLossContract"] = CAKE_NO_LOSS_POOL_CONTRACT_ADDR;
+            }
+        }
 
         return reloadCakeNoLossData();
     }
@@ -4470,6 +4637,9 @@ function loadFarmCakePoolData() {
         }
         userDataInFarmCakePool.tvl = parseFloatNumber(parseInt(_result[11]) / 1e18, 18);
         arrayTVLs["cakeFarmTVL"] = userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["cakeFarmTVL"] = userDataInFarmCakePool.userWantShare * userDataInFarmCakePool.wantPrice;
+        }
         _drawUI(userDataInFarmCakePool);
     }
     function _drawUI(userDataInFarmCakePool) {
@@ -4477,7 +4647,14 @@ function loadFarmCakePoolData() {
         $('.farm-cake-pool-turing-apy').html(formatBalance(userDataInFarmCakePool.turingRewardAPY, 2));
         $('.farm-cake-pool-cake-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY, 2));
         $('.farm-cake-pool-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY + userDataInFarmCakePool.turingRewardAPY, 2));
-
+        if(userDataInFarmCakePool.userWantShare > 0) {
+            $('.farm-cake-pool-user-balance').html(formatBalance(userDataInFarmCakePool.userWantShare, 2));
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-cake-pool').hide();
+            }
+        }
         return reloadFarmCakePoolData();
     }
     function _error(_e) {
@@ -4524,6 +4701,10 @@ function loadFarmCakePoolV2Data() {
         }
         userDataInFarmCakePool.tvl = parseFloatNumber(parseInt(_result[11]) / 1e18, 18);
         arrayTVLs["cakeFarmV2TVL"] = userDataInFarmCakePool.tvl * userDataInFarmCakePool.wantPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["cakeFarmV2TVL"] = userDataInFarmCakePool.userWantShare * userDataInFarmCakePool.wantPrice;
+            arrayUserTuringReward["cakeFarmV2TVL"] = userDataInFarmCakePool.userTuringPending;
+        }
         _drawUI(userDataInFarmCakePool);
     }
     function _drawUI(userDataInFarmCakePool) {
@@ -4532,7 +4713,15 @@ function loadFarmCakePoolV2Data() {
         $('.farm-cake-pool-v2-turing-apy').html(formatBalance(userDataInFarmCakePool.turingRewardAPY, 2));
         $('.farm-cake-pool-v2-cake-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY, 2));
         $('.farm-cake-pool-v2-apy').html(formatBalance(userDataInFarmCakePool.wantRewardAPY + userDataInFarmCakePool.turingRewardAPY, 2));
-
+        if(userDataInFarmCakePool.userWantShare > 0) {
+            $('.farm-cake-pool-v2-user-balance').html(formatBalance(userDataInFarmCakePool.userWantShare, 2));
+            arrayContractFarmUserJoined["cakeFarmV2Contract"] = FARM_CAKE_POOL_V2_CONTRACT_ADDR;
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-cake-pool-v2').hide();
+            }
+        }
         return reloadFarmCakePoolV2Data();
     }
     function _error(_e) {
@@ -4618,6 +4807,10 @@ function loadFarmTuringBNBLPPoolV2Data() {
         userDataInFarmTuringPool.userTuringShare = parseFloatNumber(parseInt(_result.userTuringShare_) / 1e18, 18); // turing LP
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result.tvl_) / 1e18, 18);
         arrayTVLs["turingBNBLPv2TVL"] = userDataInFarmTuringPool.tvl * turingBNBLPPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["turingBNBLPv2TVL"] = userDataInFarmTuringPool.userTuringShare * turingBNBLPPrice;
+            arrayUserTuringReward["turingBNBLPv2TVL"] = userDataInFarmTuringPool.userTuringPending;
+        }
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result.turingPrice_) / 1e18, 18);
         userDataInFarmTuringPool.turingRewardAPY = 0;
 
@@ -4633,6 +4826,15 @@ function loadFarmTuringBNBLPPoolV2Data() {
     function _drawUI(userDataInFarmTuringPool) {
         $('.farm-turing-bnb-lp-pool-v2-total-volume').html(`$${formatBalance((userDataInFarmTuringPool.tvl * turingBNBLPPrice), 2)}`);
         $('.farm-turing-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userTuringShare > 0) {
+            $('.farm-turing-bnb-lp-pool-v2-user-balance').html(formatBalance(userDataInFarmTuringPool.userTuringShare, 2));
+            arrayContractFarmUserJoined["turingBNBLPv2Contract"] = FARM_TURING_BNB_LP_POOL_CONTRACT_V2_ADDR;
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-turing-bnb-lp-pool-v2').hide();
+            }
+        }
         return reloadFarmTuringBNBLPPoolV2Data();
     }
     function _error(_e) {
@@ -4716,6 +4918,10 @@ function loadFarmCakeBNBLPPoolV2Data() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["cakeBNBLPv2TVL"] = userDataInFarmTuringPool.tvl * cakeLPPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["cakeBNBLPv2TVL"] = userDataInFarmTuringPool.userWantShare * cakeLPPrice;
+            arrayUserTuringReward["cakeBNBLPv2TVL"] = userDataInFarmTuringPool.userTuringPending;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -4736,6 +4942,15 @@ function loadFarmCakeBNBLPPoolV2Data() {
         $('.farm-cake-bnb-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-cake-bnb-lp-pool-v2-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-cake-bnb-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-cake-bnb-lp-pool-v2-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+            arrayContractFarmUserJoined["cakeBNBLPv2Contract"] = FARM_CAKE_LP_POOL_CONTRACT_V2_ADDR;
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-cake-bnb-lp-pool-v2').hide();
+            }
+        }
         return reloadFarmCakeBNBLPPoolV2Data();
     }
     function _error(_e) {
@@ -4819,6 +5034,9 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["usdtBUSDLPv2TVL"] = userDataInFarmTuringPool.tvl * usdtBusdLPPrice;
+        if(page === "Dashboard") {
+            arrayUserBalance["usdtBUSDLPv2TVL"] = userDataInFarmTuringPool.userWantShare * usdtBusdLPPrice;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -4839,6 +5057,15 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
         $('.farm-usdt-busd-lp-pool-v2-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-usdt-busd-lp-pool-v2-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-usdt-busd-lp-pool-v2-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-usdt-busd-lp-pool-v2-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+        }
+        else {
+            if(page === "Dashboard") {
+                $('.farm-usdt-busd-lp-pool-v2').hide();
+            }
+        }
+        
         return reloadFarmUSDTBUSDLPPoolV2Data();
     }
     function _error(_e) {
@@ -4871,6 +5098,9 @@ function loadFarmUSDTBNBLPPoolData() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["usdtBNBLPTVL"] = userDataInFarmTuringPool.tvl * usdtBNBLPPrice;
+        if(page === "Dashboard") {
+            arrayUserBalance["usdtBNBLPTVL"] = userDataInFarmTuringPool.userWantShare * usdtBNBLPPrice;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -4891,6 +5121,14 @@ function loadFarmUSDTBNBLPPoolData() {
         $('.farm-usdt-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-usdt-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-usdt-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-usdt-bnb-lp-pool-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+        }
+        else {
+            if(page === "Dashboard") {
+                $('.farm-usdt-bnb-lp-pool').hide();
+            }
+        }
         return reloadFarmUSDTBNBLPPoolData();
     }
     function _error(_e) {
@@ -4923,6 +5161,9 @@ function loadFarmBUSDBNBLPPoolData() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["busdBNBLPTVL"] = userDataInFarmTuringPool.tvl * busdBNBLPPrice;
+        if(page === "Dashboard") {
+            arrayUserBalance["busdBNBLPTVL"] = userDataInFarmTuringPool.userWantShare * busdBNBLPPrice;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -4943,6 +5184,14 @@ function loadFarmBUSDBNBLPPoolData() {
         $('.farm-busd-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-busd-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-busd-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-busd-bnb-lp-pool-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+        }
+        else {
+            if(page === "Dashboard") {
+                $('.farm-busd-bnb-lp-pool').hide();
+            }
+        }
         return reloadFarmBUSDBNBLPPoolData();
     }
     function _error(_e) {
@@ -4975,6 +5224,10 @@ function loadFarmBTCBBNBLPPoolData() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["btcbBNBLPTVL"] = userDataInFarmTuringPool.tvl * btcbBNBLPPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["btcbBNBLPTVL"] = userDataInFarmTuringPool.userWantShare * btcbBNBLPPrice;
+            arrayUserTuringReward["btcbBNBLPTVL"] = userDataInFarmTuringPool.userTuringPending;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -4995,6 +5248,15 @@ function loadFarmBTCBBNBLPPoolData() {
         $('.farm-btcb-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-btcb-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-btcb-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-btcb-bnb-lp-pool-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+            arrayContractFarmUserJoined["btcbBNBLPContract"] = FARM_BTCB_BNB_LP_POOL_CONTRACT_ADDR;
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-btcb-bnb-lp-pool').hide();
+            }
+        }
         return reloadFarmBTCBBNBLPPoolData();
     }
     function _error(_e) {
@@ -5027,6 +5289,10 @@ function loadFarmETHBNBLPPoolData() {
         userDataInFarmTuringPool.userWantShare = parseFloatNumber(roundDownFloat(parseInt(_result[8]) / 1e18, 1e18), 18);
         userDataInFarmTuringPool.tvl = parseFloatNumber(parseInt(_result[9]) / 1e18, 18);
         arrayTVLs["ethBNBLPTVL"] = userDataInFarmTuringPool.tvl * ethBNBLPPrice;
+        if(page != null && page === "Dashboard") {
+            arrayUserBalance["ethBNBLPTVL"] = userDataInFarmTuringPool.userWantShare * ethBNBLPPrice;
+            arrayUserTuringReward["ethBNBLPTVL"] = userDataInFarmTuringPool.userTuringPending;
+        }
         userDataInFarmTuringPool.totalMintPerDay = parseFloatNumber(parseInt(_result[4]) / 1e18, 18);
         userDataInFarmTuringPool.totalWantRewardPerDay = parseFloatNumber(parseInt(_result[5]) / 1e18, 18);
         userDataInFarmTuringPool.turingPrice = parseFloatNumber(parseInt(_result[2]) / 1e18, 18);
@@ -5047,9 +5313,58 @@ function loadFarmETHBNBLPPoolData() {
         $('.farm-eth-bnb-lp-pool-apy-turing').html(formatBalance(userDataInFarmTuringPool.turingRewardAPY, 2));
         $('.farm-eth-bnb-lp-pool-apy-cake').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY, 2));
         $('.farm-eth-bnb-lp-pool-apy').html(formatBalance(userDataInFarmTuringPool.wantRewardAPY + userDataInFarmTuringPool.turingRewardAPY, 2));
+        if(userDataInFarmTuringPool.userWantShare > 0) {
+            $('.farm-eth-bnb-lp-pool-user-balance').html(formatBalance(userDataInFarmTuringPool.userWantShare, 2));
+            arrayContractFarmUserJoined["ethBNBLPContract"] = FARM_ETH_BNB_LP_POOL_CONTRACT_ADDR;
+        }
+        else {
+            if(page != null && page === "Dashboard") {
+                $('.farm-eth-bnb-lp-pool').hide();
+            }
+        }
         return reloadFarmETHBNBLPPoolData();
     }
     function _error(_e) {
         return reloadFarmETHBNBLPPoolData();
+    }
+}
+function _showPopupForMain(id) {
+    $(`#${id}`).show();
+}
+function _hidePopupForMain(id, time = 10000) {
+    setTimeout(() => {
+        $(`#${id}`).hide();
+    }, time);
+}
+function initUserAction() {
+    _harvestAll();
+    function _harvestAll() {
+        $('.btn-harvest-all-pool').click((e) => {
+            e.preventDefault();
+            let _poolsUserJoined = getContractUserJoined();
+            // amount = toBN(amount, 18);
+            let userAddr = getCurrentAddress();
+            if (!userAddr) {
+                return false;
+            }
+            if (typeof web3 == 'undifined') {
+                return false;
+            }
+            let _transactionHistory = {}; 
+            let _contract = new web3.eth.Contract(TURING_HARVEST_MACHINE_ABI, TURING_HARVEST_MACHINE_ADDR);
+
+            _contract.methods.harvest(_poolsUserJoined).send({ from: getCurrentAddress() })
+                    .on('transactionHash', function(hash) {
+                        _showPopupForMain('confirm-popup');
+                    })
+                    .on('confirmation', function(confirmationNumber, receipt){
+                         if (receipt.status == true && !_transactionHistory[receipt.transactionHash]) {
+                            _transactionHistory[receipt.transactionHash] = true;
+                            _hidePopupForMain('confirm-popup', 0);
+                            _showPopupForMain('success-confirm-popup');
+                            _hidePopupForMain('success-confirm-popup', 10000);
+                        } 
+                    });
+        });
     }
 }
