@@ -2214,11 +2214,10 @@ function initUserAction() {
 		});
 	}
 	function _reverse() {
-		$('.btn-reverse-pair').on('click', function(e) {
+		$('.btn-reverse-pair').unbind("click").bind('click', function(e) {
 			e.preventDefault();
 			let fromID = $('input[type=radio][name=from_cur]:checked').val();
 			let toID = $('input[type=radio][name=to_cur]:checked').val();
-
 			if (typeof toID == 'undefined') {
 				$(`input[type=radio][name=from_cur]`).prop('checked', false);
 			} else {
@@ -2227,6 +2226,7 @@ function initUserAction() {
 			if (typeof fromID == 'undefined') {
 				$(`input[type=radio][name=to_cur]`).prop('checked', false);
 			} else {
+				console.log("2222222222")
 				$(`input[type=radio][name=to_cur][value=${fromID}]`).prop('checked', true);
 			}
 

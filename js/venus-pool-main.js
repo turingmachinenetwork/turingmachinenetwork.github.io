@@ -1,5 +1,8 @@
 var arrayTuringSwapPoolTVLs = [];
 var arrayTuringSwapPoolTradingVols = [];
+var arrayTuringSwapPoolUserBalance = [];
+var arrayTuringUserRewardPending = [];
+var arrayContractTuringSwapPoolUserJoined = [];
 $(document).ready(function () {
     initWeb3();
     initVenusPoolContract();
@@ -18,8 +21,49 @@ $(document).ready(function () {
         if(totalTuringSwapPoosTradingVol != 0) {
             localStorage.setItem('turingSwapPoolsTradingVol', getTuringSwapPoolsTotalTradingVol());
         }
+        
+        try {
+            if(page != null && page === "Dashboard") {
+                var totalTuringSwapPoolsUserBalance = getTuringSwapPoolUserBalance();
+                if(totalTuringSwapPoolsUserBalance > 0) {
+                    localStorage.setItem('totalTuringSwapPoolsUserBalance', totalTuringSwapPoolsUserBalance);
+                }
+                var totalTuringUserRewardPending = getTuringUserRewardPending();
+                if(totalTuringUserRewardPending > 0) {
+                    
+                    localStorage.setItem('totalTuringUserRewardPending', totalTuringUserRewardPending);
+                    localStorage.setItem('arrayContractTuringSwapPoolUserJoined', getContractTuringSwapPoolUserJoined());
+                    
+                }
+                
+            }
+        } catch (exception) {
+            console.log(exception);
+        }
     }, 3000);
 });
+function getContractTuringSwapPoolUserJoined() {
+    var arrayContracts = [];
+    for (var key in arrayContractTuringSwapPoolUserJoined) {
+        arrayContracts.push(arrayContractTuringSwapPoolUserJoined[key]);
+    }
+    return arrayContracts.join(",");
+}
+function getTuringUserRewardPending() {
+    var totalTuringUserRewardPending = 0;
+    for (var key in arrayTuringUserRewardPending) {
+        totalTuringUserRewardPending += arrayTuringUserRewardPending[key];
+    }
+    return totalTuringUserRewardPending;
+}
+
+function getTuringSwapPoolUserBalance() {
+    var totalTuringSwapPoolsUserBalance = 0;
+    for (var key in arrayTuringSwapPoolUserBalance) {
+        totalTuringSwapPoolsUserBalance += arrayTuringSwapPoolUserBalance[key];
+    }
+    return totalTuringSwapPoolsUserBalance;
+}
 
 function getTuringSwapPoolsTotalTVL() {
     var totalTuringSwapPoolsTVL = 0;
@@ -34,7 +78,6 @@ function getTuringSwapPoolsTotalTradingVol() {
     for (var key in arrayTuringSwapPoolTradingVols) {
         totalTuringSwapPoosTradingVol += arrayTuringSwapPoolTradingVols[key];
     }
-    console.log(totalTuringSwapPoosTradingVol);
     return totalTuringSwapPoosTradingVol;
 }
 
@@ -65,6 +108,14 @@ const CONFIGS = [
         'farmContract': '0x5bf342bb704d55fDfC4c9B2E2fA1292f543dC8dc'
     }
 ];
+
+function findFarmContractByLP(lp) {
+    for (let idx = 0; idx < CONFIGS.length; idx++) {
+        if(CONFIGS[idx].lp === lp) {
+            return CONFIGS[idx].farmContract;
+        }
+    }
+}
 
 const LP_CONTRACT_ABI = [
     {
@@ -866,6 +917,11 @@ function initVenusPool(lp, userAddr) {
             if (_userDataInFarmTuringPool.userWantShare <= 0) {
                 _userDataInFarmTuringPool.userTuringPending = 0;
             }
+            
+            if(page != null && page === "Dashboard") {
+                arrayTuringSwapPoolUserBalance[lp] = _userDataInFarmTuringPool.userWantShare * turingLPPrice;
+                arrayTuringUserRewardPending[lp] = _userDataInFarmTuringPool.userTuringPending;
+            }
 
             _drawUI(_userDataInFarmTuringPool);
         }
@@ -879,6 +935,15 @@ function initVenusPool(lp, userAddr) {
             $(`.farm-turing-${lp}-venus-lp-pool-apy-turing`).html(`${formatBalance(_userDataInFarmTuringPool.turingRewardAPY, 2)}`);
             $(`.farm-turing-${lp}-venus-lp-pool-apy-venus`).html(`${formatBalance(_venusAPY, 2)}`);
             $(`.farm-turing-${lp}-venus-lp-pool-apy-trade`).html(`${formatBalance(_userDataInFarmTuringPool.tradeAPY, 2)}`);
+            if(_userDataInFarmTuringPool.userWantShare > 0) {
+                $(`.farm-turing-${lp}-venus-lp-pool-user-balance`).html(`${formatBalance(_userDataInFarmTuringPool.userWantShare, 2)}`);
+                arrayContractTuringSwapPoolUserJoined[lp] = findFarmContractByLP(lp);
+            }
+            else {
+                if(page != null && page === "Dashboard") {
+                    $(`.farm-turing-${lp}-venus-lp-pool`).hide();
+                }
+            }
 
             return true;
         }
