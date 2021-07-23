@@ -166,7 +166,7 @@ const busdBNBLPPrice = 48;
 const btcbBNBLPPrice = 12000;
 const ethBNBLPPrice = 3300;
 
-const TURING_HARVEST_MACHINE_ADDR = '0xF863cd0A9C9fD1E8134EB283EEB72Da804BA2f6F';
+const TURING_HARVEST_MACHINE_ADDR = '0xde43520a7BB65535208512159fe5448636067a06';
 
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_ADDR = '0x2c184b922681882A9b277EE4090170B71E99e74E';
 const FARM_USDT_BUSD_LP_POOL_CONTRACT_V2_ADDR = '0xc8a61e2d78697C41D81752831c436AaC846464d7';
@@ -202,19 +202,6 @@ const TURING_HARVEST_MACHINE_ABI = [
     {
         "inputs": [
             {
-                "internalType": "address",
-                "name": "_owner",
-                "type": "address"
-            }
-        ],
-        "name": "changeOwner",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
                 "internalType": "contract ITuringPool[]",
                 "name": "_pools",
                 "type": "address[]"
@@ -223,87 +210,6 @@ const TURING_HARVEST_MACHINE_ABI = [
         "name": "harvest",
         "outputs": [],
         "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract IMiningMachine",
-                "name": "_miningMachineContract",
-                "type": "address"
-            }
-        ],
-        "name": "setMiningMachineContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ITuringWhitelist",
-                "name": "_whitelistContract",
-                "type": "address"
-            }
-        ],
-        "name": "setWhitelistContract",
-        "outputs": [],
-        "stateMutability": "nonpayable",
-        "type": "function"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "contract ITuringWhitelist",
-                "name": "_whitelistContract",
-                "type": "address"
-            },
-            {
-                "internalType": "contract IMiningMachine",
-                "name": "_miningMachineContract",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "inputs": [],
-        "name": "miningMachineContract",
-        "outputs": [
-            {
-                "internalType": "contract IMiningMachine",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "owner",
-        "outputs": [
-            {
-                "internalType": "address",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "whitelistContract",
-        "outputs": [
-            {
-                "internalType": "contract ITuringWhitelist",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
         "type": "function"
     }
 ];

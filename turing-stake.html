@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="turingmachine.network">
         <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>CAKE no-loss Pool - TuringMachine.Network</title>
+        <title>TURING Stake - TuringMachine.Network</title>
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -19,7 +19,10 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="./js/web3.min.js"></script>
         <script src="./js/turing-data.js"></script>
-        <script src="./js/cake-no-loss-pool.js"></script>
+
+        <script src="./js/abi.js"></script>
+        <script src="./js/core.js"></script>
+        <script src="./js/turing-stake.js"></script>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
         </style>
@@ -36,6 +39,7 @@
     </head>
 
     <body>
+        <script>var page = "Turing-Stake"</script>
         <div id="app" class="mainApp">
             <div  id="app" class="root RootIndex">
                 <div  class="screencontainer">
@@ -59,8 +63,8 @@
                         <a href="/swappools.html">Pools</a>
                         <a href="/addlp.html">Add Liquidity</a>
                         <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html" class="router-link-exact-active router-link-active">No-loss Lottery</a>
-                        <a href="/farms.html">Farms</a>
+                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
+                        <a href="/farms.html" class="router-link-exact-active router-link-active">Farms</a>
                         <a href="/dashboard.html" class="">Dashboard</a>
                         <a target="_blank" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
                     </div>
@@ -73,214 +77,197 @@
                         </div>
                         <!---->
                         <div class="window white">
+                            <fieldset class="poolsdialog">
+                                <legend>Voting Power in DAO</legend>
+                                <p>Total TURING staked: <span class="turing-stake-staked">0</span> (<span class="turing-stake-percent-of-all-turing">0</span>% of all circulating TURING)</p>
+                                <p>Total voteTURING:  <span class="turing-stake-total-vote-turing">0</span></p>
+                                <p>Average stake time:  <span class="turing-stake-average-stake-time">0</span> years</p>
+                                <table data-v-6d9f4f96 class="table">
+                                    <thead  class="lh">
+                                        <tr style="vertical-align: top">
+                                            <td  scope="col">
+                                                <a  href="#">Time</a>
+                                            </td>
+                                            <td  scope="col">
+                                                <a  href="#">Rewards APR</a>
+                                            </td>
+                                            <td  scope="col">
+                                                <a  href="#">
+                                                    TURING Staked
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr class="pool">
+                                            <td>
+                                                Withdraw anytime
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-0-reward-apy">0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-0-total-stake">0</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="pool">
+                                            <td>
+                                                6 months
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-1-reward-apy">0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-1-total-stake">0</span>
+                                            </td>
+                                        </tr>
+                                        <tr class="pool">
+                                            <td>
+                                                1 year
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-2-reward-apy">0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="turing-stake-pool-2-total-stake">0</span>
+                                            </td>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </fieldset>
+                        </div>
+                        <div class="window white">
                             <fieldset>
-                                <legend>CAKE no-loss Lottery Pool</legend>
+                                <legend>TURING Stake</legend>
+                                <p>Stake TURING to earn TURING and get voteTURING.</p>
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_0">
                                             <span class="currency_label">
-                                                <img src="/images/pancake_logo.png" class="token-icon dai-icon">
-                                                <span>CAKE</span>
-                                                <span class="maxBalanceCoin max-cake-deposit"> Max: 
-                                                    <span class="user-cake-bal">0.00 </span>
+                                                <img src="/images/turing_logo.png" class="token-icon dai-icon">
+                                                <span>TURING</span>
+                                                <span class="maxBalanceCoin turing-stake-max-deposit"> Max: 
+                                                    <span class="turing-stake-tur-bal">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_0" name="deposit_cake_amt">
+                                        <input type="number" id="currency_0" name="turing-stake-deposit-amt">
+                                    </li>
+                                    <li><br/></li>
+                                    <li>
+                                        <span>
+                                            <span data-v-daa7c420="">Stake time:</span>
+                                            <input data-v-daa7c420="" id="staketime1" type="radio" name="type-of-stake-deposit" checked="checked" value="0" />
+                                            <label data-v-daa7c420="" for="staketime1">Withdraw anytime</label>
+                                            <input data-v-daa7c420="" id="staketime2" type="radio" name="type-of-stake-deposit" value="1" />
+                                            <label data-v-daa7c420="" for="staketime2">6 months</label>
+                                            <input data-v-daa7c420="" id="staketime3" type="radio" name="type-of-stake-deposit" value="2" />
+                                            <label data-v-daa7c420="" for="staketime3">1 year</label>
+                                        </span>
+                                    </li>
+                                    <li><br/></li>
+                                    <li>
+                                        <span>
+                                            <span data-v-daa7c420="">Stake reward: <span class="turing-stake-speed-of-reward">1</span>x
+                                        </span>
+                                    </li>
+                                    <li><br/></li>
+                                    <li>
+                                        <span>
+                                            <span data-v-daa7c420="">You will get: <span class="turing-stake-vote-turing-estimate">0</span> voteTURING</span>
+                                        </span>
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-approve-cake-no-loss"> 
+                                    <button id="add-liquidity" class="turing-stake-approve"> 
                                         Approve 
                                     </button>
-                                    <button id="add-liquidity" class="btn-deposit-cake-no-loss"> 
-                                        Deposit 
+                                    <button id="add-liquidity" class="turing-stake-deposit"> 
+                                        Stake 
                                     </button>
                                 </p>
                             </fieldset>
                             <fieldset>
                                 <legend>Your account</legend>
-                                <p>TICKETS: <span class="user-tickets user-tickets-amt">-</span></p>
-                                <p>CAKES: <span class="user-tickets user-cake-staked">-</span></p>
-                                <p>ODDS OF WINNING: <span class="user-odds-of-winning">-</span></p>
-                                <p>YOUR EARNED: <span class="user-tickets your-turing-earned">0</span> TURING <button class="btn-harvest-farm-turing"> Harvest </button></p>
+                                <p>YOUR EARNED: <span class="user-tickets turing-stake-your-earned">0</span> TURING <button class="turing-stake-harvest"> Harvest </button></p>                                
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_1">
                                             <span class="currency_label">
-                                                <img src="/images/pancake_logo.png" class="token-icon dai-icon">
-                                                <span>CAKE</span>
-                                                <span class="maxBalanceCoin max-cake-withdraw"> Max: 
-                                                    <span class="user-cake-can-withdraw">0.00 </span>
+                                                <img src="/images/turing_logo.png" class="token-icon dai-icon">
+                                                <span>TURING</span>
+                                                <span class="maxBalanceCoin turing-stake-max-withdraw"> Max: 
+                                                    <span class="turing-stake-user-turing-state">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_1" name="withdraw_cake_amt">
+                                        <input type="number" id="currency_1" name="turing-stake-withdraw-amt">
+                                    </li>
+                                    <li><br/></li>
+                                    <li>
+                                        <span>
+                                            <span data-v-daa7c420="">From stake pool:</span>
+                                            <input data-v-daa7c420="" id="withdrawtime1" type="radio" name="type-of-stake-withdraw" checked="checked" value="0" />
+                                            <label data-v-daa7c420="" for="withdrawtime1">Withdraw anytime</label>
+                                            <input data-v-daa7c420="" id="withdrawtime2" type="radio" name="type-of-stake-withdraw" value="1" />
+                                            <label data-v-daa7c420="" for="withdrawtime2">6 months</label>
+                                            <input data-v-daa7c420="" id="withdrawtime3" type="radio" name="type-of-stake-withdraw" value="2" />
+                                            <label data-v-daa7c420="" for="withdrawtime3">1 year</label>
+                                        </span>
                                     </li>
                                 </ul>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="btn-withdraw-cake-no-loss"> 
+                                    <button id="add-liquidity" class="turing-stake-withdraw"> 
                                         Withdraw your balance 
                                     </button>
                                 </p>
-                                <p>A temporary early withdrawal penalty: 0.5%, This penalty reduces to zero in 3 days.</p>
-                            </fieldset>
-                        </div>
-                        <div class="window blue info">
-                            <fieldset>
-                                <legend>Pool's stats</legend>
-                                <p><b>Prize: $<span class="current-prize">-</span></b></p>
-                                <p><b>Will be awarded: <span class="will-be-awarded">-</span></b></p>
-                                <p>PLAYERS: <span class="total-player">0</span></p>
-                                <p>TOTAL TICKETS: <span class="total-tickets">-</span></p>
-                                <p>AMOUNT DEPOSITED: <span class="total-cake-deposits">-</span> CAKE</p>
-                                <p>DEPOSITED VALUE: $<span class="total-cake-deposits-value">-</span></p>
-                                <p>PRIZE SOURCE: Pancakeswap</p>
-                                <p>PRIZE STRATEGY: Each week single winner are chosen at random to win that week's prize</p>
-                                <p>PROFIT MODEL: 95% to WINNER, 5% to buy TURING then burn</p>
-                                <p>WITHDRAW MODEL: Remove your deposit at anytime no fee. As long as you stay in the pools you continue to be eligible to win.</p>
-                                <p>PAST 5 PRIZES</p>
+                                <p>YOUR STAKED: <span class="user-tickets turing-stake-your-stake">0</span></p>
                                 <table data-v-6d9f4f96 class="table">
                                     <thead  class="lh">
-                                        <tr >
+                                        <tr style="vertical-align: top">
                                             <td  scope="col">
-                                                <a  href="#">#<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Date<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Prize</a>
+                                                <a  href="#">Pools</a>
                                             </td>
                                             <td  scope="col">
                                                 <a  href="#">
-                                                    Tickets
+                                                    Your staked
                                                 </a>
                                             </td>
                                             <td  scope="col">
                                                 <a  href="#">
-                                                    Winner
+                                                    Unstake time
                                                 </a>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="">
-                                                1
+                                        <tr class="pool">
+                                            <td>
+                                                Withdraw anytime
                                             </td>
                                             <td>
-                                                <span class="time-pool-no-1">Mar 13th</span>
+                                                <span class="turing-stake-pool-0-your-stake">0</span>
                                             </td>
                                             <td>
-                                                <span  class="tooltip">
-                                                    <span  class="prize-busd-pool-no-1">$50,000</span>
-                                                    <span  class="tooltiptext long" data-v-bba6cf6e>
-                                                        <div>Prize: <span class="prize-cake-pool-no-1">-</span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span  class="prize-tickets-pool-no-1">
-                                                    100,000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="winner-pool-no-1">0x227c..e362</span>
+                                                <span class="turing-stake-pool-0-your-unstake-time">-</span>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="">
-                                                2
+                                        <tr class="pool">
+                                            <td>
+                                                6 months
                                             </td>
                                             <td>
-                                                <span class="time-pool-no-2">Mar 13th</span>
+                                                <span class="turing-stake-pool-1-your-stake">0</span>
                                             </td>
                                             <td>
-                                                <span  class="tooltip">
-                                                    <span  class="prize-busd-pool-no-2">$50,000</span>
-                                                    <span  class="tooltiptext long" data-v-bba6cf6e>
-                                                        <div>Prize: <span class="prize-cake-pool-no-2">-</span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span  class="prize-tickets-pool-no-2">
-                                                    100,000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="winner-pool-no-2">0x227c..e362</span>
+                                                <span class="turing-stake-pool-1-your-unstake-time">-</span>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="">
-                                                3
+                                        <tr class="pool">
+                                            <td>
+                                                1 year
                                             </td>
                                             <td>
-                                                <span class="time-pool-no-3">Mar 13th</span>
+                                                <span class="turing-stake-pool-2-your-stake">0</span>
                                             </td>
                                             <td>
-                                                <span  class="tooltip">
-                                                    <span  class="prize-busd-pool-no-3">$50,000</span>
-                                                    <span  class="tooltiptext long" data-v-bba6cf6e>
-                                                        <div>Prize: <span class="prize-cake-pool-no-3">-</span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span  class="prize-tickets-pool-no-3">
-                                                    100,000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="winner-pool-no-3">0x227c..e362</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="">
-                                                4
-                                            </td>
-                                            <td>
-                                                <span class="time-pool-no-4">Mar 13th</span>
-                                            </td>
-                                            <td>
-                                                <span  class="tooltip">
-                                                    <span  class="prize-busd-pool-no-4">$50,000</span>
-                                                    <span  class="tooltiptext long" data-v-bba6cf6e>
-                                                        <div>Prize: <span class="prize-cake-pool-no-4">-</span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span  class="prize-tickets-pool-no-4">
-                                                    100,000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="winner-pool-no-4">0x227c..e362</span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="">
-                                                5
-                                            </td>
-                                            <td>
-                                                <span class="time-pool-no-5">Mar 13th</span>
-                                            </td>
-                                            <td>
-                                                <span  class="tooltip">
-                                                    <span  class="prize-busd-pool-no-5">$50,000</span>
-                                                    <span  class="tooltiptext long" data-v-bba6cf6e>
-                                                        <div>Prize: <span class="prize-cake-pool-no-5">-</span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span  class="prize-tickets-pool-no-5">
-                                                    100,000
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="winner-pool-no-5">0x227c..e362</span>
+                                                <span class="turing-stake-pool-2-your-unstake-time">-</span>
                                             </td>
                                         </tr>
                                     </thead>
@@ -335,5 +322,23 @@
             </li>
         </ul>
     </body>
-
+<script>
+    var core = new $.Core();
+    var abi  = new $.ABI();
+    var turingStake  = new $.TuringStake();
+    $(document).ready(function() {
+        abi.init({});
+        core.init({});
+        turingStake.init({ pool: 'turing-stake', isStakePage: true });
+        turingStake.clickMaxDeposit();
+        turingStake.clickMaxWithdraw();
+        turingStake.approve();
+        turingStake.deposit();
+        turingStake.withdraw();
+        turingStake.harvest();
+        turingStake.onChangeDepositPool();
+        turingStake.onChangeWithdrawPool();
+        turingStake.onChangeDepositAmount();
+    });
+</script>
 <script src="./js/trustwallet.js"></script></html>

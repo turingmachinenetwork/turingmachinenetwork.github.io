@@ -20,6 +20,10 @@
         <script src="./js/web3.min.js"></script>
         <script src="./js/main.js"></script>
         <script src="./js/turing-data.js"></script>
+
+        <script src="./js/abi.js"></script>
+        <script src="./js/core.js"></script>
+        <script src="./js/turing-stake.js"></script>
     </head>
 
     <body>
@@ -106,6 +110,28 @@
                                                 <span  class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-bnb-lp-pool-v2-total-volume"> $0 </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="pool" onclick="window.location='/turing-stake.html'">
+                                            <td  class="pooltext">
+                                                <span class="absolute">
+                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/turing_logo.png');"></span>
+                                                </span> 
+                                                <b>turing</b>
+                                                <span  class="reference-asset">up to 6x</span>
+                                                <span  class="reference-asset">turing</span>
+                                                <br />
+                                                <span  class="assets-list">Deposit TURING earn TURING and get voteTURING</span>
+                                            </td>
+                                            <td  class="apr">
+                                                <div  class="incentive-apr"><span class="turing-stake-apy">0</span>%</div>
+                                            </td>
+                                            <td  class="volume">
+                                                <span  class="">
+                                                    <span  style="">
+                                                        <span  class="tooltip turing-stake-tvl"> $0 </span>
                                                     </span>
                                                 </span>
                                             </td>
@@ -430,10 +456,19 @@
                     <a href="/risks.html" class="">Risks</a>
                     <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
                     <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.3</a>
+                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.4</a>
                 </footer>
             </div>
         </div>
     </body>
-
+<script>
+    var core = new $.Core();
+    var abi  = new $.ABI();
+    var turingStake  = new $.TuringStake();
+    $(document).ready(function() {
+        abi.init({});
+        core.init({});
+        turingStake.init({ pool: 'turing-stake', isStakePage: false });
+    });
+</script>
 <script src="./js/trustwallet.js"></script></html>
