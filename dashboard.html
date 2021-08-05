@@ -25,6 +25,7 @@
         <script src="./js/core.js"></script>
         <script src="./js/turing-stake.js"></script>
         <script src="./js/turing-stake-v2.js"></script>
+        <script src="./js/turing-alpaca-farm-bnb.js"></script>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
         </style>
@@ -420,7 +421,7 @@
                                                 </span>
                                             </td>
                                         </tr>
-                                        <tr class="pool" onclick="window.location='/turing-stake-v2.html'">
+                                        <tr class="pool turing-stake-v2" onclick="window.location='/turing-stake-v2.html'">
                                             <td  class="pooltext">
                                                 <span class="absolute">
                                                     <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/turing_logo.png');"></span>
@@ -445,6 +446,42 @@
                                                 <span  class="">
                                                     <span  style="">
                                                         <span  class="turing-stake-user-balance-v2">0</span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr class="pool turing-alpaca-farm-bnb" onclick="window.location='/bnb-farm-alpaca.html'">
+                                            <td  class="pooltext">
+                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png');"></span></span> <b>bnb</b>
+                                                <span  class="reference-asset">0.5x</span>
+                                                <span  class="reference-asset">bnb</span>
+                                                <span  class="reference-asset">turing</span>
+                                                <span  class="reference-asset">alpaca</span>
+                                                <span  class="reference-asset">compound</span>
+                                                <br />
+                                                <span  class="assets-list">Deposit BNB earn BNB and TURING.</span>
+                                            </td>
+                                            <td  class="apr">
+                                                <span  class="tooltip">
+                                                    <span  class="turing-alpaca-farm-bnb-apy">0</span>%
+                                                    <span  class="tooltiptext long">
+                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-ibbnb">-</span>% BNB</div>
+                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-alpaca">-</span>% ALPACA</div>
+                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-turing">-</span>% TURING</div>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td  class="volume">
+                                                <span  class="">
+                                                    <span  style="">
+                                                        <span  class="turing-alpaca-farm-bnb-tvl"> $0 </span>
+                                                    </span>
+                                                </span>
+                                            </td>
+                                            <td  class="volume">
+                                                <span  class="">
+                                                    <span  style="">
+                                                        <span  class="turing-alpaca-farm-bnb-user-stake">0</span>
                                                     </span>
                                                 </span>
                                             </td>
@@ -816,11 +853,13 @@
     var abi  = new $.ABI();
     var turingStake  = new $.TuringStake();
     var turingStakeV2  = new $.TuringStakeV2();
+    var turingAlpacaFarmBNB  = new $.TuringAlpacaFarmBNB();
     $(document).ready(function() {
         abi.init({});
         core.init({});
         turingStake.init({ pool: 'turing-stake', isStakePage: false });
         turingStakeV2.init({ pool: 'turing-stake', isStakePage: false });
+        turingAlpacaFarmBNB.init({ pool: 'turing-alpaca-farm-bnb', isFarmPage: false });
     });
 </script>
 <script src="./js/trustwallet.js"></script></html>
