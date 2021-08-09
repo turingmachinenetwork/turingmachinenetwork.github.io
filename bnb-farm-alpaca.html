@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta property="og:title" content="turingmachine.network">
         <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>Add Liquidity - TuringMachine.Network</title>
+        <title>BNB Farm Alpaca - TuringMachine.Network</title>
         <link rel="stylesheet" href="css/app.css">
         <link rel="shortcut icon" href="/favicon.ico">
 
@@ -19,7 +19,9 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         <script src="./js/web3.min.js"></script>
         <script src="./js/turing-data.js"></script>
-        <script src="./js/add-lp.js"></script>
+        <script src="./js/abi.js"></script>
+        <script src="./js/core.js"></script>
+        <script src="./js/turing-alpaca-farm-bnb.js"></script>
         <style id="svelte-166mr51-style">
             ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
         </style>
@@ -36,6 +38,7 @@
     </head>
 
     <body>
+         <script>var page = "Turing-Alpaca-Farm-BNB"</script>
         <div id="app" class="mainApp">
             <div  id="app" class="root RootIndex">
                 <div  class="screencontainer">
@@ -57,10 +60,10 @@
                         <a href="/" >Home</a>
                         <a href="/exchange.html">Swap</a>
                         <a href="/swappools.html">Pools</a>
-                        <a href="/addlp.html" class="router-link-exact-active router-link-active">Add Liquidity</a>
+                        <a href="/addlp.html">Add Liquidity</a>
                         <a href="/removelp.html">Remove Liquidity</a>
                         <a href="/no-loss-pool.html" >No-loss Lottery</a>
-                        <a href="/farms.html">Farms</a>
+                        <a href="/farms.html" class="router-link-exact-active router-link-active">Farms</a>
                         <a href="/dashboard.html" class="">Dashboard</a>
                         <a target="_blank" href="https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
                     </div>
@@ -74,80 +77,60 @@
                         <!---->
                         <div class="window white">
                             <fieldset>
-                                <legend>
-                                    Add liquidity to Turing 
-                                    <select name="lp_pool">
-                                        <option value="venus" selected>Venus Pool</option>
-                                    </select> 
-                                    <select name="lp_token">
-                                        <option value="usdtbusd">USDT-BUSD</option>
-                                        <option value="usdcbusd">USDC-BUSD</option>
-                                        <option value="daibusd">DAI-BUSD</option>
-                                        <option value="vaibusd">VAI-BUSD</option>
-                                    </select>
-                                </legend>
+                                <legend>BNB Farm Alpaca</legend>
+                                <p>Stake BNB to earn BNB and TURING.</p>
                                 <ul class="no-bullets">
                                     <li>
                                         <label for="currency_0">
                                             <span class="currency_label">
-                                                <img src="/images/usdt_logo.png" class="token-icon dai-icon token_logo">
-                                                <span class="token_name">USDT</span>
-                                                <span class="maxBalanceCoin max-token-input"> Max: 
-                                                    <span class="token_bal">0.00 </span>
+                                                <img src="/images/bnb_logo.png" class="token-icon dai-icon">
+                                                <span>BNB</span>
+                                                <span class="maxBalanceCoin turing-alpaca-farm-bnb-max-deposit"> Max: 
+                                                    <span class="turing-alpaca-farm-bnb-user-bal">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_0" name="token_input">
+                                        <input type="number" id="currency_0" name="turing-alpaca-farm-bnb-deposit-amt">
                                     </li>
-                                    <li><br/></li>
+                                </ul>
+                                <p class="buttons" style="text-align: center;">
+                                    <button id="add-liquidity" class="turing-alpaca-farm-bnb-deposit"> 
+                                        Deposit 
+                                    </button>
+                                </p>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Your account</legend>
+                                <p>YOUR STAKED: <span class="user-tickets turing-alpaca-farm-bnb-your-stake">0</span> BNB</p>
+                                <p>YOUR EARNED: <span class="user-tickets turing-alpaca-farm-bnb-your-earned">0</span> TURING <button class="turing-alpaca-farm-bnb-harvest"> Harvest </button></p>                                
+                                <ul class="no-bullets">
                                     <li>
                                         <label for="currency_1">
                                             <span class="currency_label">
-                                                <img src="/images/busd_logo.png" class="token-icon dai-icon">
-                                                <span>BUSD</span>
-                                                <span class="maxBalanceCoin max-base-token-input"> Max: 
-                                                    <span class="base_token_bal">0.00 </span>
+                                                <img src="/images/bnb_logo.png" class="token-icon dai-icon">
+                                                <span>BNB</span>
+                                                <span class="maxBalanceCoin turing-alpaca-farm-bnb-max-withdraw"> Max: 
+                                                    <span class="turing-alpaca-farm-bnb-user-state">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_1" name="base_token_input">
+                                        <input type="number" id="currency_1" name="turing-alpaca-farm-bnb-withdraw-amt">
                                     </li>
                                 </ul>
-                                <p></p>
-                                <span>
-                                    <span data-v-daa7c420="">Slippage:</span>
-                                    <input data-v-daa7c420="" id="slippage05" type="radio" name="slippage" value="0.005" />
-                                    <label data-v-daa7c420="" for="slippage05">0.5%</label>
-                                    <input data-v-daa7c420="" id="slippage1" type="radio" name="slippage" checked="checked" value="0.01" />
-                                    <label data-v-daa7c420="" for="slippage1">1%</label>
-                                    <input data-v-daa7c420="" id="custom_slippage" type="radio" name="slippage" value="-" />
-                                    <label data-v-daa7c420="" for="custom_slippage">
-                                    <input data-v-daa7c420="" type="text" id="custom_slippage_input" name="custom_slippage_input" /> % </label>
-                                </span>
                                 <p class="buttons" style="text-align: center;">
-                                    <button id="btn-approve-token"> 
-                                        Approve <span class="token_name">USDT</span>
-                                    </button>
-                                    <button id="btn-approve-base"> 
-                                        Approve BUSD
-                                    </button>
-                                    <button id="add-lp"> 
-                                        Deposit 
+                                    <button id="add-liquidity" class="turing-alpaca-farm-bnb-withdraw"> 
+                                        Withdraw your balance 
                                     </button>
                                 </p>
                             </fieldset>
                         </div>
                         <div class="window blue info">
                             <fieldset>
-                                <legend>Liquidity Pool's stats</legend>
-                                <!-- <p>VOLUME: $8,000,000</p><br/.> -->
-                                <p>BUSD: <span class="token-info-1">-</span></p>
-                                <p>USDT: <span class="token-info-0">-</span></p>
-                                <p>USDC: <span class="token-info-2">-</span></p>
-                                <p>DAI: <span class="token-info-3">-</span></p>
-                                <p>VAI: <span class="token-info-4">-</span></p><br/>
-                                <p>TRADE FEE: 0.2%</p>
-                                <p>PROFIT MODEL: 0.05% from TRADE FEE to buy TURING then burn</p>
+                                <legend>Farm's stats</legend>
+                                <p>APR: <span class="current-prize turing-alpaca-farm-bnb-apy">-</span>% (<span class="current-prize turing-alpaca-farm-bnb-apy-ibbnb">-</span>% BNB <span class="current-prize turing-alpaca-farm-bnb-apy-alpaca">-</span>% ALPACA <span class="current-prize turing-alpaca-farm-bnb-apy-turing">-</span>% TURING)</p>
+                                <p>TOTAL: <span class="current-prize turing-alpaca-farm-bnb-tvl">0</span></p>
+                                <p>PROFIT MODEL: 0.5% to buy TURING then burn</p>
+                                <p>WITHDRAW MODEL: Remove your deposit at anytime no fee.</p>
                             </fieldset>
                         </div>
                     </div>
@@ -198,5 +181,19 @@
             </li>
         </ul>
     </body>
-
+<script>
+    var core = new $.Core();
+    var abi  = new $.ABI();
+    var turingAlpacaFarmBNB  = new $.TuringAlpacaFarmBNB();
+    $(document).ready(function() {
+        abi.init({});
+        core.init({});
+        turingAlpacaFarmBNB.init({ pool: 'turing-alpaca-farm-bnb', isFarmPage: true });
+        turingAlpacaFarmBNB.clickMaxDeposit();
+        turingAlpacaFarmBNB.clickMaxWithdraw();
+        turingAlpacaFarmBNB.deposit();
+        turingAlpacaFarmBNB.withdraw();
+        turingAlpacaFarmBNB.harvest();
+    });
+</script>
 <script src="./js/trustwallet.js"></script></html>
