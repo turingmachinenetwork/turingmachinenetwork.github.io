@@ -186,6 +186,7 @@ $.TuringStakeV2.prototype = (function () {
                 if (!_userAddr) {
                     return resolve(null);
                 }
+                $('.user-addr').html(`${_userAddr.slice(0,5)}...${_userAddr.slice(-5)}`);
                 _contract
                         .methods
                         .getData(_userAddr)

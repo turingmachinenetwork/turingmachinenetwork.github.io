@@ -2,9 +2,9 @@ $.TuringAlpacaFarmBNB = function () {
 };
 
 $.TuringAlpacaFarmBNB.prototype = (function () {
-    const isMainnet = false;
+    const isMainnet = true;
     const ALLOW_LIMIT_AMT = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
-    const TURING_ALPACA_FARM_BNB_ADDR='0x0161b070130740BF3b1b39960c3Fd22CC622eEEc';
+    const TURING_ALPACA_FARM_BNB_ADDR='0xA14c7692e1cfa6257E2CABB542B1842668a40728';
     var turingAlpacaFarmBNBContract = null;
     var user = {};
     var setting = {
@@ -32,6 +32,7 @@ $.TuringAlpacaFarmBNB.prototype = (function () {
             if (!_userAddr) {
                 return self.reloadInitData();
             }
+            $('.user-addr').html(`${_userAddr.slice(0,5)}...${_userAddr.slice(-5)}`);
             _contract
                 .methods
                 .getData(_userAddr)
