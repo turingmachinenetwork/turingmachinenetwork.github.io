@@ -1,870 +1,252 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="turingmachine.network">
-        <meta name="title" content="turingmachine.network"/>
-        <title>TuringMachine.Network</title>
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="shortcut icon" href="/favicon.ico">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/bsc/abi.js"></script>
+    <script src="../js/contract/bsc/config.js"></script>
+    <script src="../js/data/store.js"></script>
+    <script src="../js/contract/bsc/core.js"></script>
+    <script src="../js/contract/bsc/base.contract.js"></script>
+    <script src="../js/contract/bsc/data.js"></script>
+    <script src="../js/contract/bsc/turing-data.js"></script>
+    <script src="../js/contract/bsc/turing-venus-lp-info.contract.js"></script>
+    <script src="../js/contract/bsc/turing.farm.info.contract.js"></script>
 
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <title>Home - TuringMachine</title>
+</head>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="./js/web3.min.js"></script>
-        <script src="./js/main.js"></script>
-        <script src="./js/turing-data.js"></script>
-        <script src="./js/venus-pool-main.js"></script>
-        <script src="./js/exchange.js"></script>
-        
-        <script src="./js/moment.min.js"></script>
-        <script src="./js/abi.js"></script>
-        <script src="./js/core.js"></script>
-        <script src="./js/turing-stake.js"></script>
-        <script src="./js/turing-stake-v2.js"></script>
-        <script src="./js/turing-alpaca-farm-bnb.js"></script>
-        <style id="svelte-166mr51-style">
-            ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
-        </style>
-        <style id="svelte-7rn0pv-style">
-            div.svelte-7rn0pv{height:100%;font-size:inherit;font-family:inherit;width:1.5em}
-        </style>
-        <style id="svelte-5f7pqk-style">
-            div.svelte-5f7pqk{display:flex;flex-flow:column nowrap;justify-content:center;font-size:inherit;font-family:inherit;margin-left:0.75em;max-width:78%}p.svelte-5f7pqk{display:flex;align-items:center;margin:0.5em 0 0 0;opacity:0.7;font-size:0.889em;line-height:1.15;font-family:inherit}span.svelte-5f7pqk{font-family:inherit;display:flex;align-items:center}
-        </style>
-        <style id="svelte-12gqi36-style">
-            p.svelte-12gqi36{margin:0;font-family:inherit;font-size:inherit}
-        </style>
-        <style id="svelte-1ociadw-style">svg.svelte-1ociadw{margin:0 0.25em 0 0.5em}</style>
-    </head>
-
-    <body>
-        <script>var page = "Home"</script>
-        <div id="app" class="mainApp">
-            <div  id="app" class="root RootIndex">
-                <div  class="screencontainer">
-                    <div  class="top-menu-bar">
-                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
-                        <div  class="poolsdropdown">
-                            <button  class="simplebutton">☰</button>
-                            <div  class="dropdown">
-                                <p >____________</p>
-                                <button class="simplebutton margintop" style="">
-                                    <a  href="#" rel="noopener noreferrer"> 
-                                        0x0
-                                    </a>
-                                </button>
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="../assets/images/logo.svg" />
+                                </div>
                             </div>
                         </div>
-                        <a href="/" class="router-link-exact-active router-link-active">Home</a>
-                        <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html">Pools</a>
-                        <a href="/addlp.html">Add Liquidity</a>
-                        <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html">No-loss Lottery</a>
-                        <a href="/farms.html">Farms</a>                        
-                        <a href="/dashboard.html" class="">Dashboard</a>
-                        <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
-                    </div>
-                    <div  id="screen">
-                        <div  class="blue window RootIndex">
-                            <h1 >
-                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
-                                TuringMachine
-                            </h1>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend>Turing's Number</legend>
-                                <p>Deposits: $<span id='total-system-tvl'>0</span></p>
-                                <p>Trading Volume:  $<span id='total-trading-vol'>0</span></p>
-                            </fieldset>
-                        </div>  
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Swap using Turing 
-                                    <select name="swap_pool">
-                                        <option value="venus" selected>Venus Pool</option>
-                                    </select> 
-                                </legend>
-                                <div class="exchangefields" data-v-6d9f4f96>
-                                    <fieldset data-v-477f3144="" class="item">
-                                        <legend data-v-477f3144="">From:</legend>
-                                        <div data-v-6d9f4f96 class="maxbalance max-swap">
-                                            Max: <span data-v-477f3144="" class="max-amount-swap">0</span>
-                                        </div>
-                                        <ul class="no-bullets" data-v-477f3144="">
-                                            <li data-v-477f3144="">
-                                                <input data-v-477f3144="" type="text" id="from_currency" name="from_currency" value="0.00" style="background-color: blue;" />
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="from_cur_0" name="from_cur" value="0" checked />
-                                                <label data-v-477f3144="" for="from_cur_0">
-                                                    <img data-v-477f3144="" src="/images/usdt_logo.png" class="token-icon dai-icon" />
-                                                    <span data-v-477f3144="">USDT</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="from_cur_1" name="from_cur" value="1" />
-                                                <label data-v-477f3144="" for="from_cur_1">
-                                                    <img data-v-477f3144="" src="/images/busd_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">BUSD</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="from_cur_2" name="from_cur" value="2" />
-                                                <label data-v-477f3144="" for="from_cur_2">
-                                                    <img data-v-477f3144="" src="/images/usdc_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">USDC</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="from_cur_3" name="from_cur" value="3" />
-                                                <label data-v-477f3144="" for="from_cur_3">
-                                                    <img data-v-477f3144="" src="/images/dai_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">DAI</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="from_cur_4" name="from_cur" value="4" />
-                                                <label data-v-477f3144="" for="from_cur_4">
-                                                    <img data-v-477f3144="" src="/images/vai_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">VAI</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </fieldset>
-                                    <fieldset data-v-477f3144="" class="item iconcontainer btn-reverse-pair"><img data-v-477f3144="" src="/images/exchange-alt-solid.png" id="exchangeicon" /></fieldset>
-                                    <fieldset data-v-477f3144="" class="item">
-                                        <legend data-v-477f3144="">To:</legend>
-                                        <div data-v-477f3144="" class="maxbalance2">Max: <span data-v-477f3144=""></span></div>
-                                        <ul class="no-bullets" data-v-477f3144="">
-                                            <li data-v-477f3144="">
-                                                <input data-v-477f3144="" type="text" id="to_currency" name="to_currency" value="0.00" disabled="disabled" style="background-color: rgb(80, 80, 112);" />
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="to_cur_0" name="to_cur" value="0" />
-                                                <label data-v-477f3144="" for="to_cur_0">
-                                                    <img data-v-477f3144="" src="/images/usdt_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">USDT</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="to_cur_1" name="to_cur" value="1" checked/>
-                                                <label data-v-477f3144="" for="to_cur_1">
-                                                    <img data-v-477f3144="" src="/images/busd_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">BUSD</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="to_cur_2" name="to_cur" value="2" />
-                                                <label data-v-477f3144="" for="to_cur_2">
-                                                    <img data-v-477f3144="" src="/images/usdc_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">USDC</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="to_cur_3" name="to_cur" value="3" />
-                                                <label data-v-477f3144="" for="to_cur_3">
-                                                    <img data-v-477f3144="" src="/images/dai_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">DAI</span>
-                                                </label>
-                                            </li>
-                                            <li data-v-477f3144="" class="coins">
-                                                <input data-v-477f3144="" type="radio" id="to_cur_4" name="to_cur" value="4" />
-                                                <label data-v-477f3144="" for="to_cur_4">
-                                                    <img data-v-477f3144="" src="/images/vai_logo.png" class="token-icon usdc-icon" />
-                                                    <span data-v-477f3144="">VAI</span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                    </fieldset>
-                                </div>
-                                <p>Price: 1 <span class="from_token_name">USDT</span> = <span class="swap_price">1</span> <span class="to_token_name">BUSD</span></p>
-                                <span>
-                                    <span data-v-daa7c420="">Slippage:</span>
-                                    <input data-v-daa7c420="" id="slippage05" type="radio" name="slippage" checked="checked" value="0.005" />
-                                    <label data-v-daa7c420="" for="slippage05">0.5%</label>
-                                    <input data-v-daa7c420="" id="slippage1" type="radio" name="slippage" value="0.01" />
-                                    <label data-v-daa7c420="" for="slippage1">1%</label>
-                                    <input data-v-daa7c420="" id="custom_slippage" type="radio" name="slippage" value="-" />
-                                    <label data-v-daa7c420="" for="custom_slippage">
-                                    <input data-v-daa7c420="" type="text" id="custom_slippage_input" name="custom_slippage_input" /> % </label>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect to a wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                    </div>
                                 </span>
-                                <p class="buttons" style="text-align: center;">
-                                    <button id="btn-approvel-swap"> 
-                                        Approve <span class="from_token_name"></span>
-                                    </button>
-                                    <button id="btn-swap"> 
-                                        Swap
-                                    </button>
-                                </p>
-                            </fieldset>
+                            </div>
                         </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Turing Swap Pools </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pools</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    TVL
-                                                </a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    Volume
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdt-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdt_logo.png');"></span>
-                                                </span> 
-                                                <b>USDT-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDT-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-turing-usdt-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-usdt-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-usdt-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdc-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdc_logo.png');"></span>
-                                                </span> 
-                                                <b>USDC-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDC-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-turing-usdc-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-usdc-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-usdc-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/dai-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/dai_logo.png');"></span>
-                                                </span> 
-                                                <b>DAI-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit DAI-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-turing-dai-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-dai-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-dai-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/vai-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/vai_logo.png');"></span>
-                                                </span> 
-                                                <b>VAI-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit DAI-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-turing-vai-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-vai-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-vai-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Turing Stake </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pools</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    TVL
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/turing-bnb-farm-v2.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/turing_logo.png');"></span>
-                                                </span> 
-                                                <b>turing-bnb</b>
-                                                <span  class="reference-asset">10x</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit TURING-BNB LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <div  class="incentive-apr"><span class="farm-turing-bnb-lp-pool-v2-apy-turing">0</span>%</div>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-turing-bnb-lp-pool-v2-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/turing-stake-v2.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/turing_logo.png');"></span>
-                                                </span> 
-                                                <b>turing</b>
-                                                <span  class="reference-asset">up to 9x</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit TURING earn TURING and get voteTURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <div  class="incentive-apr"><span class="turing-stake-apy-v2">0</span>%</div>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip turing-stake-tvl-v2"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Turing No-loss Lottery Pools </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pools<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Prize<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    Tickets
-                                                </a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    TVL
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/cake-no-loss-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span></span> <b>cake</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">CAKE</span>
-                                                <span  class="reference-asset">TURING</span>
-                                                <br />
-                                                <span  class="assets-list cake-no-loss-will-be-awarded"></span>
-                                            </td>
-                                            <td  class="base-apr">
-                                                <span  class="tooltip">
-                                                    <span  class="cake-no-loss-current-prize-by-usd">$0</span>
-                                                    <span  class="tooltiptext long">
-                                                        <div>Prize Source: Pancakeswap</div>
-                                                        <div>Prize: <span class="cake-no-loss-current-prize"></span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="apr">
-                                                <div  class="incentive-apr"><span class="cake-no-loss-turing-reward-apy">0%</span> TURING</div>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip cake-no-loss-total-tickets"> 0</span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip cake-no-loss-total-volume"> $0</span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Turing Farms </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Farms</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
-                                                    TVL
-                                                </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/bnb-farm-alpaca.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png');"></span></span> <b>bnb</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">bnb</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">alpaca</span>
-                                                <span  class="reference-asset">compound</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit BNB earn BNB and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="turing-alpaca-farm-bnb-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-ibbnb">-</span>% BNB</div>
-                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-alpaca">-</span>% ALPACA</div>
-                                                        <div  class="incentive-apr"><span class="turing-alpaca-farm-bnb-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="turing-alpaca-farm-bnb-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/cake-farm-v2.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span></span> <b>cake</b>
-                                                <span  class="reference-asset">1.5x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <span  class="reference-asset">compound </span>
-                                                <br />
-                                                <span  class="assets-list">Deposit CAKE earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-cake-pool-v2-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-cake-pool-v2-cake-apy">-</span>% CAKE</div>
-                                                        <div  class="incentive-apr"><span class="farm-cake-pool-v2-turing-apy">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-cake-pool-v2-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/cake-bnb-farm-v2.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span>
-                                                </span> 
-                                                <b>cake-bnb</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit CAKE-BNB LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-cake-bnb-lp-pool-v2-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-cake-bnb-lp-pool-v2-apy-cake">-</span>% CAKE</div>
-                                                        <div  class="incentive-apr"><span class="farm-cake-bnb-lp-pool-v2-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-cake-bnb-lp-pool-v2-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/btcb-bnb-farm.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/btc_logo.png');"></span>
-                                                </span> 
-                                                <b>btcb-bnb</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit BTCB-BNB LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-btcb-bnb-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-btcb-bnb-lp-pool-apy-cake">-</span>% CAKE</div> 
-                                                        <div  class="incentive-apr"><span class="farm-btcb-bnb-lp-pool-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-btcb-bnb-lp-pool-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/eth-bnb-farm.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/eth_logo.png');"></span>
-                                                </span> 
-                                                <b>eth-bnb</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit ETH-BNB LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-eth-bnb-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-eth-bnb-lp-pool-apy-cake">-</span>% CAKE</div> 
-                                                        <div  class="incentive-apr"><span class="farm-eth-bnb-lp-pool-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-eth-bnb-lp-pool-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdt-busd-farm-v2.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdt_logo.png');"></span>
-                                                </span> 
-                                                <b>usdt-busd</b>
-                                                <span  class="reference-asset">0x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDT-BUSD LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-usdt-busd-lp-pool-v2-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-usdt-busd-lp-pool-v2-apy-cake">-</span>% CAKE</div>
-                                                        <div  class="incentive-apr"><span class="farm-usdt-busd-lp-pool-v2-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-usdt-busd-lp-pool-v2-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdt-bnb-farm.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdt_logo.png');"></span>
-                                                </span> 
-                                                <b>usdt-bnb</b>
-                                                <span  class="reference-asset">0x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDT-BNB LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-usdt-bnb-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-usdt-bnb-lp-pool-apy-cake">-</span>% CAKE</div> 
-                                                        <div  class="incentive-apr"><span class="farm-usdt-bnb-lp-pool-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-usdt-bnb-lp-pool-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/busd-bnb-farm.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/bnb_logo.png'); left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');"></span>
-                                                </span> 
-                                                <b>busd-bnb</b>
-                                                <span  class="reference-asset">0x</span>
-                                                <span  class="reference-asset">cake</span>
-                                                <span  class="reference-asset">turing</span>
-                                                <span  class="reference-asset">pancakeswap</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit BUSD-BNB LP earn CAKE and TURING.</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-busd-bnb-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-busd-bnb-lp-pool-apy-cake">-</span>% CAKE</div> 
-                                                        <div  class="incentive-apr"><span class="farm-busd-bnb-lp-pool-apy-turing">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-busd-bnb-lp-pool-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/cake-farm.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span></span> <b>cake (V1-OLD)</b>
-                                                <span  class="reference-asset">0x</span>
-                                                <br />
-                                                <span  class="assets-list">Finished</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
-                                                    <span  class="farm-cake-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
-                                                        <div  class="incentive-apr"><span class="farm-cake-pool-cake-apy">-</span>% CAKE</div>
-                                                        <div  class="incentive-apr"><span class="farm-cake-pool-turing-apy">-</span>% TURING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
-                                                    <span  style="">
-                                                        <span  class="tooltip farm-cake-pool-total-volume"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="removelp.html">Remove Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </nav>
+        </header>
+        <main class="page__home" style="min-height: calc(100vh - 73px);">
+            <article class="home__banner d-flex align-items-end">
+                <div class="container container-2">
+                    <h1 class="home__banner-title">TuringMachine</h1>
+                    <div class="home__title-medium">Swap, earn and farm all on one decentralized, community-driven platform.</div>
+                </div>
+            </article>
 
-                <footer >
-                    <a href="/dao.html">DAO</a>
-                    <a href="/useturing.html">Use TURING</a>
-                    <a href="/risks.html" class="">Risks</a>
-                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
-                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.6</a>
-                    <a  href="#">This UI is inspired by curve.fi</a>
-                </footer>
-            </div>
-        </div>
-        <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Please confirm the transaction.</p>
-                </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p" >
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
-                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
-                        <path d="m.1.1 7.82304289 7.82304289"></path>
-                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
-                        </g>
-                        </svg>
+            <article class="home__analytics section" id="home__analytics">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        PROTOCOL DATA
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{fill:none;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"/><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"/></g><g id="frame"><rect class="cls-1" height="32" width="32"/></g></svg>
+                    </header>
+                    <div class="row">
+                        <div class="col-6 col-lg-2 offset-lg-2 text-center mb-3 mb-lg-0" style="margin-right: 25px;">
+                            <div class="title">
+                                <span id="total-system-tvl">-</span>
+                            </div>
+                            <div class="description">Deposits</div>
+                        </div>
+                        <div class="col-6 col-lg-2 text-center" style="margin-right: 25px;">
+                            <div class="title">
+                                <span id="total-trading-vol">
+                                    -
+                                </span>
+                            </div>
+                            <div class="description">Trading Volume</div>
+                        </div>
+                        <div class="col-6 col-lg-2 text-center" style="margin-right: 25px;">
+                            <div class="title turing-token-circulating-supply">-</div>
+                            <div class="description">Circulating Supply</div>
+                        </div>
+                        <div class="col-6 col-lg-2 text-center" style="margin-right: 25px;">
+                            <div class="title turing-token-price">-</div>
+                            <div class="description">$TURING price</div>
+                        </div>
                     </div>
                 </div>
-            </li>
-        </ul>
-        <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
-                </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
-                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
-                        <path d="m.1.1 7.82304289 7.82304289"></path>
-                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
-                        </g>
-                        </svg>
+            </article>
+            <article class="home__governance section" id="home__governance">
+                <div class="container container-2">
+                    <header class="home__title-normal mb-5 d-flex align-items-center">
+                        TuringMachine Governance
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right ms-2"><defs><style>.cls-1{fill:none;}</style></defs><title/><g data-name="Layer 2" id="Layer_2"><path d="M19,26a1,1,0,0,1-.71-.29,1,1,0,0,1,0-1.42L26.59,16l-8.3-8.29a1,1,0,0,1,1.42-1.42l9,9a1,1,0,0,1,0,1.42l-9,9A1,1,0,0,1,19,26Z"/><path d="M28,17H4a1,1,0,0,1,0-2H28a1,1,0,0,1,0,2Z"/></g><g id="frame"><rect class="cls-1" height="32" width="32"/></g></svg>
+                    </header>
+                    <div class="row turing__row-1 align-items-stretch">
+                        <div class="col-lg-6 turing__col-1 mb-3 mb-lg-0">
+                            <div class="turing__box-governance-left d-flex align-items-end height-100 p-relative">
+                                <img src="../assets/images/bg-governance-1.jpg" class="img-cover bg-background-position" />
+                                <div class="p-relative z-index-5">
+                                    <div class="home__title-large mb-3">Represented by the community.</div>
+                                    <div class="f-18 mb-3">The TuringMachine Protocol is administered by a decentralized local area of TURING token holders who propose and vote on moves up to the convention.</div>
+                                    <div><a href="dao.html" class="turing__button">Read More</a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 turing__col-1">
+                            <div class="height-100">
+                                <a href="https://t.me/turingmachinenetwork" target="_blank">
+                                    <div class="turing__box turing__box-governance mb-4">
+                                        <div class="home__title-normal mb-5">Telegram Community ↗</div>
+                                        <div>Take an interest by proposing overhauls and talking about the protocol's future with the TuringMachine community.</div>
+                                    </div>
+                                </a>
+                                <a href="https://twitter.com/TuringMachine12" target="_blank">
+                                    <div class="turing__box turing__box-governance mb-4">
+                                        <div class="home__title-normal mb-5">Twitter ↗</div>
+                                        <div>Get the latest updates from our Twitter.</div>
+                                    </div>
+                                </a>
+                                <a href="https://github.com/turingmachinenetwork" target="_blank">
+                                    <div class="turing__box turing__box-governance">
+                                        <div class="home__title-normal">Github ↗</div>
+                                        <div>If you have any questions, ideas, or issues, join us at our Github.</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </li>
-        </ul>
-    </body>
+            </article>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="dao.html">DAO</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="useturing.html">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/turingmachinenetwork">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</body>
 <script>
-    var core = new $.Core();
-    var abi  = new $.ABI();
-    var turingStake  = new $.TuringStake();
-    var turingStakeV2  = new $.TuringStakeV2(); 
-    var turingAlpacaFarmBNB  = new $.TuringAlpacaFarmBNB();
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var dataHelper = new $.DATA();
+    var turingFarmInfoHelper = new $.TURRING_FARM_INFO();
+    var pidOfStakingTur = 17;
     $(document).ready(function() {
-        abi.init({});
-        core.init({});
-        turingStake.init({ pool: 'turing-stake', isStakePage: false });
-        turingStakeV2.init({ pool: 'turing-stake', isStakePage: false });
-        turingAlpacaFarmBNB.init({ pool: 'turing-alpaca-farm-bnb', isFarmPage: false });
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        bscContractHelper.init({
+            chainId: 56
+        });
+        dataHelper.init({
+            chainId: 56
+        });
+        turingFarmInfoHelper.init({
+            chainId: 56,
+            pids: []
+        })
+        turingFarmInfoHelper.initHomePageInterface(pidOfStakingTur)
     });
 </script>
-<script src="./js/trustwallet.js"></script></html>
+
+</html>

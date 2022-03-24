@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/bsc/abi.js"></script>
+    <script src="../js/contract/bsc/config.js"></script>
+    <script src="../js/data/store.js"></script>
+    <script src="../js/contract/bsc/core.js"></script>
+    <script src="../js/contract/bsc/base.contract.js"></script>
+    <script src="../js/contract/bsc/data.js"></script>
+    <script src="../js/contract/bsc/turing-venus-lp-info.contract.js"></script>
+    <script src="../js/contract/bsc/turing.farm.info.contract.js"></script>
+
+    <title>Pools - TuringMachine.network</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="../assets/images/logo.svg" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect to a wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="removelp.html">Remove Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__swap">
+            <section class="blog__container">
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700">
+                            <fieldset>
+                                <div class="blog__container mt-4 pt-0 pt-md-4">
+                                    <div class="turing__box__farms ps-3 pe-3 pt-3 pb-2">
+                                        <div class="pool__list-reponsive">
+                                            <table class="pool__list table-farm">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="f-14 f-700">Pool</th>
+                                                        <th class="f-14 f-700 text-end">Rewards APR</th>
+                                                        <th class="f-14 f-700 text-end">TVL</th>
+                                                        <th class="f-14 f-700 text-end">Volume</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tbody">
+                                                    <tr onclick="window.location='usdt-busd-venusLp-farm.html'">
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="logo">
+                                                                    <span><img class="base-coin" src="../assets/images/usdt_logo.png"></span>
+                                                                    <span><img class="token-coin" src="../assets/images/busd_logo.png"></span>
+                                                                </div>
+                                                                <div class="info pl-12">
+                                                                    <div class="f-14 f-700 text-white">
+                                                                        <span>USDT - BUSD</span>
+                                                                        <span class="speed-mining-TUR">5X</span>
+                                                                        <span class="speed-mining-TUR">VENUS</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2">Deposit USDT-BUSD Turing Venus LP earn TURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-13">-</td>
+                                                        <td class="f-14 text-end" id="tvl-13">-</td>
+                                                        <td class="f-14 text-end" id="vl-13">-</td>
+                                                    </tr>
+                                                    <tr onclick="window.location='usdc-busd-venusLp-farm.html'">
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="logo">
+                                                                    <span><img class="base-coin" src="../assets/images/usdc_logo.png"></span>
+                                                                    <span><img class="token-coin" src="../assets/images/busd_logo.png"></span>
+                                                                </div>
+                                                                <div class="info pl-12">
+                                                                    <div class="f-14 f-700 text-white">
+                                                                        <span>USDC - BUSD</span>
+                                                                        <span class="speed-mining-TUR">5X</span>
+                                                                        <span class="speed-mining-TUR">VENUS</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2">Deposit USDC-BUSD Turing Venus LP earn TURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-14">-</td>
+                                                        <td class="f-14 text-end" id="tvl-14">-</td>
+                                                        <td class="f-14 text-end" id="vl-14">-</td>
+                                                    </tr>
+                                                    <tr onclick="window.location='dai-busd-venusLp-farm.html'">
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="logo">
+                                                                    <span><img class="base-coin" src="../assets/images/dai_logo.png"></span>
+                                                                    <span><img class="token-coin" src="../assets/images/busd_logo.png"></span>
+                                                                </div>
+                                                                <div class="info pl-12">
+                                                                    <div class="f-14 f-700 text-white">
+                                                                        <span>DAI-BUSD</span>
+                                                                        <span class="speed-mining-TUR">5X</span>
+                                                                        <span class="speed-mining-TUR">VENUS</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2">Deposit DAI-BUSD Turing Venus LP earn TURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-15">-</td>
+                                                        <td class="f-14 text-end" id="tvl-15">-</td>
+                                                        <td class="f-14 text-end" id="vl-15">-</td>
+
+                                                    </tr>
+                                                    <tr onclick="window.location='vai-busd-venusLp-farm.html'">
+                                                        <td>
+                                                            <div class="d-flex align-items-center">
+                                                                <div class="logo">
+                                                                    <span><img class="base-coin" src="../assets/images/vai_logo.png"></span>
+                                                                    <span><img class="token-coin" src="../assets/images/busd_logo.png"></span>
+                                                                </div>
+                                                                <div class="info pl-12">
+                                                                    <div class="f-14 f-700 text-white">
+                                                                        <span>VAI-BUSD</span>
+                                                                        <span class="speed-mining-TUR">5X</span>
+                                                                        <span class="speed-mining-TUR">VENUS</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2">Deposit VAI-BUSD Turing Venus LP earn TURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-16">-</td>
+                                                        <td class="f-14 text-end" id="tvl-16">-</td>
+                                                        <td class="f-14 text-end" id="vl-16">-</td>
+
+                                                    </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="dao.html">DAO</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="useturing.html">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/turingmachinenetwork">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var dataHelper = new $.DATA();
+    var turingVenusLPInfoHelper = new $.TURRING_VENUS_LP_INFO();
+    var turingFarmInfoHelper = new $.TURRING_FARM_INFO();
+    var pidOfStakingTur = 17;
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        bscContractHelper.init({
+            chainId: 56
+        });
+        dataHelper.init({
+            chainId: 56
+        });
+        turingFarmInfoHelper.init({
+            chainId: 56,
+            pids: []
+        })
+        coreHelper.initBTNName('btn-swap', 'Swap');
+        turingFarmInfoHelper.initHomeInterface(pidOfStakingTur)
+
+
+    });
+</script>
+
+
+</html>

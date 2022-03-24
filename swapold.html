@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link href="./assets/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./assets/js/web3.min.js"></script>
+    <script src="./assets/js/trustwallet.js"></script>
+    <script src="./js/contract/bsc/abi.js"></script>
+    <script src="./js/contract/bsc/config.js"></script>
+    <script src="./js/data/store.js"></script>
+    <script src="./js/contract/bsc/core.js"></script>
+    <script src="./js/contract/bsc/base.contract.js"></script>
+    <script src="./js/contract/bsc/turing-venus-lp-info.contract.js"></script>
+    <script src="./js/contract/bsc/turing-venus.swap.contract.js"></script>
+
+    <title>Swap</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-4">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo">
+                                    <img src="./assets/images/logo.svg" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-6 col-lg-4 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect to a wallet</a>
+                                <button type="button" class="header__btn-swap ms-3"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="#">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Pool</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Vote</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Charts↗</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__swap">
+            <section class="blog__container">
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700">Swap</div>
+                        <img src="./assets/images/setting.svg" class="cursor-pointer" />
+                    </div>
+
+                    <div class="swap__form mb-2">
+                        <div class="swap__form-item mb-1">
+                            <div class="row">
+                                <div class="col-5">
+                                    <select class="selectpicker swap__form-select" name="from">
+                    <option value="">Select a token</option>
+                    <option
+                        value="busd"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/busd_logo.png' /></span>BUSD</div>"
+                    >BUSD</option>
+                    <option
+                        value="usdt"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
+                    >USDT</option>
+                    <option
+                        value="usdc"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
+                    >USDC</option>
+                    <option
+                        value="dai"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
+                    >DAI</option>
+                    <option
+                        value="vai"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/vai_logo.png' /></span>VAI</div>"
+                    >VAI</option>
+                  </select>
+                                </div>
+                                <div class="col-7">
+                                    <input class="swap__form-input" name="amountIn" placeholder="0.0" value="" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <img src="./assets/images/swap.svg" class="cursor-pointer icon-swap btn-reverse-pair" />
+
+                        <div class="swap__form-item">
+                            <div class="row">
+                                <div class="col-5">
+                                    <select class="selectpicker swap__form-select" name="to">
+                    <option value="">Select a token</option>
+                    <option
+                        value="busd"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/busd_logo.png' /></span>BUSD</div>"
+                    >BUSD</option>
+                    <option
+                        value="usdt"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdt_logo.png' /></span>USDT</div>"
+                    >USDT</option>
+                    <option
+                        value="usdc"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/usdc_logo.png' /></span>USDC</div>"
+                    >USDC</option>
+                    <option
+                        value="dai"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/dai_logo.png' /></span>DAI</div>"
+                    >DAI</option>
+                    <option
+                        value="vai"
+                      data-content="<div class='swap__form-item-select'><span><img src='./assets/images/vai_logo.png' /></span>VAI</div>"
+                    >VAI</option>
+                  </select>
+                                </div>
+                                <div class="col-7">
+                                    <input class="swap__form-input" placeholder="0.0" value="" name="amountOut" readonly/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="header__btn-connect w-100 text-center btn-approve">Approvel</button>
+                    <button type="button" class="header__btn-connect w-100 text-center btn-swap">Connect to a wallet</button>
+                </article>
+
+                <article class="turing__box-1 p-3 mb-3">
+                    <p class="f-700">What is Swap?</p>
+
+                    <p>TuringMachine Swap is an AMM (like Pancakeswap) focused on stablecoin trading, so it is lower risk and nearly no impermanent loss.</p>
+
+                    <p>With TuringMachine Swap, Liquidity Providers will not earn only from trading fees, and the protocol is also supplied to Venus protocol or other DeFi pools to create more interest.</p>
+
+                    <p>The TuringMachine Swap Contract will move the liquidity around to do both works (trading and farming).</p>
+
+                    <p>What is Refund Program?</p>
+
+                    <p>When you use TuringMachine Swap to trade the assets, you'll automatically begin getting TURING from our Refund Pool.</p>
+
+                    <p>Risks of using TuringMachine Swap Liquidity Pool?</p>
+
+                    <div>Check it here.</div>
+                </article>
+
+                <article class="turing__box-1 p-3 mb-3">
+                    <p class="f-700">Liquidity Pool's stats</p>
+
+                    <div>BUSD: <span class="swap-liquidity-busd">-</span></div>
+                    <div>USDT: <span class="swap-liquidity-usdt">-</span></div>
+                    <div>USDC: <span class="swap-liquidity-usdc">-</span></div>
+                    <div>DAI: <span class="swap-liquidity-dai">-</span></div>
+                    <div>VAI: <span class="swap-liquidity-vai">-</span></div>
+                    <div>Trade Fee: 0.2%</div>
+                    <div>Profit Model: 0.05% to buy TURING then burn, 0.01% send to SAFU contract.</div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2021 Turingmachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">About</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Disclaimer</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Trademarks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Brand</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js/custom.js"></script>
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var turingVenusLPInfoHelper = new $.TURRING_VENUS_LP_INFO();
+    var turingVenusSwapHelper = new $.TURRING_VENUS_POOL_SWAP();
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        bscContractHelper.init({
+            chainId: 97
+        });
+        turingVenusLPInfoHelper.init({
+            chainId: 97
+        });
+        turingVenusSwapHelper.init({
+            chainId: 97
+        });
+        coreHelper.initBTNName('btn-swap', 'Swap');
+
+        turingVenusSwapHelper.loadData();
+        turingVenusSwapHelper.displayBTN();
+        turingVenusSwapHelper.onChangeFromToken();
+        turingVenusSwapHelper.onChangeToToken();
+        turingVenusSwapHelper.reverse();
+        turingVenusSwapHelper.onChangeAmountIn();
+        turingVenusSwapHelper.estimateAmountOut();
+        turingVenusSwapHelper.approve();
+        turingVenusSwapHelper.swap();
+    });
+</script>
+
+</html>

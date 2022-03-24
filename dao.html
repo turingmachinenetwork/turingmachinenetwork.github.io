@@ -1,91 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="turingmachine.network">
-        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>DAO - TuringMachine.Network</title>
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="shortcut icon" href="/favicon.ico">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <link href="../assets/scss/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/bsc/core.js"></script>
 
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <title>DAO - TuringMachine.network</title>
+</head>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="./js/web3.min.js"></script>
-        <script src="./js/turing-data.js"></script>
-        <script src="./js/main.js"></script>
-    </head>
-
-    <body>
-        <div id="app" class="mainApp">
-            <div  id="app" class="root RootIndex">
-                <div  class="screencontainer">
-                    <div  class="top-menu-bar">
-                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
-                        <div  class="poolsdropdown">
-                            <button  class="simplebutton">☰</button>
-                            <div  class="dropdown">
-                                <p >____________</p>
-                                <button  id="myAddress" class="simplebutton margintop" style="">
-                                    <a  href="#" rel="noopener noreferrer"> 
-                                        <span class="user-addr">0x0</span> 
-                                    </a>
-                                </button>
-                                 
-                                
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='index.html'">
+                                    <img src="../assets/images/logo.svg" />
+                                </div>
                             </div>
                         </div>
-                        <a href="/" >Home</a>
-                        <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html">Pools</a>
-                        <a href="/addlp.html">Add Liquidity</a>
-                        <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
-                        <a href="/farms.html" >Farms</a>
-                        <a href="/dashboard.html" class="">Dashboard</a>
-                        <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
-                    </div>
-                    <div  id="screen">
-                        <div  class="blue window RootIndex">
-                            <h1 >
-                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
-                                TuringMachine
-                            </h1>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect to a wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="dashboard.html">Dashboard</a>
+                                    </div>
+                                </span>
+                            </div>
                         </div>
-                        <!---->
-                        <div class="window white">
-                            <fieldset>
-                                <h2><b>TuringMachine Governance</b></h2>
-                                <p>We want to build a fully decentralized platform at TuringMachine for that applications and developers can rely on it forever.</p>
-                                <p>At the first time of the release of the TuringMachine platform, we will still have the protocol administrator’s ability at some contracts. 
-                                   Still, to make the platform more transparent with users, we added <b>Timelock</b> and <b>Whitelist</b> into all platform contracts.</p>
-                                <p><b>Timelock</b> contract that moves the platform towards a “time-delayed, opt-out” upgrade pattern (rather than the “instant, forced” upgrade pattern).</p>
-                                <p>The <b>Timelock</b> has a hard-coded minimum delay of 2 days, which is the least notice possible for admin action.</p>
-                                <p><b>Whitelist</b> contract will create a firewall for the protocol. All other contracts which want to access (make an internal call) to TuringMachine Contract will need to be approved first.</p>
-                                <p>The community can remove the <b>Whitelist</b> in the future with Community's vote. For now, it will help protect the fund in the protocol by preventing any contract hacking (flash loan, etc.). If you want to connect your contract with the TuringMachine protocol, please use this <a target='_blank' href='https://github.com/turingmachinenetwork'>guide</a> to request our Whitelist contract.</p>
-                                <p>In the future, we will move towards complete decentralization with a governance system that will replace the TuringMachine protocol’s administrator with community governance.</p>
-                                <p>If you have any questions, ideas, or issues, join us at our <a target='_blank' href="https://github.com/turingmachinenetwork">Github</a>.</p>
-                            </fieldset>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="removelp.html">Remove Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </nav>
+        </header>
+        <main class="page__blog">
+            <div class="container container-2">
+                <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
+                    <img src="../assets/images/blog-thumb-1.png" class="bg-background-position" />
+                    <div class="p-relative z-index-5 text-center">
+                        <div class="mb-3 mb-md-5"><img src="../assets/images/union.svg" /></div>
+                        <div class="blog__title">TuringMachine Governance</div>
+                    </div>
+                </div>
 
-                <footer >
-                    <a href="/dao.html">DAO</a>
-                    <a href="/useturing.html">Use TURING</a>
-                    <a href="/risks.html" class="">Risks</a>
-                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
-                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.6</a>
-                </footer>
+                <div class="blog__container mt-4 pt-0 mt-md-5 pt-md-5">
+                    <div class="blog__description">
+                        <p>We want to build a fully decentralized platform at TuringMachine for that applications and developers can rely on it forever.</p>
+
+                        <p>At the first time of the release of the TuringMachine platform, we will still have the protocol administrator’s ability at some contracts. Still, to make the platform more transparent with users, we added <b> Timelock </b> and
+                            <b> Whitelist </b> into all platform contracts.
+                        </p>
+
+                        <p> <b> Timelock </b>contract that moves the platform towards a “time-delayed, opt-out” upgrade pattern (rather than the “instant, forced” upgrade pattern).</p>
+
+                        <p>The <b> Timelock </b>has a hard-coded minimum delay of 2 days, which is the least notice possible for admin action.</p>
+                        <p> <b> Whitelist </b> contract will create a firewall for the protocol. All other contracts which want to access (make an internal call) to TuringMachine Contract will need to be approved first.</p>
+                        <p>The community can remove the <b> Whitelist</b> in the future with Community's vote. For now, it will help protect the fund in the protocol by preventing any contract hacking (flash loan, etc.). If you want to connect your contract
+                            with the TuringMachine protocol, please use this <a style="text-decoration: none;" href="https://github.com/turingmachinenetwork"> guide</a> to request our Whitelist contract.</p>
+                        <p>In the future, we will move towards complete decentralization with a governance system that will replace the TuringMachine protocol’s administrator with community governance.</p>
+                        <p>If you have any questions, ideas, or issues, join us at our <a style="text-decoration: none;" href="https://github.com/turingmachinenetwork"> Github.</a></p>
+                    </div>
+                </div>
             </div>
-        </div>
-    </body>
+        </main>
 
-<script src="./js/trustwallet.js"></script></html>
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="dao.html">DAO</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="useturing.html">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/turingmachinenetwork">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+</body>
+<script>
+    var coreHelper = new $.Core();
+    $(document).ready(function() {
+        coreHelper.init({});
+    });
+</script>
+
+</html>
