@@ -1,158 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="turingmachine.network">
-        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>No-loss Pools - TuringMachine.Network</title>
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="shortcut icon" href="/favicon.ico">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="turingmachine.network">
+    <meta name="title" content="turingmachine.network::cake-no-loss-pool" />
+    <title>No-loss Pools - TuringMachine.Network</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="shortcut icon" href="favicon.ico">
 
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="./js/web3.min.js"></script>
-        <script src="./js/turing-data.js"></script>
-        <script src="./js/main.js"></script>
-    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./js/web3.min.js"></script>
+    <script src="./js/turing-data.js"></script>
+    <script src="./js/main.js"></script>
+</head>
 
-    <body>
-        <script>var page = "No-loss"</script>
-        <div id="app" class="mainApp">
-            <div  id="app" class="root RootIndex">
-                <div  class="screencontainer">
-                    <div  class="top-menu-bar">
-                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
-                        <div  class="poolsdropdown">
-                            <button  class="simplebutton">☰</button>
-                            <div  class="dropdown">
-                                <p >____________</p>
-                                <button  id="myAddress" class="simplebutton margintop" style="">
+<body>
+    <script>
+        var page = "No-loss"
+    </script>
+    <div id="app" class="mainApp">
+        <div id="app" class="root RootIndex">
+            <div class="screencontainer">
+                <div class="top-menu-bar">
+                    <label for="hamburger" class="border-menu"></label><input type="checkbox" id="hamburger">
+                    <div class="poolsdropdown">
+                        <button class="simplebutton">☰</button>
+                        <div class="dropdown">
+                            <p>____________</p>
+                            <button id="myAddress" class="simplebutton margintop" style="">
                                     <a  href="#" rel="noopener noreferrer"> 
                                         <span class="user-addr">0x0</span> 
                                     </a>
                                 </button>
-                                 
-                                
-                            </div>
+
+
                         </div>
-                        <a href="/" >Home</a>
-                        <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html">Pools</a>
-                        <a href="/addlp.html">Add Liquidity</a>
-                        <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html" class="router-link-exact-active router-link-active">No-loss Lottery</a>
-                        <a href="/farms.html">Farms</a>
-                        <a href="/dashboard.html" class="">Dashboard</a>
-                        <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
                     </div>
-                    <div  id="screen">
-                        <div  class="blue window RootIndex">
-                            <h1 >
-                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
-                                TuringMachine
-                            </h1>
-                        </div>
-                        <!---->
-                        <div class="window white">
-                            <fieldset>
-                                <legend>No-loss Lottery Pool</legend>
-                                <p><b>What is No-loss Lottery?</b></p>
-                                <p>No-loss Lottery Pool offers a chance to win prizes in exchange for depositing funds. Even if you don't win, you keep all your deposited funds. Prizes are made up of the interest that accrues on all user's deposits.</p>
-                                <p><b>Where does the money for the prize come from?</b></p>
-                                <p>When you join a prize pool, your money is deposited into a yield source. The yield source generates the return that makes up the prizes.</p>
-                                <p><b>What prevents people from depositing right before a prize and withdrawing right after?</b></p>
-                                <p>
-                                    When you deposit into a prize pool, you are instantly eligible to win. This creates a possibility for people to abuse the system by depositing right before a prize, having a chance to win, and withdrawing right after.
-                                    The protocol prevents this by enforcing a temporary early withdrawal penalty. This means if someone deposits and immediately withdraws, they will have to pay a penalty that will go to the next prize. Over time this penalty reduces to zero.
-                                </p>
-                            </fieldset>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > All No-loss Lottery Pools </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pool<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Prize<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR<!----></a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                    <a href="index.html">Home</a>
+                    <a href="exchange.html">Swap</a>
+                    <a href="swappools.html">Pools</a>
+                    <a href="addlp.html">Add Liquidity</a>
+                    <a href="removelp.html">Remove Liquidity</a>
+                    <a href="no-loss-pool.html" class="router-link-exact-active router-link-active">No-loss Lottery</a>
+                    <a href="farms.html">Farms</a>
+                    <a href="dashboard.html" class="">Dashboard</a>
+                    <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
+                </div>
+                <div id="screen">
+                    <div class="blue window RootIndex">
+                        <h1>
+                            <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine"> TuringMachine
+                        </h1>
+                    </div>
+                    <!---->
+                    <div class="window white">
+                        <fieldset>
+                            <legend>No-loss Lottery Pool</legend>
+                            <p><b>What is No-loss Lottery?</b></p>
+                            <p>No-loss Lottery Pool offers a chance to win prizes in exchange for depositing funds. Even if you don't win, you keep all your deposited funds. Prizes are made up of the interest that accrues on all user's deposits.</p>
+                            <p><b>Where does the money for the prize come from?</b></p>
+                            <p>When you join a prize pool, your money is deposited into a yield source. The yield source generates the return that makes up the prizes.</p>
+                            <p><b>What prevents people from depositing right before a prize and withdrawing right after?</b></p>
+                            <p>
+                                When you deposit into a prize pool, you are instantly eligible to win. This creates a possibility for people to abuse the system by depositing right before a prize, having a chance to win, and withdrawing right after. The protocol prevents this by enforcing
+                                a temporary early withdrawal penalty. This means if someone deposits and immediately withdraws, they will have to pay a penalty that will go to the next prize. Over time this penalty reduces to zero.
+                            </p>
+                        </fieldset>
+                    </div>
+                    <div class="window white">
+                        <fieldset class="poolsdialog">
+                            <legend> All No-loss Lottery Pools </legend>
+                            <table data-v-6d9f4f96 class="table">
+                                <thead class="lh">
+                                    <tr style="vertical-align: top">
+                                        <td scope="col">
+                                            <a href="#">Pool<!----></a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">Prize<!----></a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">Rewards APR<!----></a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     Tickets
                                                 </a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     TVL
                                                 </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/cake-no-loss-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span></span> <b>cake</b>
-                                                <span  class="reference-asset">0.5x</span>
-                                                <span  class="reference-asset">CAKE</span>
-                                                <span  class="reference-asset">TURING</span>
-                                                <br />
-                                                <span  class="assets-list cake-no-loss-will-be-awarded"></span>
-                                            </td>
-                                            <td  class="base-apr">
-                                                <span  class="tooltip">
+                                        </td>
+                                    </tr>
+                                    <tr class="pool" onclick="window.location='cake-no-loss-pool.html'">
+                                        <td class="pooltext">
+                                            <span class="absolute"><span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/pancake_logo.png');"></span></span> <b>cake</b>
+                                            <span class="reference-asset">0.5x</span>
+                                            <span class="reference-asset">CAKE</span>
+                                            <span class="reference-asset">TURING</span>
+                                            <br />
+                                            <span class="assets-list cake-no-loss-will-be-awarded"></span>
+                                        </td>
+                                        <td class="base-apr">
+                                            <span class="tooltip">
                                                     <span  class="cake-no-loss-current-prize-by-usd">$0</span>
-                                                    <span  class="tooltiptext long">
+                                            <span class="tooltiptext long">
                                                         <div>Prize Source: Pancakeswap</div>
                                                         <div>Prize: <span class="cake-no-loss-current-prize"></span> CAKE</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="apr">
-                                                <div  class="incentive-apr"><span class="cake-no-loss-turing-reward-apy">0%</span> TURING</div>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                    </span>
+                    </span>
+                    </td>
+                    <td class="apr">
+                        <div class="incentive-apr"><span class="cake-no-loss-turing-reward-apy">0%</span> TURING</div>
+                    </td>
+                    <td class="volume">
+                        <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip cake-no-loss-total-tickets"> 0</span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                        </span>
+                        </span>
+                    </td>
+                    <td class="volume">
+                        <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip cake-no-loss-total-volume"> $0</span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>   
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                    </div>
+                        </span>
+                        </span>
+                    </td>
+                    </tr>
+                    </thead>
+                    </table>
+                    </fieldset>
                 </div>
-
-                <footer >
-                    <a href="/dao.html">DAO</a>
-                    <a href="/useturing.html">Use TURING</a>
-                    <a href="/risks.html" class="">Risks</a>
-                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
-                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.6</a>
-                </footer>
             </div>
         </div>
-    </body>
 
-<script src="./js/trustwallet.js"></script></html>
+        <footer>
+            <a href="dao.html">DAO</a>
+            <a href="useturing.html">Use TURING</a>
+            <a href="risks.html" class="">Risks</a>
+            <a href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+            <a href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+            <a href="https://github.com/turingmachinenetwork">git@</a><a href="#">Version 1.0.6</a>
+        </footer>
+    </div>
+    </div>
+</body>
+
+<script src="./js/trustwallet.js"></script>
+
+</html>

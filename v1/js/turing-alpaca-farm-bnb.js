@@ -51,6 +51,9 @@ $.TuringAlpacaFarmBNB.prototype = (function () {
                         tvl: core.parseFloatNumber(parseInt(r.tvl_) / 1e18, 18)
                     };
                     if (page != null && (page === "Dashboard" || page === "Home")) {
+                        if (arrayTVLs) {
+                            arrayTVLs["turingAlpacaFarmBNB"] = _data.tvl;
+                        }
                         if (
                             isMainnet == true &&
                             arrayContractFarmUserJoined &&

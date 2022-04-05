@@ -16,7 +16,7 @@ $.Core.prototype = (function() {
 			setting = $.extend({}, setting, options);
 		},
 		getWeb3ToReadDataOnMainnet() {
-		    let BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
+		    let BSC_RPC_END_POINT = 'https://bsc-dataseed1.defibit.io';
 		    return new Web3(BSC_RPC_END_POINT);
 		},
 		getWeb3ToReadDataOnTestnet() {

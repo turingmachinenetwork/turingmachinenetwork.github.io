@@ -5,7 +5,7 @@ var arrayContractFarmUserJoined = [];
 $(document).ready(function () {
     initWeb3();
     initCakeNoLossPoolContract();
-    
+
     try {
         initFarmPoolContract();
     } catch (e) {
@@ -91,9 +91,9 @@ $(document).ready(function () {
         var totalTVL = parseFloat(turingSwapPoolsTVL) + parseFloat(getSystemTotalTVL());
         $('#total-system-tvl').html(`${formatBalance(totalTVL, 2)}`);
         var turingSwapPoolsTradingVol = parseFloat(localStorage.getItem('turingSwapPoolsTradingVol')); //set on venus-pool-main.js
-        
+
         $('#total-trading-vol').html(`${formatBalance(turingSwapPoolsTradingVol, 2)}`);
-        
+
         try {
             if(page) {
                 if(page != null && page === "Dashboard") {
@@ -105,11 +105,11 @@ $(document).ready(function () {
                 }
             }
         } catch (exception) {
-            
+
         }
 
     }, 3000);
-    
+
 });
 
 function getContractUserJoined() {
@@ -147,13 +147,13 @@ function getSystemTotalTVL() {
 }
 
 function getWeb3ToReadDataForMain() {
-    const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
+    const BSC_RPC_END_POINT = 'https://bsc-dataseed1.defibit.io';
     // const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
 }
 function getWeb3ToReadDataOnTestnetForMain() {
-    // const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
+    // const BSC_RPC_END_POINT = 'https://bsc-dataseed1.defibit.io';
     const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
@@ -4213,7 +4213,7 @@ function initFarmPoolContract() {
         !farmUSDTBNBLPPoolContract ||
         !farmBUSDBNBLPPoolContract ||
         !farmBTCBBNBLPPoolContract ||
-        !farmETHBNBLPPoolContract 
+        !farmETHBNBLPPoolContract
         ) {
         const _web3 = getWeb3ToReadDataForMain();
         const _web3OnTestnet = getWeb3ToReadDataOnTestnetForMain();
@@ -4398,19 +4398,19 @@ function loadCakeNoLossData() {
     }
     $('.user-addr').html(`${userAddr.slice(0, 5)}...${userAddr.slice(-5)}`);
     /**
-     data_[0] uint256 miningSpeed_, 
-     data_[1] uint256 userWon_, 
-     data_[2] uint256 userTickets_, 
-     data_[3] uint256 userWant_, // cake 
-     data_[4] uint256 userTuringPending_, 
-     data_[5] uint256 userTuringBal_, 
-     data_[6] uint256 userBNBBal_, 
-     data_[7] uint256 prize_, 
-     data_[8] uint256 turingRewardAPY_, 
-     data_[9] uint256 totalTickets_, 
-     data_[10] uint256 wantPrice_, 
-     data_[11] uint256 turingPrice_, 
-     data_[12] uint256 endLoteryTime_, 
+     data_[0] uint256 miningSpeed_,
+     data_[1] uint256 userWon_,
+     data_[2] uint256 userTickets_,
+     data_[3] uint256 userWant_, // cake
+     data_[4] uint256 userTuringPending_,
+     data_[5] uint256 userTuringBal_,
+     data_[6] uint256 userBNBBal_,
+     data_[7] uint256 prize_,
+     data_[8] uint256 turingRewardAPY_,
+     data_[9] uint256 totalTickets_,
+     data_[10] uint256 wantPrice_,
+     data_[11] uint256 turingPrice_,
+     data_[12] uint256 endLoteryTime_,
      data_[13] uint256 tvl_
      */
     cakeNoLossPoolContract
@@ -4971,7 +4971,7 @@ function loadFarmUSDTBUSDLPPoolV2Data() {
                 $('.farm-usdt-busd-lp-pool-v2').hide();
             }
         }
-        
+
         return reloadFarmUSDTBUSDLPPoolV2Data();
     }
     function _error(_e) {
@@ -5256,7 +5256,7 @@ function initUserActionForMain() {
             if (typeof web3 == 'undifined') {
                 return false;
             }
-            let _transactionHistory = {}; 
+            let _transactionHistory = {};
             let _contract = new web3.eth.Contract(TURING_HARVEST_MACHINE_ABI, TURING_HARVEST_MACHINE_ADDR);
 
             _contract.methods.harvest(_poolsUserJoined).send({ from: getCurrentAddress() })
@@ -5269,7 +5269,7 @@ function initUserActionForMain() {
                             _hidePopupForMain('confirm-popup', 0);
                             _showPopupForMain('success-confirm-popup');
                             _hidePopupForMain('success-confirm-popup', 10000);
-                        } 
+                        }
                     });
         });
     }

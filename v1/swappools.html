@@ -1,252 +1,255 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="turingmachine.network">
-        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>Pools - TuringMachine.Network</title>
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="shortcut icon" href="/favicon.ico">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="turingmachine.network">
+    <meta name="title" content="turingmachine.network::cake-no-loss-pool" />
+    <title>Pools - TuringMachine.Network</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="shortcut icon" href="favicon.ico">
 
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="./js/web3.min.js"></script>
-        <script src="./js/turing-data.js"></script>
-        <script src="./js/venus-pool-main.js"></script>
-    </head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./js/web3.min.js"></script>
+    <script src="./js/turing-data.js"></script>
+    <script src="./js/venus-pool-main.js"></script>
+</head>
 
-    <body>
-        <script>var page = "SwapPools"</script>
-        <div id="app" class="mainApp">
-            <div  id="app" class="root RootIndex">
-                <div  class="screencontainer">
-                    <div  class="top-menu-bar">
-                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
-                        <div  class="poolsdropdown">
-                            <button  class="simplebutton">☰</button>
-                            <div  class="dropdown">
-                                <p >____________</p>
-                                <button  id="myAddress" class="simplebutton margintop" style="">
+<body>
+    <script>
+        var page = "SwapPools"
+    </script>
+    <div id="app" class="mainApp">
+        <div id="app" class="root RootIndex">
+            <div class="screencontainer">
+                <div class="top-menu-bar">
+                    <label for="hamburger" class="border-menu"></label><input type="checkbox" id="hamburger">
+                    <div class="poolsdropdown">
+                        <button class="simplebutton">☰</button>
+                        <div class="dropdown">
+                            <p>____________</p>
+                            <button id="myAddress" class="simplebutton margintop" style="">
                                     <a  href="#" rel="noopener noreferrer"> 
                                         <span class="user-addr">0x0</span> 
                                     </a>
                                 </button>
-                                 
-                                
-                            </div>
+
+
                         </div>
-                        <a href="/" >Home</a>
-                        <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html" class="router-link-exact-active router-link-active">Pools</a>
-                        <a href="/addlp.html">Add Liquidity</a>
-                        <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
-                        <a href="/farms.html">Farms</a>
-                        <a href="/dashboard.html" class="">Dashboard</a>
-                        <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
                     </div>
-                    <div  id="screen">
-                        <div  class="blue window RootIndex">
-                            <h1 >
-                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
-                                TuringMachine
-                            </h1>
-                        </div>
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend > Turing Swap Pools </legend>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pool</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                    <a href="index.html">Home</a>
+                    <a href="exchange.html">Swap</a>
+                    <a href="swappools.html" class="router-link-exact-active router-link-active">Pools</a>
+                    <a href="addlp.html">Add Liquidity</a>
+                    <a href="removelp.html">Remove Liquidity</a>
+                    <a href="no-loss-pool.html">No-loss Lottery</a>
+                    <a href="farms.html">Farms</a>
+                    <a href="dashboard.html" class="">Dashboard</a>
+                    <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
+                </div>
+                <div id="screen">
+                    <div class="blue window RootIndex">
+                        <h1>
+                            <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine"> TuringMachine
+                        </h1>
+                    </div>
+                    <div class="window white">
+                        <fieldset class="poolsdialog">
+                            <legend> Turing Swap Pools </legend>
+                            <table data-v-6d9f4f96 class="table">
+                                <thead class="lh">
+                                    <tr style="vertical-align: top">
+                                        <td scope="col">
+                                            <a href="#">Pool</a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">Rewards APR</a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     TVL
                                                 </a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     Volume
                                                 </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdt-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
+                                        </td>
+                                    </tr>
+                                    <tr class="pool" onclick="window.location='usdt-busd-venus-lp-pool.html'">
+                                        <td class="pooltext">
+                                            <span class="absolute">
                                                     <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdt_logo.png');"></span>
-                                                </span> 
-                                                <b>USDT-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDT-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
+                                            <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdt_logo.png');"></span>
+                                            </span>
+                                            <b>USDT-BUSD</b>
+                                            <span class="reference-asset">5x</span>
+                                            <span class="reference-asset">venus</span>
+                                            <br />
+                                            <span class="assets-list">Deposit USDT-BUSD Turing Venus LP earn TURING</span>
+                                        </td>
+                                        <td class="apr">
+                                            <span class="tooltip">
                                                     <span  class="farm-turing-usdt-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
+                                            <span class="tooltiptext long">
                                                         <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                    <div class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
+                    <div class="incentive-apr"><span class="farm-turing-usdt-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
+                    </span>
+                    </span>
+                    </td>
+                    <td class="volume">
+                        <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-usdt-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                        </span>
+                        </span>
+                    </td>
+                    <td class="volume">
+                        <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-usdt-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/usdc-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
+                        </span>
+                        </span>
+                    </td>
+                    </tr>
+                    <tr class="pool" onclick="window.location='usdc-busd-venus-lp-pool.html'">
+                        <td class="pooltext">
+                            <span class="absolute">
                                                     <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdc_logo.png');"></span>
-                                                </span> 
-                                                <b>USDC-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit USDC-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
+                            <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/usdc_logo.png');"></span>
+                            </span>
+                            <b>USDC-BUSD</b>
+                            <span class="reference-asset">5x</span>
+                            <span class="reference-asset">venus</span>
+                            <br />
+                            <span class="assets-list">Deposit USDC-BUSD Turing Venus LP earn TURING</span>
+                        </td>
+                        <td class="apr">
+                            <span class="tooltip">
                                                     <span  class="farm-turing-usdc-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
+                            <span class="tooltiptext long">
                                                         <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                <div class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
+                <div class="incentive-apr"><span class="farm-turing-usdc-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
+                </span>
+                </span>
+                </td>
+                <td class="volume">
+                    <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-usdc-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                    </span>
+                    </span>
+                </td>
+                <td class="volume">
+                    <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-usdc-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/dai-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
+                    </span>
+                    </span>
+                </td>
+                </tr>
+                <tr class="pool" onclick="window.location='dai-busd-venus-lp-pool.html'">
+                    <td class="pooltext">
+                        <span class="absolute">
                                                     <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/dai_logo.png');"></span>
-                                                </span> 
-                                                <b>DAI-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit DAI-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
+                        <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/dai_logo.png');"></span>
+                        </span>
+                        <b>DAI-BUSD</b>
+                        <span class="reference-asset">5x</span>
+                        <span class="reference-asset">venus</span>
+                        <br />
+                        <span class="assets-list">Deposit DAI-BUSD Turing Venus LP earn TURING</span>
+                    </td>
+                    <td class="apr">
+                        <span class="tooltip">
                                                     <span  class="farm-turing-dai-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
+                        <span class="tooltiptext long">
                                                         <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+            <div class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
+            <div class="incentive-apr"><span class="farm-turing-dai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
+            </span>
+            </span>
+            </td>
+            <td class="volume">
+                <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-dai-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+                </span>
+                </span>
+            </td>
+            <td class="volume">
+                <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-dai-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool" onclick="window.location='/vai-busd-venus-lp-pool.html'">
-                                            <td  class="pooltext">
-                                                <span class="absolute">
+                </span>
+                </span>
+            </td>
+            </tr>
+            <tr class="pool" onclick="window.location='vai-busd-venus-lp-pool.html'">
+                <td class="pooltext">
+                    <span class="absolute">
                                                     <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/busd_logo.png');left: 15px;"></span>
-                                                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/vai_logo.png');"></span>
-                                                </span> 
-                                                <b>VAI-BUSD</b>
-                                                <span  class="reference-asset">5x</span>
-                                                <span  class="reference-asset">venus</span>
-                                                <br />
-                                                <span  class="assets-list">Deposit VAI-BUSD Turing Venus LP earn TURING</span>
-                                            </td>
-                                            <td  class="apr">
-                                                <span  class="tooltip">
+                    <span data-v-895fa286="" class="crypto-icon" style="background-image: url('images/vai_logo.png');"></span>
+                    </span>
+                    <b>VAI-BUSD</b>
+                    <span class="reference-asset">5x</span>
+                    <span class="reference-asset">venus</span>
+                    <br />
+                    <span class="assets-list">Deposit VAI-BUSD Turing Venus LP earn TURING</span>
+                </td>
+                <td class="apr">
+                    <span class="tooltip">
                                                     <span  class="farm-turing-vai-busd-venus-lp-pool-apy">0</span>%
-                                                    <span  class="tooltiptext long">
+                    <span class="tooltiptext long">
                                                         <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-turing">-</span>% TURING</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
-                                                        <div  class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+        <div class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-venus">-</span>% VENUS</div>
+        <div class="incentive-apr"><span class="farm-turing-vai-busd-venus-lp-pool-apy-trade">-</span>% TRADING</div>
+        </span>
+        </span>
+        </td>
+        <td class="volume">
+            <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-vai-busd-venus-lp-pool-tvl"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                            <td  class="volume">
-                                                <span  class="">
+            </span>
+            </span>
+        </td>
+        <td class="volume">
+            <span class="">
                                                     <span  style="">
                                                         <span  class="tooltip farm-turing-vai-busd-venus-lp-pool-vol"> $0 </span>
-                                                    </span>
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
+            </span>
+            </span>
+        </td>
+        </tr>
+        </thead>
+        </table>
+        </fieldset>
+    </div>
+    </div>
+    </div>
 
-                <footer >
-                    <a href="/dao.html">DAO</a>
-                    <a href="/useturing.html">Use TURING</a>
-                    <a href="/risks.html" class="">Risks</a>
-                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
-                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.6</a>
-                </footer>
-            </div>
-        </div>
-    </body>
+    <footer>
+        <a href="dao.html">DAO</a>
+        <a href="useturing.html">Use TURING</a>
+        <a href="risks.html" class="">Risks</a>
+        <a href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+        <a href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+        <a href="https://github.com/turingmachinenetwork">git@</a><a href="#">Version 1.0.6</a>
+    </footer>
+    </div>
+    </div>
+</body>
 
-<script src="./js/trustwallet.js"></script></html>
+<script src="./js/trustwallet.js"></script>
+
+</html>

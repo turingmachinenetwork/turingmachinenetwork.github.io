@@ -1,288 +1,396 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta property="og:title" content="turingmachine.network">
-        <meta name="title" content="turingmachine.network::cake-no-loss-pool"/>
-        <title>TURING Stake - TuringMachine.Network</title>
-        <link rel="stylesheet" href="css/app.css">
-        <link rel="shortcut icon" href="/favicon.ico">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="turingmachine.network">
+    <meta name="title" content="turingmachine.network::cake-no-loss-pool" />
+    <title>TURING Stake - TuringMachine.Network</title>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="shortcut icon" href="favicon.ico">
 
-        <meta name="msapplication-TileColor" content="#da532c">
-        <meta name="theme-color" content="#ffffff">
-        <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script src="./js/web3.min.js"></script>
-        <script src="./js/turing-data.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="./js/web3.min.js"></script>
+    <script src="./js/turing-data.js"></script>
 
-        <script src="./js/abi.js"></script>
-        <script src="./js/core.js"></script>
-        <script src="./js/turing-stake.js"></script>
-        <style id="svelte-166mr51-style">
-            ul.svelte-166mr51{display:flex;flex-flow:column nowrap;position:fixed;font-size:16px;padding:0 0.75em;margin:0;list-style-type:none;width:20em;bottom:0;right:0;font-family:'Helvetica Neue';max-height:100vh;overflow-y:scroll;overflow-x:hidden;color:#4a4a4a;background:transparent;scrollbar-width:none;box-sizing:border-box;height:100vh;pointer-events:none;z-index:99999999}@media only screen and (max-width: 450px){ul.svelte-166mr51{width:100%}}.bn-notify-custom.bn-notify-dark-mode{background:#283944;color:#ffffff;background:rgba(40, 57, 68, 0.9)}.bn-notify-clickable:hover{cursor:pointer}.svelte-166mr51::-webkit-scrollbar{display:none}li.svelte-166mr51{position:relative;display:flex;padding:0.75em;font-size:0.889em;font-family:inherit;border-radius:10px;background:#ffffff;box-shadow:0px 2px 10px rgba(0, 0, 0, 0.1);color:inherit;transition:background 300ms ease-in-out, color 300ms ease-in-out;pointer-events:all;background:#ffffff;backdrop-filter:blur(5px);background:rgba(255, 255, 255, 0.9)}div.svelte-166mr51{position:absolute;top:0.75em;right:0.75em;font-size:inherit;font-family:inherit}
-        </style>
-        <style id="svelte-7rn0pv-style">
-            div.svelte-7rn0pv{height:100%;font-size:inherit;font-family:inherit;width:1.5em}
-        </style>
-        <style id="svelte-5f7pqk-style">
-            div.svelte-5f7pqk{display:flex;flex-flow:column nowrap;justify-content:center;font-size:inherit;font-family:inherit;margin-left:0.75em;max-width:78%}p.svelte-5f7pqk{display:flex;align-items:center;margin:0.5em 0 0 0;opacity:0.7;font-size:0.889em;line-height:1.15;font-family:inherit}span.svelte-5f7pqk{font-family:inherit;display:flex;align-items:center}
-        </style>
-        <style id="svelte-12gqi36-style">
-            p.svelte-12gqi36{margin:0;font-family:inherit;font-size:inherit}
-        </style>
-        <style id="svelte-1ociadw-style">svg.svelte-1ociadw{margin:0 0.25em 0 0.5em}</style>
-    </head>
+    <script src="./js/abi.js"></script>
+    <script src="./js/core.js"></script>
+    <script src="./js/turing-stake.js"></script>
+    <style id="svelte-166mr51-style">
+        ul.svelte-166mr51 {
+            display: flex;
+            flex-flow: column nowrap;
+            position: fixed;
+            font-size: 16px;
+            padding: 0 0.75em;
+            margin: 0;
+            list-style-type: none;
+            width: 20em;
+            bottom: 0;
+            right: 0;
+            font-family: 'Helvetica Neue';
+            max-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #4a4a4a;
+            background: transparent;
+            scrollbar-width: none;
+            box-sizing: border-box;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999999
+        }
+        
+        @media only screen and (max-width: 450px) {
+            ul.svelte-166mr51 {
+                width: 100%
+            }
+        }
+        
+        .bn-notify-custom.bn-notify-dark-mode {
+            background: #283944;
+            color: #ffffff;
+            background: rgba(40, 57, 68, 0.9)
+        }
+        
+        .bn-notify-clickable:hover {
+            cursor: pointer
+        }
+        
+        .svelte-166mr51::-webkit-scrollbar {
+            display: none
+        }
+        
+        li.svelte-166mr51 {
+            position: relative;
+            display: flex;
+            padding: 0.75em;
+            font-size: 0.889em;
+            font-family: inherit;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            color: inherit;
+            transition: background 300ms ease-in-out, color 300ms ease-in-out;
+            pointer-events: all;
+            background: #ffffff;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9)
+        }
+        
+        div.svelte-166mr51 {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            font-size: inherit;
+            font-family: inherit
+        }
+    </style>
+    <style id="svelte-7rn0pv-style">
+        div.svelte-7rn0pv {
+            height: 100%;
+            font-size: inherit;
+            font-family: inherit;
+            width: 1.5em
+        }
+    </style>
+    <style id="svelte-5f7pqk-style">
+        div.svelte-5f7pqk {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            font-size: inherit;
+            font-family: inherit;
+            margin-left: 0.75em;
+            max-width: 78%
+        }
+        
+        p.svelte-5f7pqk {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0 0 0;
+            opacity: 0.7;
+            font-size: 0.889em;
+            line-height: 1.15;
+            font-family: inherit
+        }
+        
+        span.svelte-5f7pqk {
+            font-family: inherit;
+            display: flex;
+            align-items: center
+        }
+    </style>
+    <style id="svelte-12gqi36-style">
+        p.svelte-12gqi36 {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit
+        }
+    </style>
+    <style id="svelte-1ociadw-style">
+        svg.svelte-1ociadw {
+            margin: 0 0.25em 0 0.5em
+        }
+    </style>
+</head>
 
-    <body>
-        <script>var page = "Turing-Stake"</script>
-        <div id="app" class="mainApp">
-            <div  id="app" class="root RootIndex">
-                <div  class="screencontainer">
-                    <div  class="top-menu-bar">
-                        <label  for="hamburger" class="border-menu"></label><input  type="checkbox" id="hamburger">
-                        <div  class="poolsdropdown">
-                            <button  class="simplebutton">☰</button>
-                            <div  class="dropdown">
-                                <p >____________</p>
-                                <button  id="myAddress" class="simplebutton margintop" style="">
+<body>
+    <script>
+        var page = "Turing-Stake"
+    </script>
+    <div id="app" class="mainApp">
+        <div id="app" class="root RootIndex">
+            <div class="screencontainer">
+                <div class="top-menu-bar">
+                    <label for="hamburger" class="border-menu"></label><input type="checkbox" id="hamburger">
+                    <div class="poolsdropdown">
+                        <button class="simplebutton">☰</button>
+                        <div class="dropdown">
+                            <p>____________</p>
+                            <button id="myAddress" class="simplebutton margintop" style="">
                                     <a  href="#" rel="noopener noreferrer"> 
                                         <span class="user-addr">0x0</span> 
                                     </a>
                                 </button>
-                                 
-                                
-                            </div>
+
+
                         </div>
-                        <a href="/" >Home</a>
-                        <a href="/exchange.html">Swap</a>
-                        <a href="/swappools.html">Pools</a>
-                        <a href="/addlp.html">Add Liquidity</a>
-                        <a href="/removelp.html">Remove Liquidity</a>
-                        <a href="/no-loss-pool.html" >No-loss Lottery</a>
-                        <a href="/farms.html" class="router-link-exact-active router-link-active">Farms</a>
-                        <a href="/dashboard.html" class="">Dashboard</a>
-                        <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
                     </div>
-                    <div  id="screen">
-                        <div  class="blue window RootIndex">
-                            <h1 >
-                                <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine">
-                                TuringMachine
-                            </h1>
-                        </div>
-                        <div class="blue window">
-                            Please withdraw your token and move to the new pools <a target="_blank" href="https://turingmachine.network/turing-stake-v2.html">here</a>.
-                        </div>
-                        <!---->
-                        <div class="window white">
-                            <fieldset class="poolsdialog">
-                                <legend>Voting Power in DAO</legend>
-                                <p>Total TURING staked: <span class="turing-stake-staked">0</span> (<span class="turing-stake-percent-of-all-turing">0</span>% of all circulating TURING)</p>
-                                <p>Total voteTURING:  <span class="turing-stake-total-vote-turing">0</span></p>
-                                <p>Average stake time:  <span class="turing-stake-average-stake-time">0</span> years</p>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Time</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">Rewards APR</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                    <a href="index.html">Home</a>
+                    <a href="exchange.html">Swap</a>
+                    <a href="swappools.html">Pools</a>
+                    <a href="addlp.html">Add Liquidity</a>
+                    <a href="removelp.html">Remove Liquidity</a>
+                    <a href="no-loss-pool.html">No-loss Lottery</a>
+                    <a href="farms.html" class="router-link-exact-active router-link-active">Farms</a>
+                    <a href="dashboard.html" class="">Dashboard</a>
+                    <a target="_blank" href="https://pancakeswap.finance/swap?outputCurrency=0x76ed05fa250e8e993275e6e78b470b4d70ed120b" class="">TURING $<span class="turing-token-price">-</span> <span class="user-addr"></span></a>
+                </div>
+                <div id="screen">
+                    <div class="blue window RootIndex">
+                        <h1>
+                            <img style="height: 52px; margin-right: 10px" src="images/turing-white.png" alt="TuringMachine"> TuringMachine
+                        </h1>
+                    </div>
+                    <div class="blue window">
+                        Please withdraw your token and move to the new pools <a target="_blank" href="https://turingmachine.network/turing-stake-v2.html">here</a>.
+                    </div>
+                    <!---->
+                    <div class="window white">
+                        <fieldset class="poolsdialog">
+                            <legend>Voting Power in DAO</legend>
+                            <p>Total TURING staked: <span class="turing-stake-staked">0</span> (<span class="turing-stake-percent-of-all-turing">0</span>% of all circulating TURING)</p>
+                            <p>Total voteTURING: <span class="turing-stake-total-vote-turing">0</span></p>
+                            <p>Average stake time: <span class="turing-stake-average-stake-time">0</span> years</p>
+                            <table data-v-6d9f4f96 class="table">
+                                <thead class="lh">
+                                    <tr style="vertical-align: top">
+                                        <td scope="col">
+                                            <a href="#">Time</a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">Rewards APR</a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     TURING Staked
                                                 </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                Withdraw anytime
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-0-reward-apy">0%</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-0-total-stake">0</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                6 months
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-1-reward-apy">0%</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-1-total-stake">0</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                1 year
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-2-reward-apy">0%</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-2-total-stake">0</span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
-                        <div class="window white">
-                            <fieldset>
-                                <legend>Your account</legend>
-                                <p>YOUR EARNED: <span class="user-tickets turing-stake-your-earned">0</span> TURING <button class="turing-stake-harvest"> Harvest </button></p>                                
-                                <ul class="no-bullets">
-                                    <li>
-                                        <label for="currency_1">
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            Withdraw anytime
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-0-reward-apy">0%</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-0-total-stake">0</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            6 months
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-1-reward-apy">0%</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-1-total-stake">0</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            1 year
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-2-reward-apy">0%</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-2-total-stake">0</span>
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </fieldset>
+                    </div>
+                    <div class="window white">
+                        <fieldset>
+                            <legend>Your account</legend>
+                            <p>YOUR EARNED: <span class="user-tickets turing-stake-your-earned">0</span> TURING <button class="turing-stake-harvest"> Harvest </button></p>
+                            <ul class="no-bullets">
+                                <li>
+                                    <label for="currency_1">
                                             <span class="currency_label">
-                                                <img src="/images/turing_logo.png" class="token-icon dai-icon">
+                                                <img src="./images/turing_logo.png" class="token-icon dai-icon">
                                                 <span>TURING</span>
                                                 <span class="maxBalanceCoin turing-stake-max-withdraw"> Max: 
                                                     <span class="turing-stake-user-turing-state">0.00 </span>
                                                 </span>
                                             </span>
                                         </label>
-                                        <input type="number" id="currency_1" name="turing-stake-withdraw-amt">
-                                    </li>
-                                    <li><br/></li>
-                                    <li>
-                                        <span>
+                                    <input type="number" id="currency_1" name="turing-stake-withdraw-amt">
+                                </li>
+                                <li><br/></li>
+                                <li>
+                                    <span>
                                             <span data-v-daa7c420="">From stake pool:</span>
-                                            <input data-v-daa7c420="" id="withdrawtime1" type="radio" name="type-of-stake-withdraw" checked="checked" value="0" />
-                                            <label data-v-daa7c420="" for="withdrawtime1">Withdraw anytime</label>
-                                            <input data-v-daa7c420="" id="withdrawtime2" type="radio" name="type-of-stake-withdraw" value="1" />
-                                            <label data-v-daa7c420="" for="withdrawtime2">6 months</label>
-                                            <input data-v-daa7c420="" id="withdrawtime3" type="radio" name="type-of-stake-withdraw" value="2" />
-                                            <label data-v-daa7c420="" for="withdrawtime3">1 year</label>
-                                        </span>
-                                    </li>
-                                </ul>
-                                <p class="buttons" style="text-align: center;">
-                                    <button id="add-liquidity" class="turing-stake-withdraw"> 
+                                    <input data-v-daa7c420="" id="withdrawtime1" type="radio" name="type-of-stake-withdraw" checked="checked" value="0" />
+                                    <label data-v-daa7c420="" for="withdrawtime1">Withdraw anytime</label>
+                                    <input data-v-daa7c420="" id="withdrawtime2" type="radio" name="type-of-stake-withdraw" value="1" />
+                                    <label data-v-daa7c420="" for="withdrawtime2">6 months</label>
+                                    <input data-v-daa7c420="" id="withdrawtime3" type="radio" name="type-of-stake-withdraw" value="2" />
+                                    <label data-v-daa7c420="" for="withdrawtime3">1 year</label>
+                                    </span>
+                                </li>
+                            </ul>
+                            <p class="buttons" style="text-align: center;">
+                                <button id="add-liquidity" class="turing-stake-withdraw"> 
                                         Withdraw your balance 
                                     </button>
-                                </p>
-                                <p>YOUR STAKED: <span class="user-tickets turing-stake-your-stake">0</span></p>
-                                <table data-v-6d9f4f96 class="table">
-                                    <thead  class="lh">
-                                        <tr style="vertical-align: top">
-                                            <td  scope="col">
-                                                <a  href="#">Pools</a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                            </p>
+                            <p>YOUR STAKED: <span class="user-tickets turing-stake-your-stake">0</span></p>
+                            <table data-v-6d9f4f96 class="table">
+                                <thead class="lh">
+                                    <tr style="vertical-align: top">
+                                        <td scope="col">
+                                            <a href="#">Pools</a>
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     Your staked
                                                 </a>
-                                            </td>
-                                            <td  scope="col">
-                                                <a  href="#">
+                                        </td>
+                                        <td scope="col">
+                                            <a href="#">
                                                     Unstake time
                                                 </a>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                Withdraw anytime
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-0-your-stake">0</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-0-your-unstake-time">-</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                6 months
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-1-your-stake">0</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-1-your-unstake-time">-</span>
-                                            </td>
-                                        </tr>
-                                        <tr class="pool">
-                                            <td>
-                                                1 year
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-2-your-stake">0</span>
-                                            </td>
-                                            <td>
-                                                <span class="turing-stake-pool-2-your-unstake-time">-</span>
-                                            </td>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </fieldset>
-                        </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            Withdraw anytime
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-0-your-stake">0</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-0-your-unstake-time">-</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            6 months
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-1-your-stake">0</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-1-your-unstake-time">-</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="pool">
+                                        <td>
+                                            1 year
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-2-your-stake">0</span>
+                                        </td>
+                                        <td>
+                                            <span class="turing-stake-pool-2-your-unstake-time">-</span>
+                                        </td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </fieldset>
                     </div>
                 </div>
-
-                <footer >
-                    <a href="/dao.html">DAO</a>
-                    <a href="/useturing.html">Use TURING</a>
-                    <a href="/risks.html" class="">Risks</a>
-                    <a  href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
-                    <a  href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
-                    <a  href="https://github.com/turingmachinenetwork">git@</a><a  href="#">Version 1.0.6</a>
-                </footer>
             </div>
+
+            <footer>
+                <a href="dao.html">DAO</a>
+                <a href="useturing.html">Use TURING</a>
+                <a href="risks.html" class="">Risks</a>
+                <a href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                <a href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                <a href="https://github.com/turingmachinenetwork">git@</a><a href="#">Version 1.0.6</a>
+            </footer>
         </div>
-        <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Please confirm the transaction.</p>
-                </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p" >
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+    </div>
+    <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Please confirm the transaction.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
                         <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
                         <path d="m.1.1 7.82304289 7.82304289"></path>
                         <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
                         </g>
                         </svg>
-                    </div>
                 </div>
-            </li>
-        </ul>
-        <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
-            <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
-                <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
-                    <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
-                </div>
-                <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
-                    <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
-                        <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+            </div>
+        </li>
+    </ul>
+    <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
                         <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
                         <path d="m.1.1 7.82304289 7.82304289"></path>
                         <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
                         </g>
                         </svg>
-                    </div>
                 </div>
-            </li>
-        </ul>
-    </body>
+            </div>
+        </li>
+    </ul>
+</body>
 <script>
     var core = new $.Core();
-    var abi  = new $.ABI();
-    var turingStake  = new $.TuringStake();
+    var abi = new $.ABI();
+    var turingStake = new $.TuringStake();
     $(document).ready(function() {
         abi.init({});
         core.init({});
-        turingStake.init({ pool: 'turing-stake', isStakePage: true });
+        turingStake.init({
+            pool: 'turing-stake',
+            isStakePage: true
+        });
         turingStake.clickMaxDeposit();
         turingStake.clickMaxWithdraw();
         turingStake.approve();
@@ -294,4 +402,6 @@
         turingStake.onChangeDepositAmount();
     });
 </script>
-<script src="./js/trustwallet.js"></script></html>
+<script src="./js/trustwallet.js"></script>
+
+</html>

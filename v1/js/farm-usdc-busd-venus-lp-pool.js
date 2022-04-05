@@ -11,7 +11,7 @@ $(document).ready(function() {
 });
 
 function getWeb3ToReadData() {
-    const BSC_RPC_END_POINT = 'https://bsc-dataseed1.binance.org:443';
+    const BSC_RPC_END_POINT = 'https://bsc-dataseed1.defibit.io';
     // const BSC_RPC_END_POINT = 'https://data-seed-prebsc-2-s2.binance.org:8545';
     const MyWeb3 = new Web3(BSC_RPC_END_POINT);
     return MyWeb3;
