@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-5">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <link href="../assets/scss/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/bsc/turing-data.js"></script>
+    <script src="../js/contract/bsc/abi.js"></script>
+    <script src="../js/contract/bsc/config.js"></script>
+    <script src="../js/data/store.js"></script>
+    <script src="../js/contract/bsc/core.js"></script>
+    <script src="../js/contract/bsc/base.contract.js"></script>
+    <script src="../js/contract/bsc/data.js"></script>
+    <script src="../js/contract/bsc/turing.farm.info.contract.js"></script>
+    <script src="../js/contract/bsc/turing.farm.contract.js"></script>
+
+    <title>TURING Stake - TuringMachine.network</title>
+    <style id="svelte-166mr51-style">
+        ul.svelte-166mr51 {
+            display: flex;
+            flex-flow: column nowrap;
+            position: fixed;
+            font-size: 16px;
+            padding: 0 0.75em;
+            margin: 0;
+            list-style-type: none;
+            width: 20em;
+            bottom: 0;
+            right: 0;
+            font-family: 'Helvetica Neue';
+            max-height: 100vh;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            color: #4a4a4a;
+            background: transparent;
+            scrollbar-width: none;
+            box-sizing: border-box;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99999999
+        }
+        
+        @media only screen and (max-width: 450px) {
+            ul.svelte-166mr51 {
+                width: 100%
+            }
+        }
+        
+        .bn-notify-custom.bn-notify-dark-mode {
+            background: #283944;
+            color: #ffffff;
+            background: rgba(40, 57, 68, 0.9)
+        }
+        
+        .bn-notify-clickable:hover {
+            cursor: pointer
+        }
+        
+        .svelte-166mr51::-webkit-scrollbar {
+            display: none
+        }
+        
+        li.svelte-166mr51 {
+            position: relative;
+            display: flex;
+            padding: 0.75em;
+            font-size: 0.889em;
+            font-family: inherit;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+            color: inherit;
+            transition: background 300ms ease-in-out, color 300ms ease-in-out;
+            pointer-events: all;
+            background: #ffffff;
+            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.9)
+        }
+        
+        div.svelte-166mr51 {
+            position: absolute;
+            top: 0.75em;
+            right: 0.75em;
+            font-size: inherit;
+            font-family: inherit
+        }
+    </style>
+    <style id="svelte-7rn0pv-style">
+        div.svelte-7rn0pv {
+            height: 100%;
+            font-size: inherit;
+            font-family: inherit;
+            width: 1.5em
+        }
+    </style>
+    <style id="svelte-5f7pqk-style">
+        div.svelte-5f7pqk {
+            display: flex;
+            flex-flow: column nowrap;
+            justify-content: center;
+            font-size: inherit;
+            font-family: inherit;
+            margin-left: 0.75em;
+            max-width: 78%
+        }
+        
+        p.svelte-5f7pqk {
+            display: flex;
+            align-items: center;
+            margin: 0.5em 0 0 0;
+            opacity: 0.7;
+            font-size: 0.889em;
+            line-height: 1.15;
+            font-family: inherit
+        }
+        
+        span.svelte-5f7pqk {
+            font-family: inherit;
+            display: flex;
+            align-items: center
+        }
+    </style>
+    <style id="svelte-12gqi36-style">
+        p.svelte-12gqi36 {
+            margin: 0;
+            font-family: inherit;
+            font-size: inherit
+        }
+    </style>
+    <style id="svelte-1ociadw-style">
+        svg.svelte-1ociadw {
+            margin: 0 0.25em 0 0.5em
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='/cronos/index.html'">
+                                    <img src="../assets/images/Frame.svg" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="/cronos/dashboard.html">Dashboard</a>
+                                        <a class="f-roboto f-400" href="#">TURING on VVS</a>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <li class="nav-item ">
+                                        <a class="nav-link" href="/cronos/swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/removelp.html">Remove Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="/cronos/farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__swap">
+            <section class="blog__container">
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700" style="width: 100%;text-align: center;">
+                            <span>Voting Power in DAO</span>
+                        </div>
+                    </div>
+                    <div>
+                        <p>Total TURING staked: <span class="total-staked">0</span> (<span class="percent-of-all-turing">0</span>% of all circulating TURING)</p>
+                        <p>Total voteTURING: <span class="total-vote-turing">0</span></p>
+                        <p>Average stake time: <span class="average-stake-time">0</span> years</p>
+                    </div>
+                    <div class="blog__container mt-4 pt-0 pt-md-4">
+                        <div class="turing__box ps-3 pe-3 pt-3 pb-2">
+                            <div class="pool__list-reponsive">
+                                <table class="pool__list">
+                                    <thead>
+                                        <tr>
+                                            <th>Time</th>
+                                            <th>Revards</th>
+                                            <th>TURING Staked</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Withdraw anytime</td>
+                                            <td>
+                                                <span class="pool-17-apy"> 0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="pool-17-total-staked">0</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>6 months</td>
+                                            <td>
+                                                <span class="pool-18-apy"> 0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="pool-18-total-staked">0</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1 year</td>
+                                            <td>
+                                                <span class="pool-19-apy"> 0%</span>
+                                            </td>
+                                            <td>
+                                                <span class="pool-19-total-staked">0</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </article>
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700">
+                            <span>TURING Stake</span>
+                        </div>
+                    </div>
+
+                    <ul>
+                        <li style="list-style-type: none; margin-left: -30px;">
+                            <p> Stake TURING to earn TURING and get voteTURING.</p>
+                            <label for="currency_0">
+                                <span class="currency-laybal"> 
+                                    <img src="../assets/images/turing_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">TURING</span>
+                                    <span class="maxBalanceCoin max-deposit">Max: </span>
+                                    <span class="u-want-bal max-deposit">0.0</span>
+                                </span>
+                            </label>
+                            <div class="addLp__form_input mb-2">
+                                <input type="number" class="swap__form-input" autofocus name="deposit_amt" value="">
+                            </div>
+                            <div class="row mt-20">
+                                <span>
+                                    <span data-v-daa7c420="">Stake time:</span>
+                                <input data-v-daa7c420="" style="margin-left: 10%;" id="staketime1" type="radio" name="pid-of-deposit" checked="checked" value="1" />
+                                <label data-v-daa7c420="" for="staketime1">Withdraw anytime</label>
+                                <input data-v-daa7c420="" style="margin-left: 10%;" id="staketime2" type="radio" name="pid-of-deposit" value="2" />
+                                <label data-v-daa7c420="" for="staketime2">6 months</label>
+                                <input data-v-daa7c420="" style="margin-left: 10%;" id="staketime3" type="radio" name="pid-of-deposit" value="3" />
+                                <label data-v-daa7c420="" for="staketime3">1 year</label>
+                                </span>
+                            </div>
+                            <div class="mt-20">
+                                <p>Staker reward: <span class="pool-speed">1</span>x</p>
+                            </div>
+                            <div class="mt-20">
+                                <p>
+                                    You will get:
+                                    <span class="vote-turing-estimate">0</span> voteTUTING
+                                </p>
+                            </div>
+                        </li>
+
+                        <div class="row" style="padding: 20px;">
+                            <div class="col">
+                                <button type="button" class="header__btn-connect w-50 text-center btn-approve" style="margin-left: 30%;">Approve</button>
+
+                            </div>
+                            <div class="col">
+                                <button type="button" class="header__btn-connect w-50 text-center btn-deposit">Stake</button>
+
+                            </div>
+                        </div>
+                    </ul>
+                </article>
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700">
+                            <span>Your account</span>
+                        </div>
+                    </div>
+                    <ul>
+                        <li style="list-style-type: none; margin-left: -30px;">
+                            <p>YOUR EARNED:
+                                <span class="u-pending-tur">0</span>
+                                <span>TURING <button type="button" class="header__btn-connect w-25 text-center btn-harvest" style="margin-left: 5%;">Harvest</button></span>
+
+                            </p>
+                            <label for="currency_0">
+                                <span class="currency-laybal"> 
+                                    <img src="../assets/images/turing_logo.png" style="margin-left: 0;" class="token-icon"> <span class="token-name">TURING</span>
+                                    <span class="maxBalanceCoin max-withdraw">Max: </span>
+                                    <span class="u-share-by-pool max-withdraw">0</span>
+                                </span>
+                            </label>
+                            <div class="addLp__form_input mb-2">
+                                <input type="number" class="swap__form-input" name="withdraw_amt" value="">
+                            </div>
+                            <div class="row mt-20">
+                                <span>
+                                            <span data-v-daa7c420="">From stake pool:</span>
+                                <input data-v-daa7c420="" style="margin-left: 5%;" id="withdrawtime1" type="radio" name="pid-of-withdraw" checked="checked" value="1" />
+                                <label data-v-daa7c420="" for="withdrawtime1">Withdraw anytime</label>
+                                <input data-v-daa7c420="" style="margin-left: 10%;" id="withdrawtime2" type="radio" name="pid-of-withdraw" value="2" />
+                                <label data-v-daa7c420="" for="withdrawtime2">6 months</label>
+                                <input data-v-daa7c420="" style="margin-left: 10%;" id="withdrawtime3" type="radio" name="pid-of-withdraw" value="3" />
+                                <label data-v-daa7c420="" for="withdrawtime3">1 year</label>
+                                </span>
+                            </div>
+                            <p class="buttons" style="text-align: center;">
+                                <button id="add-liquidity" class="header__btn-connect mt-4 text-center btn-withdraw"> 
+                                        Withdraw your balance 
+                                    </button>
+                            </p>
+                            <div class="mt-20">
+                                <p>
+                                    YOUR STAKED:
+                                    <span class="u-total-share">0</span>
+                                </p>
+                            </div>
+                            <div class="blog__container mt-4 pt-0 pt-md-4">
+                                <div class="turing__box ps-3 pe-3 pt-3 pb-2">
+                                    <div class="pool__list-reponsive">
+                                        <table class="pool__list">
+                                            <thead>
+                                                <tr>
+                                                    <th>Pools</th>
+                                                    <th>Your staked</th>
+                                                    <th>unstake time</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Withdraw anytime</td>
+                                                    <td class="pool-17-u-share">0</td>
+                                                    <td class="pool-17-u-unstake-time">-</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6 months</td>
+                                                    <td class="pool-18-u-share">0</td>
+                                                    <td class="pool-18-u-unstake-time">-</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>1 year</td>
+                                                    <td class="pool-19-u-share">0</td>
+                                                    <td class="pool-19-u-unstake-time">-</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/dao.html">DAO</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/useturing.html">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/turingmachinenetwork">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+    <ul id="confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none;top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Your transaction is sent to the blockchain.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <ul id="success-confirm-popup" class="bn-notify-custom bn-notify-notifications svelte-166mr51" style="display:none; top: 0; justify-content: unset;">
+        <li style="margin: 0.75rem 0px 0px;" class="bn-notify-custom bn-notify-notification svelte-166mr51">
+            <div class="bn-notify-custom bn-notify-notification-info svelte-5f7pqk">
+                <p class="bn-notify-custom bn-notify-notification-info-message svelte-12gqi36">Successful confirm the transaction.</p>
+            </div>
+            <div class="bn-notify-custom bn-notify-notification-close svelte-166mr51" onclick="$('#success-confirm-popup').hide()">
+                <div class="bn-notify-custom bn-notify-notification-close-icon svelte-r8gx3p">
+                    <svg height="8" viewBox="0 0 12 12" width="8" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#9B9B9B" stroke-linecap="square" stroke-width="2" transform="translate(2 2)" style="transition: stroke 150ms ease-in-out 0s;">
+                        <path d="m.1.1 7.82304289 7.82304289"></path>
+                        <path d="m.1.1 7.82304289 7.82304289" transform="matrix(-1 0 0 1 8 0)"></path>
+                        </g>
+                        </svg>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var bscContractHelper = new $.BSCCONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var dataHelper = new $.DATA();
+    var turingFarmInfoHelper = new $.TURRING_FARM_INFO();
+    var turingFarm = new $.TURRING_FARM();
+    var pid = 1;
+    var pids = [1, 2, 3];
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        bscContractHelper.init({
+            chainId: 338
+        });
+        dataHelper.init({
+            chainId: 338
+        });
+        turingFarmInfoHelper.init({
+            chainId: 338,
+            pids: pids
+        })
+        turingFarm.init({
+            chainId: 338,
+            pid: pid
+        })
+        coreHelper.initBTNName('btn-swap', 'Swap');
+        turingFarmInfoHelper.initTuringStakingInterface(pids);
+        turingFarmInfoHelper.onTuringStakingClickMaxDeposit();
+        turingFarmInfoHelper.onTuringStakingClickMaxWithdraw();
+        turingFarmInfoHelper.onChangeDepositTuringStakingPool();
+        turingFarmInfoHelper.onChangeWithdrawTuringStakingPool();
+        turingFarmInfoHelper.onTuringStakingChangeDepositAmount();
+        turingFarm.approve("btn-approve", true);
+        turingFarm.deposit(`btn-deposit`, `input[name=deposit_amt]`, true);
+        turingFarm.harvest(`btn-harvest`, true);
+        turingFarm.withdraw(`btn-withdraw`, `input[name=withdraw_amt]`, true);
+    });
+</script>
+
+</html>

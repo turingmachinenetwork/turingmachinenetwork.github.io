@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <link href="../assets/css/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract//cronos/abi.js"></script>
+    <script src="../js/contract//cronos/config.js"></script>
+    <script src="../js/data/store.js"></script>
+    <script src="../js/contract//cronos/core.js"></script>
+    <script src="../js/contract//cronos/base.contract.js"></script>
+    <script src="../js/contract//cronos/data.js"></script>
+    <script src="../js/contract//cronos/turing-venus-lp-info.contract.js"></script>
+    <script src="../js/contract//cronos/orclePrice.info.js"></script>
+    <script src="../js/contract//cronos/turing.farm.info.contract.js"></script>
+    <script src="../js/contract//cronos/turing.farm.contract.js"></script>
+
+    <title>Farms - TuringMachine.network</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='/cronos/index.html'">
+                                    <img src="../assets/images/Frame.svg" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="/cronos/dashboard.html">Dashboard</a>
+                                        <a class="f-roboto f-400" href="#">TURING on VVS</a>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header-swap mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <!-- <li class="nav-item ">
+                                        <a class="nav-link" href="/cronos/swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/removelp.html">Remove Liquidity</a>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/cronos/no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="/cronos/farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__swap">
+            <section class="blog__container">
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="d-flex align-items-center justify-content-between mb-14">
+                        <div class="f-700">
+                            <fieldset>
+                                <!-- <span><legend> Farm</legend></span> -->
+                                <p style="margin: 20px;">Put your crypto assets to work so you don’t have to.</p>
+                            </fieldset>
+                        </div>
+                    </div>
+                </article>
+                <article class="swap__main turing__box-1 p-3 mb-3">
+                    <div class="row d-flex justify-content-between mb-14">
+                        <div class="col-3 f-700">
+                            <div class="logo" style="width: 100%; height: 100%; margin-top: 25px;">
+                                <span><img class="coin mb-1" src="../assets/images/vvs.png" style="border-radius: 50%; margin: -10px 0px 0px 35px; width: 55%;"></span>
+                                <p class="f-700" style="padding: 30px 40% 0px 40%;">VVS</p>
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="row" style="margin: 0px 20px;">
+                                <div class="col-6 f-700 ">
+                                    <p style="width: 100%; font-size: 20px; ">System price </p>
+                                    <p class="priceOfSystem">-</p>
+                                </div>
+                                <div class="col-6 f-700 ">
+                                    <p style="width: 100%; font-size: 20px; ">Current price </p>
+                                    <div>
+                                        <p class="priceOfVVS">-</p>
+                                        <span class="ratio"> +%</span>
+                                    </div>
+
+                                </div>
+                                <div class="col-12 mt-3 ">
+                                    <button type="button " class="header__btn-connect text-center btn-sync" style="width: 80%; ">Sync</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </article>
+                <article class="swap__main turing__box-1 p-3 mb-3 ">
+                    <div class="d-flex align-items-center justify-content-between mb-14 ">
+                        <div class="f-700 ">
+                            <fieldset>
+                                <div class="blog__container mt-1 pt-0 pt-md-4 ">
+                                    <div class="turing__box__farms ps-3 pe-3 pt-3 pb-2 ">
+                                        <div class="pool__list-reponsive ">
+                                            <table class="pool__list table-farm ">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="f-14 f-700 ">Farm</th>
+                                                        <th class="f-14 f-700 text-end ">Rewards APR</th>
+                                                        <th class="f-14 f-700 text-end ">TVL</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="tbody ">
+                                                    <!-- <tr onclick="window.location='turing-bnb-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/turing_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/bnb_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>turing-bnb</span>
+                                                                        <span class="speed-mining-TUR ">10X</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit TURING-BNB earn TURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-6 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-6 ">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='/turing-stake.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="coin " src="../assets/images/turing_logo.png "></span> -->
+                                                    <!-- <span><img class="token-coin " src="../assets/images/bnb_logo.png "></span> -->
+                                                    <!-- </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>TURING</span>
+                                                                        <span class="speed-mining-TUR ">UP TO 9X</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit TURING earn TURING and get voteTURING</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-0 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-0 ">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='/bnb-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="coin " src="../assets/images/bnb_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>bnb</span>
+                                                                        <span class="speed-mining-TUR ">0.5X</span>
+                                                                        <span class="speed-mining-TUR ">BNB</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">ALPACA</span>
+                                                                        <span class="speed-mining-TUR ">COMPOUND</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit BNB earn BNB and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-20 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-20 ">-</td>
+                                                    </tr> -->
+                                                    <tr onclick="window.location='/cronos/vvs-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="coin " src="../assets/images/vvs.png " style="border-radius: 50%; "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>VVS</span>
+                                                                        <!-- <span class="speed-mining-TUR " id="speed-0 ">-</span> -->
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE</span>
+                                                                        <span class="speed-mining-TUR ">COMPOUND</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit VVS earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-0">-</td>
+                                                        <td class="f-14 text-end" id="tvl-0">-</td>
+                                                    </tr>
+                                                    <tr onclick="window.location='/cronos/turing-cro-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo">
+                                                                    <span><img class="base-coin" src="../assets/images/turing_logo.png "></span>
+                                                                    <span><img class="token-coin" src="../assets/images/Crypto.com-Coin-PNG-Pic.png " style="border-radius: 50%; "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white">
+                                                                        <span>Turing-CRO</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit CRO-VVS LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end" id="apr-2">-</td>
+                                                        <td class="f-14 text-end" id="tvl-2">-</td>
+                                                    </tr>
+                                                    <!-- <tr onclick="window.location='/cronos/cro-vvs-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/Crypto.com-Coin-PNG-Pic.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/vvs.png " style="border-radius: 50%; "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>CRO-VVS</span>
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE</span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit CRO-VVS LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-1">-</td>
+                                                        <td class="f-14 text-end " id="tvl-1">-</td>
+                                                    </tr>
+                                                    <tr onclick="window.location='/cronos/vvs-usdc-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/vvs.png " style="border-radius: 50%; "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/usdc_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>VVS-USDC</span>
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE></span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit VVS-USDT LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-2">-</td>
+                                                        <td class="f-14 text-end " id="tvl-2">-</td>
+                                                    </tr>
+
+                                                    <tr onclick="window.location='/cronos/usdt-usdc-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/usdt_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/usdc_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>USDT-USDC</span>
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit USDT-USDC LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-3">-</td>
+                                                        <td class="f-14 text-end " id="tvl-3">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='/cronos/cro-eth-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/Crypto.com-Coin-PNG-Pic.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/eth_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>CRO-ETH</span>
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit CRO-ETH LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-4 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-4 ">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='/cronos/cro-usdc-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/Crypto.com-Coin-PNG-Pic.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/usdc_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>CRO-USDC</span>
+                                                                        <span class="speed-mining-TUR ">6X</span>
+                                                                        <span class="speed-mining-TUR ">VVS</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">VVS.FINANCE</span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit CRO-USDC LP earn VVS and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-4 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-4 ">-</td> -->
+                                                    <!-- </tr> -->
+                                                    <!-- <tr onclick="window.location='usdt-bnb-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/usdt_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/bnb_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>usdt-bnb</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                        <span class="speed-mining-TUR ">CAKE</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">PANCAKESWAP</span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit USDT-BNB LP earn CAKE and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-9 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-9 ">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='bnb-busd-farm.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/bnb_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/busd_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>bnb-busd</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                        <span class="speed-mining-TUR ">CAKE</span>
+                                                                        <span class="speed-mining-TUR ">TURING</span>
+                                                                        <span class="speed-mining-TUR ">PANCAKESWAP</span>
+
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Deposit BNB-BUSD LP earn CAKE and TURING.</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-10 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-10 ">-</td>
+                                                    </tr> -->
+                                                    <!-- <tr onclick="window.location='cake-farm-v1.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="coin " src="../assets/images/pancake_logo.svg "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>Cake ( V1-0ld )</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Finished</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-3 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-3 ">-</td>
+                                                    </tr>
+                                                    <tr onclick="window.location='turing-bnb-farm-v1.html' ">
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/turing_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/bnb_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>Turing-bnb ( V1-0ld )</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Finished</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-5 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-5 ">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/bnb_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/pancake_logo.svg "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>Cake-bnb ( V1-0ld )</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Finished</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-0 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-0 ">-</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div class="d-flex align-items-center ">
+                                                                <div class="logo ">
+                                                                    <span><img class="base-coin " src="../assets/images/usdt_logo.png "></span>
+                                                                    <span><img class="token-coin " src="../assets/images/busd_logo.png "></span>
+                                                                </div>
+                                                                <div class="info pl-12 ">
+                                                                    <div class="f-14 f-700 text-white ">
+                                                                        <span>usdt-busd ( V1-0ld )</span>
+                                                                        <span class="speed-mining-TUR ">0X</span>
+                                                                    </div>
+                                                                    <div class="f-14 color-2 ">Finished</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="f-14 text-end " id="apr-7 ">-</td>
+                                                        <td class="f-14 text-end " id="tvl-7 ">-</td>
+                                                    </tr> -->
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <footer class="footer ">
+            <nav class="navbar navbar-expand-lg ">
+                <div class="container container-1 ">
+                    <div class="row flex-grow-1 align-items-center ">
+                        <div class="col-lg-6 ">
+                            <div class="d-flex align-items-center justify-content-between ">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler " type="button " data-bs-toggle="collapse " data-bs-target="#navbar-footer ">
+                  <i class="fas fa-bars "></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="collapse navbar-collapse " id="navbar-footer ">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0 ">
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="/cronos/dao.html ">DAO</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="/cronos/useturing.html ">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="/cronos/risks.html " class=" ">Risks</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " target="_blank " href="https://twitter.com/TuringMachine12 " rel="noopener noreferrer ">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " target="_blank " href="https://t.me/turingmachinenetwork " rel="noopener noreferrer ">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " target="_blank " href="https://github.com/turingmachinenetwork ">git@</a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="# ">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+    <script src="../assets/js/bootstrap.bundle.min.js "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js " integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin=" anonymous
+                                    " referrerpolicy="no-referrer "></script>
+    <script src="../assets/js/custom.js "></script>
+    <script src="../assets/js/custom.menu.js "></script>
+
+</body>
+<script>
+    var abiHelper = new $.ABI();
+    var coreHelper = new $.Core();
+    var configHelper = new $.CONFIG();
+    var cronosContractHelper = new $.CRONOSCONTRACTBASE();
+    var storeHelper = new $.STORE();
+    var dataHelper = new $.DATA();
+    var turingVenusLPInfoHelper = new $.TURRING_VENUS_LP_INFO();
+    var turingFarmInfoHelper = new $.TURRING_FARM_INFO();
+    var orclePriceInfo = new $.ORCLE_PRICE_INFO();
+    var turingFarm = new $.TURRING_FARM();
+    var pidOfStakingTur = 1;
+    var _chainId = 25;
+    $(document).ready(function() {
+        abiHelper.init({});
+        coreHelper.init({});
+        configHelper.init({});
+        storeHelper.init({});
+        orclePriceInfo.init({
+            chainId: _chainId
+        });
+        cronosContractHelper.init({
+            chainId: _chainId
+        });
+        dataHelper.init({
+            chainId: _chainId
+        });
+        turingFarm.init({
+            chainId: _chainId
+        })
+        turingFarmInfoHelper.init({
+            chainId: _chainId,
+            pids: []
+        })
+        coreHelper.initBTNName('btn-swap', 'Swap');
+        turingFarmInfoHelper.initHomeInterface(pidOfStakingTur);
+        turingFarm.sync(`btn-sync`);
+
+    });
+</script>
+
+</html>
