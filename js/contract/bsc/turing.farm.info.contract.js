@@ -120,12 +120,19 @@ $.TURRING_FARM_INFO.prototype = (function() {
                     timeOfWillBeAwarded = self.getTimeCountDown(_data.endLoteryTime - now);
                     $(`.will-be-awarded`).html(`${timeOfWillBeAwarded.day} DAY ${timeOfWillBeAwarded.hour} HR ${timeOfWillBeAwarded.min} MIN ${timeOfWillBeAwarded.sec} SEC`);
                 }
-                if (_data && _data.uWantShare == 0) {
+                if (_data && _data.uWantShare == 0 && item.pid != 17) {
                     hidePool(item.pid)
+                } else {
+                    _init(item.pid, _data);
+                    showPool(item.pid)
                 }
-                _init(item.pid, _data);
             });
-            _init(_pidOfStakingTur, _dataOfStakingTur);
+            if (_dataOfStakingTur.uWantShare == 0) {
+                hidePool(_pidOfStakingTur);
+            } else {
+                _init(_pidOfStakingTur, _dataOfStakingTur);
+                showPool(_pidOfStakingTur);
+            }
 
             function _init(_pid, _data) {
                 if (!_data) return false;
@@ -140,6 +147,10 @@ $.TURRING_FARM_INFO.prototype = (function() {
 
             function hidePool(pid) {
                 $(`.pool-${pid}`).hide()
+            }
+
+            function showPool(pid) {
+                $(`.pool-${pid}`).show()
             }
 
             setTimeout(function() {
