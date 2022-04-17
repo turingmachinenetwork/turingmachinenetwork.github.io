@@ -46,10 +46,10 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                     data_[3] = uint256 croBalanceOfContract;
                     data_[4] = uint256 croAddLp;
                     data_[5] = uint256 croDistributeFarms;
-                    data_[6] = uint256 maxTuringSell;
-                    data_[7] = uint256 maxQuantityBuyTuringOfUser;
-                    data_[8] = uint256 totalTuringBuyLaunchpad;
-                    data_[9] = uint256 priceTuringLaunchpad;
+                    data_[6] = uint256 maxQuantityBuyTuringOfUser;
+                    data_[7] = uint256 totalTuringBuyLaunchpad;
+                    data_[8] = uint256 priceTuringLaunchpad;
+                    data_[9] = uint256 priceTuringToCRO;
              */
             _data.croBalanceOfUSer = coreHelper.parseFloatNumber(parseInt(_r[0]) / 1e18, 18);
             _data.maxTuringReceive = coreHelper.parseFloatNumber(parseInt(_r[1]) / 1e18, 18);
@@ -60,6 +60,7 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             _data.maxQuantityBuyTuringOfUser = coreHelper.parseFloatNumber(parseInt(_r[6]) / 1e18, 18);
             _data.totalTuringBuyLaunchpad = coreHelper.parseFloatNumber(parseInt(_r[7]) / 1e18, 18);
             _data.priceTuringLaunchpad = coreHelper.parseFloatNumber(parseInt(_r[8]) / 1e18, 18);
+            _data.priceTuringToCro = coreHelper.parseFloatNumber(parseInt(_r[9]) / 1e18, 18);
 
             _data.totalTuringBuy = _contractsObj.protocolLiquidityLaunch.totalTuringBuy;
             _data.turingBuyed = coreHelper.numberWithCommas((_data.totalTuringBuy * 1e18 - parseInt(_r[7])) / 1e18, 6)
@@ -92,33 +93,62 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             }, 3000)
         },
 
+        // async processAmt() {
+        //     let _abi = abiHelper.getProtocolLiquidityLaunchABI();
+        //     let _user = coreHelper.getUserAccount();
+        //     let _contractsObj = configHelper.getContracts(setting.chainId);
+        //     let _contract = _contractsObj.protocolLiquidityLaunch.contract;
+        //     let _readContract = cronosContractHelper.getReadContract(_contract, _abi);
+
+        //     let _amtCro = $(`input[name=amount_cro]`).val();
+
+        //     _readContract
+        //         .methods
+        //         .getProcessAmt(_user, coreHelper.toBN(_amtCro))
+        //         .call()
+        //         .then(_result => {
+        //             console.log(_result);
+        //             $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_result[2] / 1e18, 8));
+        //             $(`input[name=cro_refund]`).val(coreHelper.numberWithCommas(_result[1] / 1e18), 8);
+        //             if ($(`input[name=amount_cro]`).val() > _result[0] / 1e18) {
+        //                 $(`input[name=amount_cro]`).val(_result[0] / 1e18)
+        //             }
+        //             $(`.max-cro`).on("click", () => {
+        //                 $(`input[name=amount_cro`).val(_result[0] * 1.0001 / 1e18);
+        //             })
+        //         })
+
+        //     setTimeout(() => {
+        //         this.processAmt()
+        //     }, 3000)
+        // },
+
         async processAmt() {
-            let _abi = abiHelper.getProtocolLiquidityLaunchABI();
             let _user = coreHelper.getUserAccount();
-            let _contractsObj = configHelper.getContracts(setting.chainId);
-            let _contract = _contractsObj.protocolLiquidityLaunch.contract;
-            let _readContract = cronosContractHelper.getReadContract(_contract, _abi);
+            let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
+            let _data = _protocolLauchInfoOf && _protocolLauchInfoOf[_user] ? _protocolLauchInfoOf[_user] : {};
 
-            let _amtCro = $(`input[name=amount_cro]`).val();
+            let _croPay = $(`input[name=amount_cro]`).val();
+            let _pTurToCRO = _data.priceTuringToCro;
+            let _maxBuy = _data.maxTuringReceive;
 
-            _readContract
-                .methods
-                .getProcessAmt(_user, coreHelper.toBN(_amtCro))
-                .call()
-                .then(_result => {
-                    $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_result[2] / 1e18, 8));
-                    $(`input[name=cro_refund]`).val(coreHelper.numberWithCommas(_result[1] / 1e18), 8);
-                    if ($(`input[name=amount_cro]`).val() > _result[0] / 1e18) {
-                        $(`input[name=amount_cro]`).val(_result[0] / 1e18)
-                    }
-                    $(`.max-cro`).on("click", () => {
-                        $(`input[name=amount_cro`).val(_result[0] * 1.0001 / 1e18);
-                    })
-                })
+            if (_maxBuy <= 0) {
+                $(`input[name=turing_receive]`).val(0);
+            }
+
+            let _uTurBuyAmt = _croPay / _pTurToCRO;
+            $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_uTurBuyAmt, 18));
+
+            if (_uTurBuyAmt >= _maxBuy) {
+                $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_maxBuy, 18));
+            }
+            $(`.max-cro`).on("click", () => {
+                $(`input[name=amount_cro`).val(coreHelper.numberWithCommas(_data.maxCroBuy, 18));
+            })
 
             setTimeout(() => {
                 this.processAmt()
-            }, 3000)
+            }, 1000)
         },
 
         buy() {
