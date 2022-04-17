@@ -230,7 +230,7 @@ $.CONFIG.prototype = (function() {
                 },
             },
             protocolLiquidityLaunch: {
-                contract: "0xCfD664862B375cca2BE158d7c9314DC98ae0F24B",
+                contract: "0x4B34351601d02f1476D1D45930efbe7Ce32E9cD0",
                 totalTuringBuy: 1000
             }
         }
