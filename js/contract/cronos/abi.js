@@ -7141,9 +7141,9 @@ $.ABI.prototype = (function() {
                     }],
                     "name": "getData",
                     "outputs": [{
-                        "internalType": "uint256[9]",
+                        "internalType": "uint256[10]",
                         "name": "data_",
-                        "type": "uint256[9]"
+                        "type": "uint256[10]"
                     }],
                     "stateMutability": "view",
                     "type": "function"
@@ -7193,14 +7193,14 @@ $.ABI.prototype = (function() {
                         },
                         {
                             "internalType": "uint256",
-                            "name": "_amtCRO",
+                            "name": "_croSend",
                             "type": "uint256"
                         }
                     ],
                     "name": "getProcessAmt",
                     "outputs": [{
                             "internalType": "uint256",
-                            "name": "_croSend",
+                            "name": "_croPay",
                             "type": "uint256"
                         },
                         {
@@ -7210,7 +7210,7 @@ $.ABI.prototype = (function() {
                         },
                         {
                             "internalType": "uint256",
-                            "name": "_turingReceive",
+                            "name": "_uTurBuyAmt",
                             "type": "uint256"
                         }
                     ],
