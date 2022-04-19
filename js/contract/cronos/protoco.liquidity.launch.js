@@ -102,6 +102,8 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             let _pTurToCRO = _data.priceTuringToCro;
             let _maxBuy = _data.maxTuringReceive;
 
+            let maxCroBuy = _data.croBalanceOfUSer <= _data.maxCroBuy ? _data.croBalanceOfUSer : _data.maxCroBuy;
+
             if (_maxBuy <= 0) {
                 $(`input[name=turing_receive]`).val(0);
             }
@@ -113,7 +115,7 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                 $(`input[name=turing_receive]`).val(_maxBuy);
             }
             $(`.max-cro`).on("click", () => {
-                $(`input[name=amount_cro`).val(_data.maxCroBuy);
+                $(`input[name=amount_cro`).val(maxCroBuy);
             })
 
             setTimeout(() => {
