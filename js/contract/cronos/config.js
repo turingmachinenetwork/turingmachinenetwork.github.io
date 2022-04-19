@@ -9,7 +9,7 @@ $.CONFIG.prototype = (function() {
                 getAllowTransfer: '0xAe0419df26ee79969a2A09abEf7017aEb53C0Bbe',
                 balanceInfo: '0x06266211CE801AbbFA14E9A0A3F5d0B6d5ee5Ade',
                 priceInfo: '0xCC84553a556cA660b921557a1777199a66800F70',
-                orclePriceInfo: '0x365c7b67027BdBe9DC315280C2966e290Ee81793'
+                orclePriceInfo: '0x3eaE9358B8709992b356a93A92645617D6df85cD'
             },
             swap: {
                 pool: {
