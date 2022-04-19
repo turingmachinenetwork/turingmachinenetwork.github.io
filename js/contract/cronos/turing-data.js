@@ -29,7 +29,7 @@ function initWeb3() {
 let turingDataContract;
 let turingData = {};
 
-const TURING_DATA_ADDR = '0xAaC5267ec8E6B6759B947569436b1F705f53f887';
+const TURING_DATA_ADDR = '0x2318702591650183b30Fd682dFe4856B60816A0e';
 const TURING_DATA_API = [{
     "inputs": [],
     "name": "getData",
