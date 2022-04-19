@@ -81,7 +81,7 @@ $.CONFIG.prototype = (function() {
                 2: {
                     type: 'turing_cro_lp_pool',
                     contract: '0x6626b2870eaC1cf661dAC006c2B291EDf79928DB',
-                    want: '0xff575bf7f144838885720F72B1Af9dE1fFC75518', // turing cro lp
+                    want: '0x1093A68b96b22Fbc2a0d6088e963Bcb29C782C7f', // turing cro lp
                     wantDecimals: 18,
                     pid: 2,
                     isActive: true,
