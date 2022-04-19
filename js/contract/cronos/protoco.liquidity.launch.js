@@ -79,7 +79,7 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
 
             let _ratioProgess = _data.turingBuyed * 100 / _data.totalTuringBuy
 
-            $(`.total-cro-obtained`).html(`${ coreHelper.numberWithCommas(_data.croBalanceOfContract, 3) }`);
+            $(`.total-cro-obtained`).html(`${ coreHelper.formatBalance(_data.croBalanceOfContract, 3) }`);
             $(`.total-turing-buy-launch`).html(`${ coreHelper.formatBalance(_data.totalTuringBuy, 0) }`);
             $(`.turing-price-launch`).html(`$${ coreHelper.numberWithCommas(_data.priceTuringLaunchpad, 2) }`);
             $(`.max-buy-of`).html(`${ coreHelper.formatBalance(_data.maxQuantityBuyTuringOfUser, 2) }`);
