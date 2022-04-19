@@ -97,7 +97,7 @@ $.CONFIG.prototype = (function() {
                 totalTuringBuy: 10000
             },
             harvestMachine: "0xA9B1a0d31A7C4243443D6C0b501E3eA3d93DB506",
-            orclePriceContract: "0x56d92dc03CC34b6620e56a33eD8F435245FAc63C"
+            orclePriceContract: "0xCAa1e3d91551Ad021e400c2c7131f06248FB4FF6"
         },
         338: {
             info: {
@@ -213,43 +213,43 @@ $.CONFIG.prototype = (function() {
             harvestMachine: '0xB138e79D52A8a29d7B907551Ff4B2A6eB3EC9617',
             orclePriceContract: '0x56d92dc03CC34b6620e56a33eD8F435245FAc63C'
         },
-        // 97: {
-        //     info: {
-        //         getAllowTransfer: '0x9EfD5D477Fe79C756ceF532BA5554350D3A52677',
-        //         balanceInfo: '0x857CfDf26CCC2BF1aF33FbC3B6E9234fd2552D43',
-        //         priceInfo: '0x16F3646b788453317e6BAD385dDCB645Bf3fEc80',
-        //         orclePriceInfo: ''
-        //     },
-        //     farms: {
-        //         0: {
-        //             type: 'vvs_pool',
-        //             contract: '0xd5Dc8E9dd65De0DB3926e64437DbeCa595163621',
-        //             want: '0x9766a14878209776d5c2F468A86046142007032C', // vvs
-        //             wantDecimals: 18,
-        //             pid: 0,
-        //             isActive: true,
-        //             isBep20: true,
-        //             isActive: true,
-        //         },
-        //         1: {
-        //             type: 'turing_cro_lp_pool',
-        //             contract: '0x1F6E7639F698BF1b85c032792E1d85F7C4f62534',
-        //             want: '0x8A502E7Fc8A5CDFa973E8a0136300f756AC410a2', // turing cro lp
-        //             wantDecimals: 18,
-        //             pid: 1,
-        //             isActive: true,
-        //             isBep20: true,
-        //             isActive: true,
-        //             label: 'TuringCroLp',
-        //             price: 1,
-        //             version: 1
-        //         },
-        //     },
-        //     protocolLiquidityLaunch: {
-        //         contract: "0x0b17cfBe3f3c9Fa5b9B4cc6bD75753cE313739d9",
-        //         totalTuringBuy: 10000
-        //     }
-        // }
+        97: {
+            info: {
+                getAllowTransfer: '0x9EfD5D477Fe79C756ceF532BA5554350D3A52677',
+                balanceInfo: '0x857CfDf26CCC2BF1aF33FbC3B6E9234fd2552D43',
+                priceInfo: '0x16F3646b788453317e6BAD385dDCB645Bf3fEc80',
+                orclePriceInfo: ''
+            },
+            farms: {
+                0: {
+                    type: 'vvs_pool',
+                    contract: '0xd5Dc8E9dd65De0DB3926e64437DbeCa595163621',
+                    want: '0x9766a14878209776d5c2F468A86046142007032C', // vvs
+                    wantDecimals: 18,
+                    pid: 0,
+                    isActive: true,
+                    isBep20: true,
+                    isActive: true,
+                },
+                1: {
+                    type: 'turing_cro_lp_pool',
+                    contract: '0x1F6E7639F698BF1b85c032792E1d85F7C4f62534',
+                    want: '0x8A502E7Fc8A5CDFa973E8a0136300f756AC410a2', // turing cro lp
+                    wantDecimals: 18,
+                    pid: 1,
+                    isActive: true,
+                    isBep20: true,
+                    isActive: true,
+                    label: 'TuringCroLp',
+                    price: 1,
+                    version: 1
+                },
+            },
+            protocolLiquidityLaunch: {
+                contract: "0x0b17cfBe3f3c9Fa5b9B4cc6bD75753cE313739d9",
+                totalTuringBuy: 10000
+            }
+        }
     };
     var TOKENS = {
         25: {
