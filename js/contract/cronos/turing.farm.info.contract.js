@@ -579,7 +579,7 @@ $.TURRING_FARM_INFO.prototype = (function() {
                 _data.turingRewardAPY = 0;
             }
             if (parseInt(_r[10]) > 0) {
-                _data.wantRewardAPY = coreHelper.parseFloatNumber(parseInt((_r[10] / 1e2) * 699) / 1e3, 2);
+                _data.wantRewardAPY = coreHelper.parseFloatNumber(parseInt(_r[10] / 1e2), 2);
             } else {
                 _data.wantRewardAPY = 0;
             }
