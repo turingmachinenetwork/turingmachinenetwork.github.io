@@ -50,7 +50,7 @@ $.ORCLE_PRICE_INFO.prototype = (function() {
                     math = "+";
                 } else {
                     $(`.ratio`).css('color', 'red');
-                    math = "-"
+                    math = ""
                 }
 
                 $(`.priceOfSystem`).html(`${ coreHelper.parseFloatNumber(currentPrice / 1e18, 8) }`);
