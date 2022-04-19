@@ -57,7 +57,7 @@ $.CONFIG.prototype = (function() {
             farms: {
                 0: {
                     type: 'vvs_pool',
-                    contract: '0xB9051C8367Abff507075f6383463F66F930d49E2',
+                    contract: '0x0bAF777A3B65C6DA6B505B525836a829fd44516a',
                     want: '0x2D03bECE6747ADC00E1a131BBA1469C15fD11e03', // VVS
                     wantDecimals: 18,
                     pid: 0,
@@ -67,7 +67,7 @@ $.CONFIG.prototype = (function() {
                 },
                 1: {
                     type: 'vvs_no_loss_pool',
-                    contract: '0x7b3123388109b03f5d48A330fdB18650D7B4E1c1',
+                    contract: '0x24d4f372324a7e0F6eb4B9241F4a5f9782E06109',
                     want: '0x2D03bECE6747ADC00E1a131BBA1469C15fD11e03', // VVS
                     wantDecimals: 18,
                     pid: 1,
@@ -80,7 +80,7 @@ $.CONFIG.prototype = (function() {
                 },
                 2: {
                     type: 'turing_cro_lp_pool',
-                    contract: '0x31A0005e28CBbbE17d5C803813b32A391573EDb2',
+                    contract: '0x6626b2870eaC1cf661dAC006c2B291EDf79928DB',
                     want: '0xff575bf7f144838885720F72B1Af9dE1fFC75518', // turing cro lp
                     wantDecimals: 18,
                     pid: 2,
@@ -91,10 +91,13 @@ $.CONFIG.prototype = (function() {
                     price: 1,
                     version: 1
                 }
-
-
             },
-            harvestMachine: "0x3F1a74F3d08F540C7abD86ab14922182aC49741C"
+            protocolLiquidityLaunch: {
+                contract: "0xa729FDb9ad46e670245E9df7C2e7387aa03f085D",
+                totalTuringBuy: 10000
+            },
+            harvestMachine: "0xA9B1a0d31A7C4243443D6C0b501E3eA3d93DB506",
+            orclePriceContract: "0x56d92dc03CC34b6620e56a33eD8F435245FAc63C"
         },
         338: {
             info: {
@@ -210,30 +213,43 @@ $.CONFIG.prototype = (function() {
             harvestMachine: '0xB138e79D52A8a29d7B907551Ff4B2A6eB3EC9617',
             orclePriceContract: '0x56d92dc03CC34b6620e56a33eD8F435245FAc63C'
         },
-        97: {
-            info: {
-                getAllowTransfer: '0x9EfD5D477Fe79C756ceF532BA5554350D3A52677',
-                balanceInfo: '0x857CfDf26CCC2BF1aF33FbC3B6E9234fd2552D43',
-                priceInfo: '0x16F3646b788453317e6BAD385dDCB645Bf3fEc80',
-                orclePriceInfo: ''
-            },
-            farms: {
-                0: {
-                    type: 'vvs_pool',
-                    contract: '0xd5Dc8E9dd65De0DB3926e64437DbeCa595163621',
-                    want: '0x9766a14878209776d5c2F468A86046142007032C', // vvs
-                    wantDecimals: 18,
-                    pid: 0,
-                    isActive: true,
-                    isBep20: true,
-                    isActive: true,
-                },
-            },
-            protocolLiquidityLaunch: {
-                contract: "0x4B34351601d02f1476D1D45930efbe7Ce32E9cD0",
-                totalTuringBuy: 1000
-            }
-        }
+        // 97: {
+        //     info: {
+        //         getAllowTransfer: '0x9EfD5D477Fe79C756ceF532BA5554350D3A52677',
+        //         balanceInfo: '0x857CfDf26CCC2BF1aF33FbC3B6E9234fd2552D43',
+        //         priceInfo: '0x16F3646b788453317e6BAD385dDCB645Bf3fEc80',
+        //         orclePriceInfo: ''
+        //     },
+        //     farms: {
+        //         0: {
+        //             type: 'vvs_pool',
+        //             contract: '0xd5Dc8E9dd65De0DB3926e64437DbeCa595163621',
+        //             want: '0x9766a14878209776d5c2F468A86046142007032C', // vvs
+        //             wantDecimals: 18,
+        //             pid: 0,
+        //             isActive: true,
+        //             isBep20: true,
+        //             isActive: true,
+        //         },
+        //         1: {
+        //             type: 'turing_cro_lp_pool',
+        //             contract: '0x1F6E7639F698BF1b85c032792E1d85F7C4f62534',
+        //             want: '0x8A502E7Fc8A5CDFa973E8a0136300f756AC410a2', // turing cro lp
+        //             wantDecimals: 18,
+        //             pid: 1,
+        //             isActive: true,
+        //             isBep20: true,
+        //             isActive: true,
+        //             label: 'TuringCroLp',
+        //             price: 1,
+        //             version: 1
+        //         },
+        //     },
+        //     protocolLiquidityLaunch: {
+        //         contract: "0x0b17cfBe3f3c9Fa5b9B4cc6bD75753cE313739d9",
+        //         totalTuringBuy: 10000
+        //     }
+        // }
     };
     var TOKENS = {
         25: {
