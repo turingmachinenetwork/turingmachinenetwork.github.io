@@ -53,7 +53,7 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
              */
             _data.croBalanceOfUSer = coreHelper.parseFloatNumber(parseInt(_r[0]) / 1e18, 18);
             _data.maxTuringReceive = coreHelper.parseFloatNumber(parseInt(_r[1]) / 1e18, 18);
-            _data.maxCroBuy = coreHelper.parseFloatNumber(parseInt(_r[2]) / 1e18, 18);
+            _data.maxCroBuy = _r[2] / 1e18;
             _data.croBalanceOfContract = coreHelper.parseFloatNumber(parseInt(_r[3]) / 1e18, 18);
             _data.croOnAddLp = coreHelper.parseFloatNumber(parseInt(_r[4]) / 1e18, 18);
             _data.croDistributeFarms = coreHelper.parseFloatNumber(parseInt(_r[5]) / 1e18, 18);
@@ -80,9 +80,9 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             let _ratioProgess = _data.turingBuyed * 100 / _data.totalTuringBuy
 
             $(`.total-cro-obtained`).html(`${ coreHelper.numberWithCommas(_data.croBalanceOfContract, 3) }`);
-            $(`.total-turing-buy-launch`).html(`${ coreHelper.numberWithCommas(_data.totalTuringBuy, 0) }`);
+            $(`.total-turing-buy-launch`).html(`${ coreHelper.formatBalance(_data.totalTuringBuy, 0) }`);
             $(`.turing-price-launch`).html(`$${ coreHelper.numberWithCommas(_data.priceTuringLaunchpad, 2) }`);
-            $(`.max-buy-of`).html(`${ coreHelper.numberWithCommas(_data.maxQuantityBuyTuringOfUser, 2) }`);
+            $(`.max-buy-of`).html(`${ coreHelper.formatBalance(_data.maxQuantityBuyTuringOfUser, 2) }`);
             $(`.u-cro-bal`).html(`${ coreHelper.numberWithCommas(_data.croBalanceOfUSer, 8) }`)
 
             $(`.progress-bar`).css(`width`, `${_ratioProgess}%`);
@@ -92,36 +92,6 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
                 self.drawUI()
             }, 3000)
         },
-
-        // async processAmt() {
-        //     let _abi = abiHelper.getProtocolLiquidityLaunchABI();
-        //     let _user = coreHelper.getUserAccount();
-        //     let _contractsObj = configHelper.getContracts(setting.chainId);
-        //     let _contract = _contractsObj.protocolLiquidityLaunch.contract;
-        //     let _readContract = cronosContractHelper.getReadContract(_contract, _abi);
-
-        //     let _amtCro = $(`input[name=amount_cro]`).val();
-
-        //     _readContract
-        //         .methods
-        //         .getProcessAmt(_user, coreHelper.toBN(_amtCro))
-        //         .call()
-        //         .then(_result => {
-        //             console.log(_result);
-        //             $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_result[2] / 1e18, 8));
-        //             $(`input[name=cro_refund]`).val(coreHelper.numberWithCommas(_result[1] / 1e18), 8);
-        //             if ($(`input[name=amount_cro]`).val() > _result[0] / 1e18) {
-        //                 $(`input[name=amount_cro]`).val(_result[0] / 1e18)
-        //             }
-        //             $(`.max-cro`).on("click", () => {
-        //                 $(`input[name=amount_cro`).val(_result[0] * 1.0001 / 1e18);
-        //             })
-        //         })
-
-        //     setTimeout(() => {
-        //         this.processAmt()
-        //     }, 3000)
-        // },
 
         async processAmt() {
             let _user = coreHelper.getUserAccount();
@@ -137,13 +107,13 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             }
 
             let _uTurBuyAmt = _croPay / _pTurToCRO;
-            $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_uTurBuyAmt, 18));
+            $(`input[name=turing_receive]`).val(_uTurBuyAmt);
 
             if (_uTurBuyAmt >= _maxBuy) {
-                $(`input[name=turing_receive]`).val(coreHelper.numberWithCommas(_maxBuy, 18));
+                $(`input[name=turing_receive]`).val(_maxBuy);
             }
             $(`.max-cro`).on("click", () => {
-                $(`input[name=amount_cro`).val(coreHelper.numberWithCommas(_data.maxCroBuy, 18));
+                $(`input[name=amount_cro`).val(_data.maxCroBuy);
             })
 
             setTimeout(() => {
