@@ -94,7 +94,7 @@ $.CONFIG.prototype = (function() {
             },
             protocolLiquidityLaunch: {
                 contract: "0xa729FDb9ad46e670245E9df7C2e7387aa03f085D",
-                totalTuringBuy: 10000
+                totalTuringBuy: 2000000
             },
             harvestMachine: "0xA9B1a0d31A7C4243443D6C0b501E3eA3d93DB506",
             orclePriceContract: "0xCAa1e3d91551Ad021e400c2c7131f06248FB4FF6"
