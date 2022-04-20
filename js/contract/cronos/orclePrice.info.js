@@ -40,6 +40,14 @@ $.ORCLE_PRICE_INFO.prototype = (function() {
 
                 let currentPrice = _r[0].currentPrice;
                 let nextPrice = _r[0].nextPrice;
+                let nextUpdateTime = _r[0].nextUpdateTime;
+                let button = document.querySelector(".btn-sync");
+
+                if (Date.now() / 1000 < nextUpdateTime) {
+                    button.disabled = true;
+                } else {
+                    button.disabled = false;
+                }
 
                 let ratio = 100 * nextPrice / currentPrice - 100;
 
