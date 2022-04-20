@@ -221,7 +221,6 @@ $.TURRING_FARM_INFO.prototype = (function() {
             let _dFarm = _farmInfoOf && _farmInfoOf[_user] ? _farmInfoOf[_user] : {};
             let _data = _dFarm[_pool.contract];
             if (_data) {
-                console.log(_data)
                 let now = parseInt(Date.now() / 1000);
                 let timeOfWillBeAwarded = _self.getTimeCountDown(_data.endLoteryTime - now);
 

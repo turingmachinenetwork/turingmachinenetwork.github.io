@@ -65,8 +65,6 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             _data.totalTuringBuy = _contractsObj.protocolLiquidityLaunch.totalTuringBuy;
             _data.turingBuyed = coreHelper.numberWithCommas((_data.totalTuringBuy * 1e18 - parseInt(_r[7])) / 1e18, 6)
 
-            // console.log(_data);
-
             await this._initUserData(_user, _data);
 
         },
