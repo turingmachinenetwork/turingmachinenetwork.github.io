@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"
+    />
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" integrity="sha512-mR/b5Y7FRsKqrYZou7uysnOdCIJib/7r5QeJMFvLNHNhtye3xJp1TdJVPLtetkukFn227nKpXD9OjUc09lx97Q==" crossorigin="anonymous"
+        referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" href="../assets/images/turing-logo.svg" type="image/x-icon">
+    <link href="../assets/scss/style.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/big-integer/1.6.48/BigInteger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="../assets/js/web3.min.js"></script>
+    <script src="../assets/js/trustwallet.js"></script>
+    <script src="../js/contract/bttc/core.js"></script>
+
+
+    <title>Use TURING - TuringMachine.network</title>
+</head>
+
+<body>
+    <div class="wrapper">
+        <header class="header" id="header">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-6 col-lg-2">
+                            <div class="d-flex align-items-center">
+                                <button class="navbar-toggler mr-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-header">
+                  <i class="fas fa-bars"></i>
+                </button>
+                                <div class="logo" onclick="window.location='/bttc/index.html'">
+                                    <img src="../assets/images/Frame.svg" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-lg-2 order-lg-3">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <span class="wrap-user-acct">0x000</span>
+                                <a href="#" class="header__btn-connect btn-connect-wallet wrap-btn-connect">Connect your wallet</a>
+                                <span class="dropMenu">
+                                    <button type="button" class="header__btn-swap ms-3 ctmenu-item"><i class="fas fa-ellipsis-h"></i></button>
+                                    <div class="ctmenu-sub  swap-box">
+                                        <a class="f-roboto f-400" href="/bttc/dashboard.html">Dashboard</a>
+                                        <a class="f-roboto f-400" href="#">TURING on VVS</a>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-lg-8">
+                            <div class="collapse navbar-collapse" id="navbar-header">
+                                <ul class="navbar-nav menu-header ms-auto mx-auto mb-2 mb-lg-0 align-items-lg-center">
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/swap.html">Swap</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/pools.html">Pools</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/addlp.html">Add Liquidity</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/removelp.html">Remove Liquidity</a>
+                                    </li> -->
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/no-loss-lottery.html">No-loss Lottery</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/farms.html">Farms</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="page__blog">
+            <div class="container container-2">
+                <div class="blog__thumb d-flex align-items-center justify-content-center p-relative ">
+                    <img src="../assets/images/blog-thumb-1.png" class="bg-background-position" />
+                    <div class="p-relative z-index-5 text-center">
+                        <div class="mb-3 mb-md-5"><img src="../assets/images/union.svg" /></div>
+                        <div class="blog__title">Use Turing</div>
+                    </div>
+                </div>
+
+                <div class="blog__container mt-4 pt-0 mt-md-5 pt-md-5">
+                    <div class="blog__description">
+                        <p>TURING is the native token of TuringMachine and can only be mined with farm/supply. There are no private or public sales of TURING.</p>
+                        <p>
+                            <b>The tokenomics (TURING) can be broken down as follows.</b>
+                        </p>
+                        <ul>
+                            <li>
+                                314159*2 = 628318 TURING hard cap.
+                            </li>
+                            <li>
+                                10% of all TURING mints will go to DevLockContract.
+                            </li>
+                            <li>
+                                DevLockContract will lock the dev's TURING for 3 months from the first release of TuringMachine System.
+                            </li>
+                            <li>
+                                After 3 months, DevLockContract will unlock 1/10 of the total dev's TURING every 30 days to use for development.
+                            </li>
+                            <li>
+                                There are currently 0.04 TURING tokens minted per block, approximately 1152 each day.
+                            </li>
+                            <li>
+                                For the No-loss pools and farms, if you hold 20% of your pool's balance as TURING token, you will get a bonus of 1.2x of your mining speed.
+                            </li>
+                        </ul>
+                        <p>
+                            <b>Current deflationary mechanics</b>
+                        </p>
+                        <ul>
+                            <li>
+                                5% profit on No-loss Pool used to buy TURING then burn
+                            </li>
+                            <li>
+                                0.5% profit on Farms used to buy TURING then burn
+                            </li>
+                            <li>
+                                0.05% of the Swap trade fees are used to buy TURING then burn.
+                            </li>
+                        </ul>
+                        <p>
+                            If you wish to participate in our tokenomics, please visit our b <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://github.com/turingmachinenetwork"> Github.</a> and create the issue.
+                        </p>
+
+                    </div>
+
+
+                    <div class="mt-3">
+                        <p>TuringToken: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xF40553Fe99542994cf34dF032979339e7F7441b3#code">https://cronoscan.com/address/0xF40553Fe99542994cf34dF032979339e7F7441b3#code</a></b></p>
+                        <p>TuringDevLock <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xABDa265898bf9E0f1a4887f65d4DB44081BdF683#code">https://cronoscan.com/address/0xABDa265898bf9E0f1a4887f65d4DB44081BdF683#code</a></b></p>
+                        <!-- <p>PerformanceMachine: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x74fC9882FbD7dEDF34099d28912c51069d87a57e#code">https://cronoscan.com/address/0x74fC9882FbD7dEDF34099d28912c51069d87a57e#code</a></b></p>
+                        <p>Turingbonus: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x48b5c4078d035669f8d03cb104cd2f0a03a9893e#code">https://cronoscan.com/address/0x48b5c4078d035669f8d03cb104cd2f0a03a9893e#code</a></b></p>
+                        <p>MiningMachine: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xAC562367df01C76D7429c03A6656b79Fe006D88e#code">https://cronoscan.com/address/0x24F3571C57d57722024e061b1E87E05348A40738#code</a></b></p> -->
+                        <p>TuringNoLossLotteryVVS: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x24d4f372324a7e0F6eb4B9241F4a5f9782E06109#code">https://cronoscan.com/address/0x2E9b08078831fa829b72502FA278fDDf138A85e7#code</a></b></p>
+                        <p>TuringFarmVVS: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x0bAF777A3B65C6DA6B505B525836a829fd44516a#code">https://cronoscan.com/address/0x0bAF777A3B65C6DA6B505B525836a829fd44516a#code</a></b></p>
+                        <!-- <p>TuringFarmCakebNbLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xc4758e432de36bC3F44f383FCF9A61D0Ce2a9e64#code">https://cronoscan.com/address/0xc4758e432de36bC3F44f383FCF9A61D0Ce2a9e64#code</a></b></p> -->
+                        <p>TuringFarmTuringCroLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x6626b2870eaC1cf661dAC006c2B291EDf79928DB#code">https://cronoscan.com/address/0x6626b2870eaC1cf661dAC006c2B291EDf79928DB#code</a></b></p>
+                        <!-- <p>TuringFarmUSDTbUSDLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xc8a61e2d78697C41D81752831c436AaC846464d7#code">https://cronoscan.com/address/0xc8a61e2d78697C41D81752831c436AaC846464d7#code</a></b></p> -->
+                        <p>TuringData: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x2318702591650183b30Fd682dFe4856B60816A0e#code">https://cronoscan.com/address/0x2318702591650183b30Fd682dFe4856B60816A0e#code</a></b></p>
+                        <!-- <p>TuringFarmUSDTbNbLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xb2bd7C2D2577d8Cb95ed31e7E388b2D846626E0e#code">https://cronoscan.com/address/0xb2bd7C2D2577d8Cb95ed31e7E388b2D846626E0e#code</a></b></p>
+                        <p>TuringFarmbUSDbNbLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x9d75212AC8f9Edbd1901Af67b550779Cef14db8d#code">https://cronoscan.com/address/0x9d75212AC8f9Edbd1901Af67b550779Cef14db8d#code</a></b></p>
+                        <p>TuringFarmbTCbNbLP: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xcfa7f1485fbdc29f52662a8e2d3f247539df51dc#code">https://cronoscan.com/address/0xcfa7f1485fbdc29f52662a8e2d3f247539df51dc#code</a></b></p>
+                        <p>TuringswapTradeUSDTbUSDVenus: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xd62FDb0c42288b975c247cb0C03416514b6b121#code">https://cronoscan.com/address/0xd62FDb0c42288b975c247cb0C03416514b6b121#code</a></b></p>
+                        <p>TuringswapTradeUSDCbUSDVenus: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0x6b064E7250FD5475473831EF3F6bc6C1E5C7F1Cc#code">https://cronoscan.com/address/0x6b064E7250FD5475473831EF3F6bc6C1E5C7F1Cc#code</a></b></p>
+                        <p>TuringswapTradeDAIbUSDVenus: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xC709A981eeF30cbA9e9636e9AbD8f4f769dC618c#code">https://cronoscan.com/address/0xC709A981eeF30cbA9e9636e9AbD8f4f769dC618c#code</a></b></p>
+                        <p>TuringswapTradeVAIbUSDVenus: <b> <a style="text-decoration: none; color: rgb(255, 255, 255)" target="_blank" href="https://cronoscan.com/address/0xe2EAE89F05583Fbef95408f04f6CC12b78FdbDcb#code">https://cronoscan.com/address/0xe2EAE89F05583Fbef95408f04f6CC12b78FdbDcb#code</a></b></p> -->
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <nav class="navbar navbar-expand-lg">
+                <div class="container container-1">
+                    <div class="row flex-grow-1 align-items-center">
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>© 2022 TuringMachine</div>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-footer">
+                  <i class="fas fa-bars"></i>
+                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="collapse navbar-collapse" id="navbar-footer">
+                                <ul class="navbar-nav menu-footer ms-auto mb-2 mb-lg-0">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/dao.html">DAO</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/useturing.html">Use TURING</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/bttc/risks.html" class="">Risks</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://twitter.com/TuringMachine12" rel="noopener noreferrer">#Twitter</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://t.me/turingmachinenetwork" rel="noopener noreferrer">@Telegram</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" target="_blank" href="https://github.com/turingmachinenetwork">git@</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#">Version 2.0.0</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </footer>
+    </div>
+
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js" integrity="sha512-FHZVRMUW9FsXobt+ONiix6Z0tIkxvQfxtCSirkKc5Sb4TKHmqq1dZa8DphF0XqKb3ldLu/wgMa8mT6uXiLlRlw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../assets/js/custom.js"></script>
+    <script src="../assets/js/custom.menu.js"></script>
+</body>
+<script>
+    var coreHelper = new $.Core();
+    $(document).ready(function() {
+        coreHelper.init({});
+    });
+</script>
+
+</html>
