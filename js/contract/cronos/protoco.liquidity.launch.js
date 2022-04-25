@@ -91,6 +91,7 @@ $.TURRING_PROTOCOL_LIQUIDITY_LAUNCH.prototype = (function() {
             }, 3000)
         },
 
+
         async processAmt() {
             let _user = coreHelper.getUserAccount();
             let _protocolLauchInfoOf = storeHelper.getValue('protocolLauchInfoOf');
