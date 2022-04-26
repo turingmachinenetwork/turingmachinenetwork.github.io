@@ -1199,6 +1199,9 @@ input:checked+.slider:before {
     .container-2 {
         max-width: 1170px;
     }
+    .container-3 {
+        max-width: 750px;
+    }
     /* .ctmenu-sub {
         margin-left: -6%;
     } */
