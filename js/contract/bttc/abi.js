@@ -6848,6 +6848,67 @@ $.ABI.prototype = (function() {
         getProtocolLiquidityLaunchABI() {
             return [
                 {
+                    "inputs": [],
+                    "name": "buy",
+                    "outputs": [],
+                    "stateMutability": "payable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "disable",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "emergencyWithdraw",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "enable",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [],
+                    "name": "moveFund",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_value",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setSalePrice",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "address",
+                            "name": "_newOwner",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "transferOwnership",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
                     "inputs": [
                         {
                             "internalType": "contract ITuringTimeLock",
@@ -6900,6 +6961,62 @@ $.ABI.prototype = (function() {
                     "type": "event"
                 },
                 {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_value",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setHardCapPerUser",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "_totalSaleTuring",
+                            "type": "uint256"
+                        }
+                    ],
+                    "name": "setTotalSaleTuring",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "contract IBRC20",
+                            "name": "_TURING",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setTuringTokenContract",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "inputs": [
+                        {
+                            "internalType": "contract ITuringWhitelist",
+                            "name": "_TuringWhiteListContract",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "setTuringWhiteListContract",
+                    "outputs": [],
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "stateMutability": "payable",
+                    "type": "receive"
+                },
+                {
                     "inputs": [],
                     "name": "ENABLE",
                     "outputs": [
@@ -6910,86 +7027,6 @@ $.ABI.prototype = (function() {
                         }
                     ],
                     "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "TURING",
-                    "outputs": [
-                        {
-                            "internalType": "contract IBRC20",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "TuringTimeLockContract",
-                    "outputs": [
-                        {
-                            "internalType": "contract ITuringTimeLock",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "TuringWhitelistContract",
-                    "outputs": [
-                        {
-                            "internalType": "contract ITuringWhitelist",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "baseRatio",
-                    "outputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "",
-                            "type": "uint256"
-                        }
-                    ],
-                    "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "buy",
-                    "outputs": [],
-                    "stateMutability": "payable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "disable",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "emergencyWithdraw",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "enable",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -7016,9 +7053,9 @@ $.ABI.prototype = (function() {
                     "name": "getData",
                     "outputs": [
                         {
-                            "internalType": "uint256[7]",
+                            "internalType": "uint256[8]",
                             "name": "data_",
-                            "type": "uint256[7]"
+                            "type": "uint256[8]"
                         }
                     ],
                     "stateMutability": "view",
@@ -7092,7 +7129,7 @@ $.ABI.prototype = (function() {
                 },
                 {
                     "inputs": [],
-                    "name": "maxQuantityBuyTuringOfUser",
+                    "name": "HARD_CAP_PER_USER",
                     "outputs": [
                         {
                             "internalType": "uint256",
@@ -7101,13 +7138,6 @@ $.ABI.prototype = (function() {
                         }
                     ],
                     "stateMutability": "view",
-                    "type": "function"
-                },
-                {
-                    "inputs": [],
-                    "name": "moveFund",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
                     "type": "function"
                 },
                 {
@@ -7125,7 +7155,7 @@ $.ABI.prototype = (function() {
                 },
                 {
                     "inputs": [],
-                    "name": "priceTuringLaunchpad",
+                    "name": "salePrice",
                     "outputs": [
                         {
                             "internalType": "uint256",
@@ -7138,7 +7168,7 @@ $.ABI.prototype = (function() {
                 },
                 {
                     "inputs": [],
-                    "name": "requireClose",
+                    "name": "totalPurchased",
                     "outputs": [
                         {
                             "internalType": "uint256",
@@ -7150,131 +7180,75 @@ $.ABI.prototype = (function() {
                     "type": "function"
                 },
                 {
-                    "inputs": [
+                    "inputs": [],
+                    "name": "totalSaleTuring",
+                    "outputs": [
                         {
                             "internalType": "uint256",
-                            "name": "_maxQuantityBuyTuringOfUser",
+                            "name": "",
                             "type": "uint256"
                         }
                     ],
-                    "name": "setMaxQuantityBuyTuringOfUser",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
+                    "stateMutability": "view",
                     "type": "function"
                 },
                 {
-                    "inputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "_priceTuringLaunchpad",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "setPriceTuringLaunchpad",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "_requireClose",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "setRequireClose",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "uint256",
-                            "name": "_totalTuringBuyLaunchpad",
-                            "type": "uint256"
-                        }
-                    ],
-                    "name": "setTotalTuringBuyLaunchpad",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
+                    "inputs": [],
+                    "name": "TURING",
+                    "outputs": [
                         {
                             "internalType": "contract IBRC20",
-                            "name": "_TURING",
+                            "name": "",
                             "type": "address"
                         }
                     ],
-                    "name": "setTuringTokenContract",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
+                    "stateMutability": "view",
                     "type": "function"
                 },
                 {
                     "inputs": [
                         {
-                            "internalType": "contract ITuringWhitelist",
-                            "name": "_TuringWhiteListContract",
+                            "internalType": "address",
+                            "name": "",
                             "type": "address"
                         }
                     ],
-                    "name": "setTuringWhiteListContract",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
+                    "name": "turingBuyedOf",
+                    "outputs": [
+                        {
+                            "internalType": "uint256",
+                            "name": "",
+                            "type": "uint256"
+                        }
+                    ],
+                    "stateMutability": "view",
                     "type": "function"
                 },
                 {
                     "inputs": [],
-                    "name": "totalTuringBuyLaunchpad",
+                    "name": "TuringTimeLockContract",
                     "outputs": [
                         {
-                            "internalType": "uint256",
+                            "internalType": "contract ITuringTimeLock",
                             "name": "",
-                            "type": "uint256"
+                            "type": "address"
                         }
                     ],
                     "stateMutability": "view",
                     "type": "function"
                 },
                 {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "_newOwner",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "transferOwnership",
-                    "outputs": [],
-                    "stateMutability": "nonpayable",
-                    "type": "function"
-                },
-                {
-                    "inputs": [
-                        {
-                            "internalType": "address",
-                            "name": "",
-                            "type": "address"
-                        }
-                    ],
-                    "name": "turingbuyedOf",
+                    "inputs": [],
+                    "name": "TuringWhitelistContract",
                     "outputs": [
                         {
-                            "internalType": "uint256",
+                            "internalType": "contract ITuringWhitelist",
                             "name": "",
-                            "type": "uint256"
+                            "type": "address"
                         }
                     ],
                     "stateMutability": "view",
                     "type": "function"
-                },
-                {
-                    "stateMutability": "payable",
-                    "type": "receive"
                 }
             ];
         }
