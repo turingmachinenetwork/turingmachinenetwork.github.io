@@ -53,8 +53,8 @@ $.CONFIG.prototype = (function() {
             harvestMachine: '',
             orclePriceContract: '',
             protocolLiquidityLaunch: {
-                contract: "0xea3208E4553dc1Ff2e6d359267Dd1a1B0BACf705",
-                totalTuringOffered: 2000000
+                contract: "0x4a0a59eaE15AB3aC6211fD6baa1eD7021048848d",
+                totalTuringOffered: 50000000000
             }
         },
     };
