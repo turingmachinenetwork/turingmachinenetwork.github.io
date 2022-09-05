@@ -5,7 +5,7 @@ $.TURRING_VENUS_POOL_REMOVE.prototype = (function() {
     };
     var transactions = {};
     let removeLPDealine = 60 * 5;
-
+    const ALLOW_LIMIT_AMT = '115792089237316195423570985008687907853269984665640564039457584007913129639935';
     return {
         init: function(options) {
             if (typeof options === "undefined" || options.length < 1) {
